@@ -76,7 +76,7 @@ export class PostList extends Component<PropsType, StateType> {
                 {
                     Object
                         .keys(this.state.posts)
-                        .map(key => <Post key={key}
+                        .map(key => <Post key={this.state.posts[key].post.postID}
                             post={this.state.posts[key].post}
                             ps={this.state.posts[key].ps}
                             liked={this.state.posts[key].liked}

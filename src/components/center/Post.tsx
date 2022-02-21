@@ -8,6 +8,7 @@ import { getIdentity } from '../../utils/identity-storage';
 import Modal from 'react-modal';
 import { sendPost } from '../../api/impl/cmd/post';
 import { UserInfo } from '../../facade/entity';
+// import { logger } from '../../utils/logger';
 
 type PropsType = {
     refreshMainCourse: any,
@@ -57,7 +58,9 @@ export class Post extends Component<PropsType, StateType> {
     }
 
     async updateUser() {
-        var userID = this.props.post.userID;
+        var post = this.props.post
+        // logger('Post-updateUser', post.postID + '-' + post.userID)
+        var userID = post.userID;
         var userObj = await getUserInfo(userID);
         if (userObj == null) {
             var user = initialUser as UserInfo;

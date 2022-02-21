@@ -52,7 +52,7 @@ export class Explore extends Component<PropsType, StateType> {
                 {
                     Object
                         .keys(this.state.mightlikes)
-                        .map(key => <MightLikeUnit key={key}
+                        .map(key => <MightLikeUnit key={this.state.mightlikes[key].userInfo.userID}
                             identityObj={this.props.identityObj}
                             userInfo={this.state.mightlikes[key].userInfo}
                             userStatic={this.state.mightlikes[key].userStatic}

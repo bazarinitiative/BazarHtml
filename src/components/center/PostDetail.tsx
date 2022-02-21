@@ -102,7 +102,7 @@ export class PostDetail extends Component<PropsType, StateType> {
                             {
                                 Object
                                     .keys(replies)
-                                    .map(key => <Post key={key}
+                                    .map(key => <Post key={replies[key].post.postID}
                                         post={replies[key].post}
                                         ps={replies[key].ps}
                                         liked={replies[key].liked}

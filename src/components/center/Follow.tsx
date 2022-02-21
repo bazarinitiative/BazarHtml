@@ -56,7 +56,7 @@ export class Follow extends Component<PropsType, StateType> {
                 {
                     Object
                         .keys(this.state.units)
-                        .map(key => <FollowUnit key={key}
+                        .map(key => <FollowUnit key={this.state.units[key].userInfo.userID}
                             identityObj={identityObj}
                             userInfo={this.state.units[key].userInfo}
                             userStatic={this.state.units[key].userStatic}
