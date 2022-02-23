@@ -17,6 +17,8 @@ import { getUserInfo } from '../../facade/userfacade';
 import { currentTimeMillis } from '../../utils/date-utils';
 import { Follow } from './Follow';
 import { Explore } from './Explore';
+import { getUrlParameter } from '../../utils/bazar-utils';
+import { Search } from './Search';
 
 type PropsType = {
     identityObj: Identity | null,
@@ -30,6 +32,7 @@ export class MainCourse extends Component<PropsType, StateType> {
     PostList: PostList | null | undefined;
     PostDetail: PostDetail | null | undefined;
     profileDetail: ProfileDetail | null | undefined;
+    search: Search | null | undefined;
 
     async refreshMainCourse() {
         this.setState({
@@ -53,6 +56,10 @@ export class MainCourse extends Component<PropsType, StateType> {
 
             if (this.profileDetail) {
                 await this.profileDetail.refreshPage();
+            }
+
+            if (this.search) {
+                await this.search.refreshPage();
             }
 
         } catch (error) {
@@ -96,6 +103,9 @@ export class MainCourse extends Component<PropsType, StateType> {
 
         if (ayPath[1].length === 0) {
             return <div className='maincourse container' id='maincourse'>
+                <div>
+                    <h4><p>Home</p></h4>
+                </div>
                 <div>
                     <AddPost
                         refreshMainCourse={this.refreshMainCourse.bind(this)}
@@ -187,6 +197,21 @@ export class MainCourse extends Component<PropsType, StateType> {
                         userID={userID3}
                         refreshMainCourse={this.refreshMainCourse.bind(this)}
                         showfollowers={false}
+                    />
+                </div>
+            }
+            if (ayPath[1] === 'search') {
+                var wd = getUrlParameter('wd');
+                var ss = ''
+                if (typeof wd == 'string') {
+                    ss = wd
+                }
+                return <div>
+                    <Search
+                        identityObj={this.props.identityObj}
+                        refreshMainCourse={this.refreshMainCourse.bind(this)}
+                        wd={ss}
+                        ref={node => this.search = node}
                     />
                 </div>
             }

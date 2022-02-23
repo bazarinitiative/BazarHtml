@@ -8,6 +8,7 @@ import { TrendUnit } from './TrendUnit';
 
 type PropsType = {
     identityObj: Identity | null,
+    refreshMainCourse: any
 }
 
 type StateType = {
@@ -49,6 +50,7 @@ export class Trend extends Component<PropsType, StateType> {
                         .map(key => <TrendUnit key={key}
                             idx={Number(key) + 1}
                             trendData={this.state.trends[key] as TrendData}
+                            refreshMainCourse={this.props.refreshMainCourse}
                         />)
                 }
             </div>

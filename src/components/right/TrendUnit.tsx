@@ -5,6 +5,7 @@ import '../../App.css';
 type PropsType = {
     idx: number
     trendData: TrendData
+    refreshMainCourse: any
 }
 
 type StateType = {
@@ -21,9 +22,17 @@ export class TrendUnit extends Component<PropsType, StateType> {
     async componentDidMount() {
     }
 
+    onClick() {
+        var uri = '/search?wd=' + this.props.trendData.key;
+        window.history.pushState('', '', uri);
+        setTimeout(() => {
+            this.props.refreshMainCourse();
+        }, 50);
+    }
+
     render() {
 
-        return <div className='trendunit'>
+        return <div className='trendunit' onClick={this.onClick.bind(this)}>
             <div className='content'>
                 <p className='lightsmall'>{this.props.idx}. {this.props.trendData.catalog} Trending</p>
                 <p className='boldlarge'>{this.props.trendData.key}</p>

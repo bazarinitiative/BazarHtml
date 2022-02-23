@@ -46,6 +46,7 @@ export class Explore extends Component<PropsType, StateType> {
         return <div>
             <Trend
                 identityObj={this.props.identityObj}
+                refreshMainCourse={this.props.refreshMainCourse}
             />
             <h4><p>You might like</p></h4>
             <div className='mightlike'>

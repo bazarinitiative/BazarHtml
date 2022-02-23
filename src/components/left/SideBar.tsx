@@ -3,7 +3,7 @@ import { Component } from "react";
 import "./sidebar.css";
 import SidebarLink from "./SidebarLink";
 import HomeIcon from "@material-ui/icons/Home";
-// import SearchIcon from "@material-ui/icons/Search";
+import SearchIcon from "@material-ui/icons/Search";
 import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
 // import ListAltIcon from "@material-ui/icons/ListAlt";
 import PublicIcon from '@material-ui/icons/Public';
@@ -81,10 +81,10 @@ export class Sidebar extends Component<PropsType, StateType> {
                     Icon={<ExploreIcon viewBox={vb} />} href="/explore/" />
                 <SidebarLink refreshMainCourse={this.props.refreshMainCourse} text="Timeline"
                     Icon={<PublicIcon viewBox={vb} />} href="/timeline/" />
+                <SidebarLink refreshMainCourse={this.props.refreshMainCourse} text="Search"
+                    Icon={<SearchIcon viewBox={vb} />} href="/search?wd=" />
                 <SidebarLink refreshMainCourse={this.props.refreshMainCourse} text="Notifications"
                     Icon={<NotificationsNoneIcon viewBox={vb} />} href="/notification/" />
-                {/* <SidebarLink refreshMainCourse={this.props.refreshMainCourse} text="Messages"
-                 Icon={MailOutlineIcon} href="/" /> */}
                 {/* <SidebarLink refreshMainCourse={this.props.refreshMainCourse} text="Bookmarks"
                  Icon={BookmarkBorderIcon} href="/" /> */}
                 {/* <SidebarLink refreshMainCourse={this.props.refreshMainCourse} text="Lists"
