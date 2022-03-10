@@ -1,4 +1,3 @@
-import { SaveRounded } from '@material-ui/icons';
 import React, { Component } from 'react';
 import '../../App.css';
 import { Identity } from '../../facade/entity';

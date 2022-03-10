@@ -3,7 +3,6 @@ import { getPublicTimeline } from '../../api/impl/timeline';
 import '../../App.css';
 import { Identity } from '../../facade/entity';
 import { getPrivateKey, randomString, signMessage } from '../../utils/encryption';
-import { getIdentity } from '../../utils/identity-storage';
 import { logger } from '../../utils/logger';
 import { NotLoginYet } from './NotLoginYet';
 import { ProfileSelf } from './ProfileSelf';
@@ -13,7 +12,6 @@ import { PostList } from './PostList';
 import { ProfileDetail } from './ProfileDetail';
 import { getHomeline } from '../../api/impl/homeline';
 import { Notifications } from './Notifications';
-import { getUserInfo } from '../../facade/userfacade';
 import { currentTimeMillis } from '../../utils/date-utils';
 import { Follow } from './Follow';
 import { Explore } from './Explore';
@@ -39,15 +37,9 @@ export class MainCourse extends Component<PropsType, StateType> {
             key: randomString(10)
         });
 
-        var userID = '';
-        var identityObj = getIdentity();
-        if (identityObj != null) {
-            userID = identityObj.userID;
-        }
-
         try {
             if (this.PostList) {
-                await this.PostList.refreshPage(userID);
+                await this.PostList.refreshPage();
             }
 
             if (this.PostDetail) {
@@ -68,19 +60,16 @@ export class MainCourse extends Component<PropsType, StateType> {
 
     }
 
-    async getHomelineData() {
+    async getHomelineData(userID: string, page: number, pageSize: number) {
         if (!this.props.identityObj) {
             return
         }
-        var user = await getUserInfo(this.props.identityObj.userID)
-        if (user == null) {
-            return
-        }
+
         var privateKeyObj = await getPrivateKey(this.props.identityObj.privateKey);
         logger('getHomelineData', 'query')
         var queryTime = currentTimeMillis();
         var token = await signMessage(privateKeyObj, queryTime.toString());
-        var ret = await getHomeline(user.userID, queryTime, token, 0, 20)
+        var ret = await getHomeline(userID, queryTime, token, page, pageSize)
         return ret;
     }
 
