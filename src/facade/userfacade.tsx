@@ -45,7 +45,7 @@ export async function getUserPic(userID: string) {
                 if (picstr === '') {
                     picstr = '';
                 }
-                saveLocalPic(userID, picstr, 300 * 1000);
+                saveLocalPic(userID, picstr, 60 * 1000);
             } else {
                 picstr = initialUserPic;
                 saveLocalPic(userID, picstr, 5 * 1000);

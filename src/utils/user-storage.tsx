@@ -78,6 +78,24 @@ export function saveLocalPic(userID: string, picstr: string, expireMilli: number
   } catch (error) {
     logger('localStorage-save-userPic', error)
   }
+
+  if (localStorage.length % 10 === 0) {
+    var remove = 0;
+    for (let index = 0; index < localStorage.length; index++) {
+      var kk = localStorage.key(index)
+      if (kk) {
+        const itemstr = localStorage.getItem(kk);
+        if (itemstr) {
+          var item = JSON.parse(itemstr);
+          if (new Date().getTime() > item.expire) {
+            localStorage.removeItem(kk);
+            remove++;
+          }
+        }
+      }
+    }
+    logger('localStorage-remove', `remove:${remove}, remain:${localStorage.length}`);
+  }
 }
 
 export function removeLocalPic(userID: string) {
