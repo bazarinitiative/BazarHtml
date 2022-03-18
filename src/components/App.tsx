@@ -5,7 +5,7 @@ import { getIdentity } from '../utils/identity-storage';
 import { logger } from '../utils/logger';
 import { MainCourse } from './center/MainCourse';
 import { Recommend } from './right/Recommend';
-import { getUserInfo, getUserPic } from '../facade/userfacade';
+import { getUserInfo } from '../facade/userfacade';
 import { UserInfo } from '../facade/entity';
 import HomeIcon from "@material-ui/icons/Home";
 import ExploreIcon from '@material-ui/icons/Explore';
@@ -20,7 +20,6 @@ type PropsType = {
 
 type StateType = {
   user: UserInfo | null
-  userpic: string
 }
 
 class App extends Component<PropsType, StateType> {
@@ -32,7 +31,6 @@ class App extends Component<PropsType, StateType> {
     super(props);
     this.state = {
       user: null,
-      userpic: ''
     }
   }
 
@@ -44,11 +42,9 @@ class App extends Component<PropsType, StateType> {
       userID = identityObj.userID;
 
       var user = await getUserInfo(userID);
-      var userpic = await getUserPic(userID);
 
       this.setState({
         user: user,
-        userpic: userpic
       })
     }
   }
@@ -97,7 +93,7 @@ class App extends Component<PropsType, StateType> {
           <div className='row'>
             <a href='/'>
               <p style={{ "float": "left", "marginLeft": "10px", "marginTop": "5px" }}>
-                <img src={'data:image/gif;base64,' + this.state.userpic} alt="" />
+                <img src={`${HOST_CONCIG.apihost}UserQuery/UserPicImage/${identityObj?.userID}.jpeg`} alt="" />
               </p>
             </a>
           </div>

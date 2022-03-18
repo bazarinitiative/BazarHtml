@@ -3,8 +3,8 @@ import { sendDelete } from '../../api/impl/cmd/delete';
 import { sendFollow } from '../../api/impl/cmd/follow';
 import { getFollowing } from '../../api/impl/getfollowing';
 import '../../App.css';
+import { HOST_CONCIG } from '../../bazar-config';
 import { Identity, UserInfo } from '../../facade/entity';
-import { getUserPic } from '../../facade/userfacade';
 
 type PropsType = {
     identityObj: Identity | null
@@ -14,7 +14,6 @@ type PropsType = {
 }
 
 type StateType = {
-    picstr: string
     following: boolean
 }
 
@@ -23,14 +22,12 @@ export class FollowUnit extends Component<PropsType, StateType> {
     constructor(props: PropsType) {
         super(props);
         this.state = {
-            picstr: '',
             following: false
         };
     }
 
     async componentDidMount() {
         var user = this.props.userInfo;
-        var picstr = await getUserPic(user.userID)
 
         var following = false
         if (this.props.identityObj) {
@@ -41,7 +38,6 @@ export class FollowUnit extends Component<PropsType, StateType> {
         }
 
         this.setState({
-            picstr: picstr,
             following: following
         })
     }
@@ -78,7 +74,6 @@ export class FollowUnit extends Component<PropsType, StateType> {
 
     render() {
         var user = this.props.userInfo;
-        var picstr = this.state.picstr;
         var username = user.userName;
         var usertitle = '';
         if (username.length > 10) {
@@ -93,7 +88,7 @@ export class FollowUnit extends Component<PropsType, StateType> {
 
         return <div className='mightlikeunit'>
             <div className='row'>
-                <div className="three columns" onClick={this.onClick.bind(this)}><p><img src={'data:image/gif;base64,' + picstr} alt="" /></p></div>
+                <div className="three columns" onClick={this.onClick.bind(this)}><p><img src={`${HOST_CONCIG.apihost}UserQuery/UserPicImage/${user.userID}.jpeg`} alt="" /></p></div>
                 <div className="six columns" onClick={this.onClick.bind(this)}>
                     <p className="author" title={usertitle}>
                         {username}

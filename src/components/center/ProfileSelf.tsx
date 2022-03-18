@@ -1,9 +1,9 @@
 import { Component } from 'react';
 import Modal from 'react-modal';
-import { getUserInfo, getUserPic } from '../../facade/userfacade';
-import { initialUser, initialUserPic } from '../../initdata/users';
+import { getUserInfo } from '../../facade/userfacade';
+import { initialUser } from '../../initdata/users';
 import { getIdentity } from '../../utils/identity-storage';
-import { removeLocalPic, removeLocalUser } from '../../utils/user-storage';
+import { removeLocalUser } from '../../utils/user-storage';
 import { sendUserInfo } from '../../api/impl/cmd/userinfo';
 import { sendUserPic } from '../../api/impl/cmd/userpic';
 import { logger } from '../../utils/logger';
@@ -23,7 +23,6 @@ type PropsType = {
 
 type StateType = {
     userObj: UserInfo | null,
-    picstr: string | null,
     isShowModal: boolean,
     isShowModal2: boolean,
     isShowModal3: boolean,
@@ -58,7 +57,6 @@ export class ProfileSelf extends Component<PropsType, StateType> {
 
         this.state = {
             userObj: null,
-            picstr: null,
             isShowModal: false,
             isShowModal2: false,
             isShowModal3: false,
@@ -92,22 +90,12 @@ export class ProfileSelf extends Component<PropsType, StateType> {
             userObj = await getUserInfo(identityObj.userID);
         }
 
-        var picstr = await getUserPic(identityObj.userID);
-        if (picstr == null) {
-            picstr = initialUserPic;
-            await sendUserPic(identityObj, picstr);
-
-            picstr = await getUserPic(identityObj.userID);
-        }
-
         var profile = (await getUserProfile(identityObj.userID)).data
 
         var ret2 = await getUserPosts(identityObj.userID, false, 0, 20)
 
         this.setState({
             userObj: userObj,
-            picstr: picstr,
-            picstrModal: picstr,
             profile: profile,
             posts: ret2.data,
         });
@@ -147,7 +135,6 @@ export class ProfileSelf extends Component<PropsType, StateType> {
             return;
         }
 
-        removeLocalPic(identityObj.userID);
         if (this.state.picstrModal != null) {
             var ret2 = await sendUserPic(identityObj, this.state.picstrModal);
             if (!ret2.success) {
@@ -268,7 +255,6 @@ export class ProfileSelf extends Component<PropsType, StateType> {
         if (this.state.userObj != null) {
             userObj = this.state.userObj
         }
-        var picstr = this.state.picstr;
         var picstr2 = this.state.picstrModal;
 
         if (!this.state.profile) {
@@ -376,7 +362,7 @@ export class ProfileSelf extends Component<PropsType, StateType> {
                 <div className='content'>
                     <div>
                         <p>
-                            <img className='profile-info-img' src={'data:image/gif;base64,' + picstr} alt="" />
+                            <img className='profile-info-img' src={`${HOST_CONCIG.apihost}UserQuery/UserPicImage/${userObj.userID}.jpeg`} alt="" />
                             <button className='profilebutton' onClick={this.showModal.bind(this)}>Edit</button>
 
                             <button

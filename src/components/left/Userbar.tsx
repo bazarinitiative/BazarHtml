@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import '../../App.css';
 import './userbar.css'
 import { Identity, UserInfo } from '../../facade/entity';
-import { getUserInfo, getUserPic } from '../../facade/userfacade';
+import { getUserInfo } from '../../facade/userfacade';
 import { Menu, MenuItem } from '@material-ui/core';
 import { handleLogout } from '../../utils/bazar-utils';
+import { HOST_CONCIG } from '../../bazar-config';
 
 type PropsType = {
     identityObj: Identity | null
@@ -13,7 +14,6 @@ type PropsType = {
 
 type StateType = {
     user: UserInfo | null
-    picstr: string
     open: boolean
     anckerEl: any
 }
@@ -24,7 +24,6 @@ export class Userbar extends Component<PropsType, StateType> {
         super(props);
         this.state = {
             user: null,
-            picstr: '',
             open: false,
             anckerEl: null
         };
@@ -38,11 +37,9 @@ export class Userbar extends Component<PropsType, StateType> {
         if (user == null) {
             return;
         }
-        var picstr = await getUserPic(user.userID)
 
         this.setState({
             user: user,
-            picstr: picstr,
         })
     }
 
@@ -67,7 +64,6 @@ export class Userbar extends Component<PropsType, StateType> {
             return <div></div>
         }
 
-        var picstr = this.state.picstr;
         var username = user.userName;
         var usertitle = '';
         if (username.length > 10) {
@@ -101,7 +97,7 @@ export class Userbar extends Component<PropsType, StateType> {
             <div className='row'>
                 <div className="three columns">
                     <p className='pmargin'>
-                        <img src={'data:image/gif;base64,' + picstr} alt="" />
+                        <img src={`${HOST_CONCIG.apihost}UserQuery/UserPicImage/${user.userID}.jpeg`} alt="" />
                     </p>
                 </div>
                 <div className="six columns" id="userinfo">

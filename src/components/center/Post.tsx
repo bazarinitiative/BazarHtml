@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { sendDelete } from '../../api/impl/cmd/delete';
 import { sendLike } from '../../api/impl/cmd/like';
-import { getUserInfo, getUserPic } from '../../facade/userfacade';
-import { initialUser, initialUserPic } from '../../initdata/users';
+import { getUserInfo } from '../../facade/userfacade';
+import { initialUser } from '../../initdata/users';
 import { formatRelativeTime, getLocalTime } from '../../utils/date-utils';
 import { getIdentity } from '../../utils/identity-storage';
 import Modal from 'react-modal';
 import { sendPost } from '../../api/impl/cmd/post';
 import { UserInfo } from '../../facade/entity';
+import { HOST_CONCIG } from '../../bazar-config';
 // import { logger } from '../../utils/logger';
 
 type PropsType = {
@@ -20,7 +21,6 @@ type PropsType = {
 
 type StateType = {
     authorUserObj: UserInfo | null,
-    picstr: string,
     isShowModal: boolean,
 }
 
@@ -48,7 +48,6 @@ export class Post extends Component<PropsType, StateType> {
         super(props);
         this.state = {
             authorUserObj: null,
-            picstr: '',
             isShowModal: false,
         }
     }
@@ -68,14 +67,8 @@ export class Post extends Component<PropsType, StateType> {
             userObj = user;
         }
 
-        var picstr = await getUserPic(userID);
-        if (picstr == null) {
-            picstr = initialUserPic;
-        }
-
         this.setState({
             authorUserObj: userObj,
-            picstr: picstr
         });
     }
 
@@ -174,10 +167,8 @@ export class Post extends Component<PropsType, StateType> {
 
         var timestr = getLocalTime(post.commandTime);
         var user = initialUser as UserInfo;
-        var picstr = initialUserPic;
         if (this.state.authorUserObj != null) {
             user = this.state.authorUserObj;
-            picstr = this.state.picstr;
         }
 
         var relativeTime = formatRelativeTime(post.commandTime);
@@ -220,7 +211,7 @@ export class Post extends Component<PropsType, StateType> {
                     >
                         <div className="row replymodal">
                             <div><button className="minibutton" onClick={this.closeModalCancel.bind(this)}>x</button></div>
-                            <div className="two columns"><p><img src={'data:image/gif;base64,' + picstr} alt="" /></p></div>
+                            <div className="two columns"><p><img src={`${HOST_CONCIG.apihost}UserQuery/UserPicImage/${user.userID}.jpeg`} alt="" /></p></div>
                             <div className="ten columns">
                                 <p className="author" title={'UserID:' + user.userID + ' - Time:' + timestr}>
                                     {user.userName}@{user.userID.substr(0, 3)}... - {relativeTime}
@@ -236,7 +227,7 @@ export class Post extends Component<PropsType, StateType> {
 
                     <div className="row">
                         <div style={{ "width": "20%", "display": "inline-block", "verticalAlign": "top" }}>
-                            <p><a className='userimg' href={'/p/' + user.userID}><img src={'data:image/gif;base64,' + picstr} alt="" /></a></p>
+                            <p><a className='userimg' href={'/p/' + user.userID}><img src={`${HOST_CONCIG.apihost}UserQuery/UserPicImage/${user.userID}.jpeg`} alt="" /></a></p>
                         </div>
                         <div style={{ "width": "80%", "display": "inline-block" }}>
                             <p className="author">

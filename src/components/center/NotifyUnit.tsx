@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { NotifyMessage } from '../../api/impl/notifications';
 import '../../App.css';
+import { HOST_CONCIG } from '../../bazar-config';
 import { UserInfo } from '../../facade/entity';
-import { getUserInfo, getUserPic } from '../../facade/userfacade';
+import { getUserInfo } from '../../facade/userfacade';
 import { formatRelativeTime, getLocalTime } from '../../utils/date-utils';
 
 type PropsType = {
@@ -11,7 +12,6 @@ type PropsType = {
 
 type StateType = {
     user: UserInfo | null
-    picstr: string
 }
 
 export class NotifyUnit extends Component<PropsType, StateType> {
@@ -20,7 +20,6 @@ export class NotifyUnit extends Component<PropsType, StateType> {
         super(props);
         this.state = {
             user: null,
-            picstr: ''
         };
     }
 
@@ -29,10 +28,8 @@ export class NotifyUnit extends Component<PropsType, StateType> {
         if (user == null) {
             return
         }
-        var picstr = await getUserPic(user.userID)
         this.setState({
             user: user,
-            picstr: picstr
         })
     }
 
@@ -44,7 +41,6 @@ export class NotifyUnit extends Component<PropsType, StateType> {
                 Loading...
             </div>
         }
-        var picstr = this.state.picstr;
 
         var timestr = getLocalTime(noti.notifyTime)
         var relativeTime = formatRelativeTime(noti.notifyTime)
@@ -66,7 +62,7 @@ export class NotifyUnit extends Component<PropsType, StateType> {
                 <div className="two columns">
                     <p>
                         <a className='userimg' href={'/p/' + user.userID}>
-                            <img src={'data:image/gif;base64,' + picstr} alt="" />
+                            <img src={`${HOST_CONCIG.apihost}UserQuery/UserPicImage/${user.userID}.jpeg`} alt="" />
                         </a>
                     </p>
                 </div>

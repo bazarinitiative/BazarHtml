@@ -4,8 +4,9 @@ import { sendFollow } from "../../api/impl/cmd/follow";
 import { getFollowing } from "../../api/impl/getfollowing";
 import { getUserPosts } from "../../api/impl/userposts";
 import { getUserProfile } from "../../api/impl/userprofile";
+import { HOST_CONCIG } from "../../bazar-config";
 import { Identity, UserInfo } from "../../facade/entity"
-import { getUserInfo, getUserPic } from "../../facade/userfacade";
+import { getUserInfo } from "../../facade/userfacade";
 import { Post } from "./Post";
 
 type PropsType = {
@@ -18,7 +19,6 @@ type StateType = {
     profile: any
     posts: any
     userObj: UserInfo | null
-    picstr: string,
     following: boolean
 }
 
@@ -31,7 +31,6 @@ export class ProfileDetail extends Component<PropsType, StateType> {
             profile: null,
             posts: null,
             userObj: null,
-            picstr: '',
             following: false,
         })
     }
@@ -48,10 +47,6 @@ export class ProfileDetail extends Component<PropsType, StateType> {
         var ret2 = await getUserPosts(this.props.userID, false, 0, 20)
 
         var userObj = await getUserInfo(this.props.userID);
-        var picstr = '';
-        if (userObj != null) {
-            picstr = await getUserPic(userObj.userID)
-        }
 
         var following = false;
         if (this.props.identityObj && userObj) {
@@ -65,7 +60,6 @@ export class ProfileDetail extends Component<PropsType, StateType> {
             profile: ret.data,
             posts: ret2.data,
             userObj: userObj,
-            picstr: picstr,
             following: following
         })
     }
@@ -117,7 +111,7 @@ export class ProfileDetail extends Component<PropsType, StateType> {
                 <div className='row'>
                     <div>
                         <div className="two columns">
-                            <img className="profile-info-img" src={'data:image/gif;base64,' + this.state.picstr} alt="" />
+                            <img className="profile-info-img" src={`${HOST_CONCIG.apihost}UserQuery/UserPicImage/${userObj.userID}.jpeg`} alt="" />
                         </div>
                         <div className="six columns">
                             <p></p>
