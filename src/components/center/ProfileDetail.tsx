@@ -129,6 +129,12 @@ export class ProfileDetail extends Component<PropsType, StateType> {
                         <button className="profilebutton2" onClick={this.clickFollowers.bind(this)}>{stat.followedCount} Followers</button>
                     </p>
                 </div>
+                <div className=''>
+                    <div className='row'><p>Bio: {userObj.biography}</p></div>
+                    <div className='row'><p>Website: {userObj.website}</p></div>
+                    <div className='row'><p>Location: {userObj.location}</p></div>
+                    <p></p>
+                </div>
             </div>
             <hr />
             {/* <Divider></Divider> */}
