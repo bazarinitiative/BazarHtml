@@ -15,6 +15,24 @@ export function saveLocalUser(userInfo: UserInfo, expireMilli: number) {
     }
     localStorage.setItem(key, JSON.stringify(item))
     logger('localStorage-save-userInfo', 'save in localStorage succeed')
+
+    if (localStorage.length % 10 === 0) {
+      var remove = 0;
+      for (let index = 0; index < localStorage.length; index++) {
+        var kk = localStorage.key(index)
+        if (kk) {
+          const itemstr = localStorage.getItem(kk);
+          if (itemstr) {
+            var one = JSON.parse(itemstr);
+            if (new Date().getTime() > one.expire) {
+              localStorage.removeItem(kk);
+              remove++;
+            }
+          }
+        }
+      }
+      logger('localStorage-remove', `remove:${remove}, remain:${localStorage.length}`);
+    }
   } catch (error) {
     logger('localStorage-save-userInfo', error)
   }
