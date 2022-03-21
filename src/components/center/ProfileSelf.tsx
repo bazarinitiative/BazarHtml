@@ -15,6 +15,7 @@ import { getUserProfile } from '../../api/impl/userprofile';
 import { HOST_CONCIG } from '../../bazar-config';
 import { Post } from './Post';
 import { getUserPosts } from '../../api/impl/userposts';
+import { getLocalTime } from '../../utils/date-utils';
 
 type PropsType = {
     identityObj: Identity,
@@ -274,6 +275,8 @@ export class ProfileSelf extends Component<PropsType, StateType> {
         var s3 = 'PrivateKey: ' + this.props.identityObj.privateKey + '\n';
         var strpair = s1 + s2 + s3;
 
+        var joined = new Date(getLocalTime(userObj.createTime)).toLocaleDateString("en-US", { year: "numeric", month: "short" });
+
         return (
             <div className="profile-info">
 
@@ -388,6 +391,7 @@ export class ProfileSelf extends Component<PropsType, StateType> {
                         <div className='row'><p>Bio: {userObj.biography}</p></div>
                         <div className='row'><p>Website: {userObj.website}</p></div>
                         <div className='row'><p>Location: {userObj.location}</p></div>
+                        <div className='row'><p>Joined: {joined}</p></div>
                         <p></p>
                     </div>
                     <hr />

@@ -17,7 +17,7 @@ export class SidebarLink extends Component<PropsType, StateType> {
         window.history.pushState('', '', this.props.href);
         setTimeout(() => {
             this.props.refreshMainCourse();
-        })
+        }, 50)
     }
 
     render() {

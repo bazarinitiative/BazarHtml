@@ -11,6 +11,15 @@ export interface Identity {
     privateKey: string;
 }
 
+export interface UserInfoCmd {
+    userID: string;
+    userName: string;
+    biography: string;
+    website: string;
+    location: string;
+    publicKey: string;
+}
+
 export interface UserInfo {
     userID: string;
     userName: string;
@@ -18,6 +27,7 @@ export interface UserInfo {
     website: string;
     location: string;
     publicKey: string;
+    createTime: number;
 }
 
 export interface UserStatistic {

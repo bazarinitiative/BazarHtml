@@ -7,6 +7,7 @@ import { getUserProfile } from "../../api/impl/userprofile";
 import { HOST_CONCIG } from "../../bazar-config";
 import { Identity, UserInfo } from "../../facade/entity"
 import { getUserInfo } from "../../facade/userfacade";
+import { getLocalTime } from "../../utils/date-utils";
 import { Post } from "./Post";
 
 type PropsType = {
@@ -106,6 +107,8 @@ export class ProfileDetail extends Component<PropsType, StateType> {
 
         var stat = this.state.profile.userStatistic;
 
+        var joined = new Date(getLocalTime(userObj.createTime)).toLocaleDateString("en-US", { year: "numeric", month: "short" });
+
         return <div className='container'>
             <div>
                 <div className='row'>
@@ -133,6 +136,7 @@ export class ProfileDetail extends Component<PropsType, StateType> {
                     <div className='row'><p>Bio: {userObj.biography}</p></div>
                     <div className='row'><p>Website: {userObj.website}</p></div>
                     <div className='row'><p>Location: {userObj.location}</p></div>
+                    <div className='row'><p>Joined: {joined}</p></div>
                     <p></p>
                 </div>
             </div>

@@ -7,7 +7,8 @@ const initialUser = {
     userName: 'user',
     biography: '',
     website: '',
-    location: ''
+    location: '',
+    createTime: 0
 }
 
 export { initialUser };

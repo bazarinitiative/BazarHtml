@@ -113,6 +113,10 @@ export class MainCourse extends Component<PropsType, StateType> {
         } else {
             if (ayPath[1] === 'timeline') {
                 return <div>
+                    <div>
+                        <h4><p>Timeline</p></h4>
+                    </div>
+                    <hr />
                     <PostList
                         identityObj={this.props.identityObj}
                         refreshMainCourse={this.refreshMainCourse.bind(this)}
@@ -132,6 +136,9 @@ export class MainCourse extends Component<PropsType, StateType> {
             }
             if (ayPath[1] === 'notification') {
                 return <div>
+                    <div>
+                        <h4><p>Notifications</p></h4>
+                    </div>
                     <Notifications
                     />
                 </div>
@@ -196,6 +203,9 @@ export class MainCourse extends Component<PropsType, StateType> {
                     ss = wd
                 }
                 return <div>
+                    <div>
+                        <h4><p>Search</p></h4>
+                    </div>
                     <Search
                         identityObj={this.props.identityObj}
                         refreshMainCourse={this.refreshMainCourse.bind(this)}

@@ -23,5 +23,7 @@ export function getUrlParameter(paramName: string) {
 
 export function goURL(url: string, refreshMainCourse: any) {
     window.history.pushState('', '', url);
-    refreshMainCourse();
+    setTimeout(() => {
+        refreshMainCourse();
+    }, 50);
 }
