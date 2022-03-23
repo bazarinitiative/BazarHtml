@@ -1,59 +1,68 @@
-.sidebar2{
-    width: 90%;
-    min-width: 180px;
-    padding: 10px 10px;
-    margin: 0px auto 0 auto;
-    box-shadow: 0 0 6px hsl(210 14% 90%);
-  }
-  #tweet{
-    width: 100%;
-    height: 50px;
-    background-color: rgb(131, 175, 155);;
-    border-radius: 30px;
-    color: white;
-    font-weight: 600;
-    text-transform: inherit;
-    margin-top: 10px;
-    margin-bottom: 5px;
-  }
-  #moreLinks{
-    width: 100%;
-    border-radius: 30px;
-    font-weight: 700;
-    justify-content: unset;
-    font-size: 20px;
-    margin-right: 20px;
-    text-transform: inherit;
-    color: black;
-    height: 60px;
-    padding-left: 10px;
-    padding-right: 30px;
-    margin-bottom: 5px;
-  }
-  #moreLinks .MuiSvgIcon-root{
-    margin-right: 20px;
-  }
-  #moreLinks:hover{
-    background-color: rgb(235, 235, 235);
-    color: rgb(131, 175, 155);
-    transition: color 100ms ease-out;
-  }
-  #long-menu .MuiMenu-paper{
-    width: 220px;
-    max-height: 100vh;
-    left: 40% !important;
-    top: unset !important;
-  }
-  #long-menu .MuiListItem-root{
-    padding-bottom: 15px;
-    padding-top: 15px;
-  }
-  .MuiListItem-root:nth-child(6){
-    border-bottom: 1px solid hsl(210, 12%, 95%);
-  }
-  .MuiListItem-root .MuiSvgIcon-root{
-    font-size: 20px;
-    color: hsl(210, 12%, 20%);
-    font-weight: 400;
-    margin-right: 10px;
-  }
+.sidebar2 {
+  width: 90%;
+  min-width: 180px;
+  padding: 10px 10px;
+  margin: 0px auto 0 auto;
+  /* box-shadow: 0 0 6px hsl(210 14% 90%); */
+}
+
+#tweet {
+  width: 100%;
+  height: 50px;
+  background-color: rgb(131, 175, 155);
+  ;
+  border-radius: 30px;
+  color: white;
+  font-weight: 600;
+  text-transform: inherit;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+#moreLinks {
+  width: 100%;
+  border-radius: 30px;
+  font-weight: 700;
+  justify-content: unset;
+  font-size: 20px;
+  margin-right: 20px;
+  text-transform: inherit;
+  color: black;
+  height: 60px;
+  padding-left: 10px;
+  padding-right: 30px;
+  margin-bottom: 5px;
+}
+
+#moreLinks .MuiSvgIcon-root {
+  margin-right: 20px;
+}
+
+#moreLinks:hover {
+  background-color: rgb(235, 235, 235);
+  color: rgb(131, 175, 155);
+  transition: color 100ms ease-out;
+}
+
+#long-menu .MuiMenu-paper {
+  width: 220px;
+  max-height: 100vh;
+  left: 40% !important;
+  top: unset !important;
+}
+
+#long-menu .MuiListItem-root {
+  padding-bottom: 15px;
+  padding-top: 15px;
+}
+
+.MuiListItem-root:nth-child(6) {
+  border-bottom: 1px solid hsl(210, 12%, 95%);
+}
+
+.MuiListItem-root .MuiSvgIcon-root {
+  font-size: 20px;
+  color: hsl(210, 12%, 20%);
+  font-weight: 400;
+  margin-right: 10px;
+}

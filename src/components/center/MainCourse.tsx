@@ -92,15 +92,16 @@ export class MainCourse extends Component<PropsType, StateType> {
 
         if (ayPath[1].length === 0) {
             return <div className='maincourse container' id='maincourse'>
-                <div>
-                    <h4><p>Home</p></h4>
+                <div style={{ "width": "100%" }}>
+                    <div>
+                        <h4><p>Home</p></h4>
+                    </div>
+                    <div>
+                        <AddPost
+                            refreshMainCourse={this.refreshMainCourse.bind(this)}
+                        />
+                    </div>
                 </div>
-                <div>
-                    <AddPost
-                        refreshMainCourse={this.refreshMainCourse.bind(this)}
-                    />
-                </div>
-                <hr />
                 <div>
                     <PostList
                         identityObj={this.props.identityObj}
@@ -116,7 +117,6 @@ export class MainCourse extends Component<PropsType, StateType> {
                     <div>
                         <h4><p>Timeline</p></h4>
                     </div>
-                    <hr />
                     <PostList
                         identityObj={this.props.identityObj}
                         refreshMainCourse={this.refreshMainCourse.bind(this)}

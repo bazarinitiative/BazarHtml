@@ -9,7 +9,9 @@ import Modal from 'react-modal';
 import { sendPost } from '../../api/impl/cmd/post';
 import { UserInfo } from '../../facade/entity';
 import { HOST_CONCIG } from '../../bazar-config';
-// import { logger } from '../../utils/logger';
+import { TiArrowBackOutline, TiArrowRepeat, TiHeartFullOutline, TiHeartOutline, TiMessage } from "react-icons/ti";
+import '../../App.css'
+import '../tweet.css'
 
 type PropsType = {
     refreshMainCourse: any,
@@ -173,13 +175,9 @@ export class Post extends Component<PropsType, StateType> {
 
         var relativeTime = formatRelativeTime(post.commandTime);
 
-        var replystr = 'Reply ' + ps.replyCount;
-        var repoststr = 'Repost ' + ps.repostCount;
-        var likestr = 'Like ' + ps.likeCount;
-        var likestyle = 'postbutton';
-        if (liked) {
-            likestyle += ' postbuttonred';
-        }
+        var replystr = ps.replyCount > 0 && ps.replyCount;
+        var repoststr = ps.repostCount > 0 && ps.repostCount;
+        var likestr = ps.likeCount > 0 && ps.likeCount;
 
         var contentstyle = 'clickbody';
         if (this.props.boldConent) {
@@ -203,7 +201,7 @@ export class Post extends Component<PropsType, StateType> {
         Modal.setAppElement("#root");
 
         return (
-            <div className="individualPost">
+            <div className="tweet">
                 <div>
                     <Modal
                         isOpen={this.state.isShowModal}
@@ -226,26 +224,41 @@ export class Post extends Component<PropsType, StateType> {
                     </Modal>
 
                     <div className="row">
-                        <div style={{ "width": "20%", "display": "inline-block", "verticalAlign": "top" }}>
+                        <div style={{ "width": "15%", "display": "inline-block", "verticalAlign": "top" }}>
                             <p><a className='userimg' href={'/p/' + user.userID}><img src={`${HOST_CONCIG.apihost}UserQuery/UserPicImage/${user.userID}.jpeg`} alt="" /></a></p>
                         </div>
-                        <div style={{ "width": "80%", "display": "inline-block" }}>
+                        <div style={{ "width": "85%", "display": "inline-block" }}>
                             <p className="author">
                                 <a href={'/p/' + user.userID}>{user.userName}</a>
                                 <span title={'UserID:' + user.userID + ' - Time:' + timestr}>
-                                    <b className='lightsmall'> @{user.userID.substr(0, 4)} - {relativeTime}</b>
+                                    <b className='lightsmall'> @{user.userID.substring(0, 4)} - {relativeTime}</b>
                                 </span>
                                 {deletebtn}
                             </p>
                             <p className={contentstyle} onClick={this.onClickContent.bind(this)}>{post.content}</p>
-                            <p>
-                                <button onClick={this.onReply.bind(this)} className='postbutton' title='Reply'>{replystr}</button>
-                                <button onClick={this.onRepost.bind(this)} className='postbutton' title='Repost'>{repoststr}</button>
-                                <button onClick={this.onLike.bind(this)} className={likestyle} title='Like'>{likestr}</button>
-                            </p>
+
+                            <div className='tweet-icons'>
+
+                                <button onClick={this.onReply.bind(this)} title='Reply' style={{ "border": "none" }}>
+                                    <TiMessage className='tweet-icon' />
+                                    <span >{replystr}</span>
+                                </button>
+                                <button onClick={this.onRepost.bind(this)} title='Repost' style={{ "border": "none" }}>
+                                    <TiArrowRepeat className='tweet-icon' />
+                                    <span >{repoststr}</span>
+                                </button>
+                                <button onClick={this.onLike.bind(this)} title='Like' style={{ "border": "none" }}>
+                                    {liked === true ? (
+                                        <TiHeartFullOutline color="#e0245e" className='tweet-icon' />
+                                    ) : (
+                                        <TiHeartOutline className='tweet-icon' />
+                                    )}
+                                    <span >{likestr}</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
-                    <hr />
+                    {/* <hr /> */}
                 </div>
             </div>
         );
