@@ -96,15 +96,6 @@ class App extends Component<PropsType, StateType> {
       var top, left, right, bottom;
 
       if (mobile) {
-        top =
-          <div className='row'>
-            <a href='/'>
-              <p style={{ "float": "left", "marginLeft": "10px", "marginTop": "5px" }}>
-                <img src={`${HOST_CONCIG.apihost}UserQuery/UserPicImage/${identityObj?.userID}.jpeg`} alt="" />
-              </p>
-            </a>
-          </div>
-
         var vb = "0,0,24,24"
         bottom = <div className='bottomline'>
           <div className='myline'>

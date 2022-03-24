@@ -17,6 +17,7 @@ import { Follow } from './Follow';
 import { Explore } from './Explore';
 import { getUrlParameter } from '../../utils/bazar-utils';
 import { Search } from './Search';
+import { HOST_CONCIG } from '../../bazar-config';
 
 type PropsType = {
     identityObj: Identity | null,
@@ -96,8 +97,18 @@ export class MainCourse extends Component<PropsType, StateType> {
         if (ayPath[1].length === 0) {
             return <div className='maincourse container' id='maincourse' style={{ paddingLeft: padside, paddingRight: padside }}>
                 <div style={{ "width": "100%" }}>
-                    <div>
-                        <h4><p>Home</p></h4>
+                    <div className='row' style={{ "display": "flex" }}>
+                        <div style={{ "display": "inline-block" }}>
+                            <a href='/'>
+                                <p style={{ "float": "left", "marginLeft": "0px", "marginTop": "5px" }}>
+                                    <img src={`${HOST_CONCIG.apihost}UserQuery/UserPicImage/${this.props.identityObj?.userID}.jpeg`}
+                                        alt="" style={{ width: "35px" }} />
+                                </p>
+                            </a>
+                        </div>
+                        <div style={{ "display": "inline-block" }}>
+                            <h4><p style={{ "marginTop": "8px", "marginLeft": "5px" }}>Home</p></h4>
+                        </div>
                     </div>
                     <div>
                         <AddPost

@@ -222,7 +222,7 @@ export class Post extends Component<PropsType, StateType> {
 
         var mobile = (window.screen.width < 1000);
         var borderside = mobile ? "none" : "null";
-        var picleft = mobile ? "-8px" : "2px";
+        var picleft = mobile ? "-5px" : "2px";
 
         Modal.setAppElement("#root");
 

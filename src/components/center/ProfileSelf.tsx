@@ -394,7 +394,7 @@ export class ProfileSelf extends Component<PropsType, StateType> {
                         <div className='row'><p>Joined: {joined}</p></div>
                         <p></p>
                     </div>
-                    <hr />
+                    {/* <hr /> */}
                     {
                         Object
                             .keys(this.state.posts)

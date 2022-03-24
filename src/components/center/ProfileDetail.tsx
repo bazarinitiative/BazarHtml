@@ -140,7 +140,7 @@ export class ProfileDetail extends Component<PropsType, StateType> {
                     <p></p>
                 </div>
             </div>
-            <hr />
+            {/* <hr /> */}
             {/* <Divider></Divider> */}
             {
                 Object

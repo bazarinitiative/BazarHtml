@@ -518,7 +518,7 @@ th {
   width: 100%;
   max-width: 1200px;
   margin: 10px auto;
-  padding: 0 20px;
+  padding: 0 10px;
   box-sizing: border-box;
 }
 
@@ -1123,8 +1123,8 @@ form {
 }
 
 .profile-info {
-  width: 80%;
-  margin: 20px;
+  width: 95%;
+  margin: 10px;
   text-align: center;
 }
 
@@ -1181,7 +1181,7 @@ p.footer {
 }
 
 p img {
-  width: 50px;
+  width: 48px;
   border-radius: 50%;
 
 }
@@ -1197,13 +1197,13 @@ p {
 
 .clickbody {
   cursor: pointer;
-  font-size: 16px;
+  font-size: 15px;
   line-height: 20px;
 }
 
 .clickbodybold {
   cursor: pointer;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 20px;
   font-weight: bold;
 }
