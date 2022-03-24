@@ -261,40 +261,43 @@ export class Post extends Component<PropsType, StateType> {
                             </p>
                         </div>
                         <div style={{ "width": "85%", "display": "inline-block" }}>
-                            <p className="author">
-                                <a href={'/p/' + user.userID}>{user.userName}</a>
-                                <span title={'UserID:' + user.userID + ' - Time:' + timestr}>
-                                    <b className='lightsmall'> @{user.userID.substring(0, 4)} - {relativeTime}</b>
-                                </span>
-                                {deletebtn}
-                            </p>
+                            <div style={{ "marginLeft": "10px" }}>
+                                <p className="author">
+                                    <a href={'/p/' + user.userID}>{user.userName}</a>
+                                    <span title={'UserID:' + user.userID + ' - Time:' + timestr}>
+                                        <b className='lightsmall'> @{user.userID.substring(0, 4)} - {relativeTime}</b>
+                                    </span>
+                                    {deletebtn}
+                                </p>
 
-                            {replyinfo}
-                            <p className={contentstyle} onClick={this.onClickContent.bind(this)}>{post.content}</p>
+                                {replyinfo}
+                                <p className={contentstyle} onClick={this.onClickContent.bind(this)}>{post.content}</p>
 
-                            <div className='tweet-icons'>
+                                <div className='tweet-icons'>
 
-                                <div onClick={this.onReply.bind(this)} title='Reply' className='tweet-button'>
-                                    <TiMessage className='tweet-icon' />
-                                    <span >{replystr}</span>
+                                    <div onClick={this.onReply.bind(this)} title='Reply' className='tweet-button'>
+                                        <TiMessage className='tweet-icon' />
+                                        <span >{replystr}</span>
+                                    </div>
+                                    <div onClick={this.onRepost.bind(this)} title='Repost' className='tweet-button'>
+                                        <TiArrowRepeat className='tweet-icon' />
+                                        <span >{repoststr}</span>
+                                    </div>
+                                    <div onClick={this.onLike.bind(this)} title='Like' className='tweet-button'>
+                                        {liked === true ? (
+                                            <TiHeartFullOutline color="#e0245e" className='tweet-icon' />
+                                        ) : (
+                                            <TiHeartOutline className='tweet-icon' />
+                                        )}
+                                        <span >{likestr}</span>
+                                    </div>
+                                    <button onClick={this.onShare.bind(this)} title='Share' className='tweet-button'>
+                                        <TiArrowBackOutline className='tweet-icon' />
+                                        <span ></span>
+                                    </button>
                                 </div>
-                                <div onClick={this.onRepost.bind(this)} title='Repost' className='tweet-button'>
-                                    <TiArrowRepeat className='tweet-icon' />
-                                    <span >{repoststr}</span>
-                                </div>
-                                <div onClick={this.onLike.bind(this)} title='Like' className='tweet-button'>
-                                    {liked === true ? (
-                                        <TiHeartFullOutline color="#e0245e" className='tweet-icon' />
-                                    ) : (
-                                        <TiHeartOutline className='tweet-icon' />
-                                    )}
-                                    <span >{likestr}</span>
-                                </div>
-                                <button onClick={this.onShare.bind(this)} title='Share' className='tweet-button'>
-                                    <TiArrowBackOutline className='tweet-icon' />
-                                    <span ></span>
-                                </button>
                             </div>
+
                         </div>
                     </div>
                     {/* <hr /> */}

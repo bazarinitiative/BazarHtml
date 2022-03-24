@@ -9,9 +9,9 @@ import { getUserInfo } from '../facade/userfacade';
 import { UserInfo } from '../facade/entity';
 import HomeIcon from "@material-ui/icons/Home";
 import ExploreIcon from '@material-ui/icons/Explore';
-import PermIdentityIcon from "@material-ui/icons/PermIdentity";
+import PublicIcon from '@material-ui/icons/Public';
 import { Button } from '@material-ui/core';
-import OfflineBoltOutlinedIcon from '@material-ui/icons/OfflineBoltOutlined';
+import SearchIcon from '@material-ui/icons/Search';
 import { handleLogout } from '../utils/bazar-utils';
 import { HOST_CONCIG } from '../bazar-config';
 
@@ -106,16 +106,16 @@ class App extends Component<PropsType, StateType> {
                 <Button href='/'>Home</Button>
               </div>
               <div className='mycell'>
-                <PermIdentityIcon viewBox={vb} className='lineicon' />
-                <Button href='/p/'>Profile</Button>
+                <PublicIcon viewBox={vb} className='lineicon' />
+                <Button href='/timeline/'>Public</Button>
               </div>
               <div className='mycell'>
                 <ExploreIcon viewBox={vb} className='lineicon' />
                 <Button href='/explore/'>Explore</Button>
               </div>
               <div className='mycell'>
-                <OfflineBoltOutlinedIcon viewBox={vb} className='lineicon' />
-                <Button onClick={this.logout.bind(this)}>Logout</Button>
+                <SearchIcon viewBox={vb} className='lineicon' />
+                <Button href='/search/'>Search</Button>
               </div>
             </div>
           </div>
@@ -165,6 +165,7 @@ class App extends Component<PropsType, StateType> {
       }
 
       var padside = mobile ? "0" : "null";
+      var middles = mobile ? "null" : "five columns"
 
       return (
         <div className="App">
@@ -172,7 +173,7 @@ class App extends Component<PropsType, StateType> {
           <div className="container" style={{ paddingLeft: padside, paddingRight: padside }}>
             <div className="row">
               {left}
-              <div className="five columns">
+              <div id='middleBlock' className={middles}>
                 <div className="content">
                   <MainCourse ref={x => this.MainCourse = x}
                     identityObj={identityObj}

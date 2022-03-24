@@ -81,8 +81,8 @@ export class Search extends Component<PropsType, StateType> {
 
         return <div>
             <div className='container'>
-                <div className='row'>
-                    <div className='nine columns'>
+                <div className='row' >
+                    <div className='nine columns' >
                         <SearchCom
                             identityObj={this.props.identityObj}
                             refreshMainCourse={this.props.refreshMainCourse}
@@ -90,7 +90,7 @@ export class Search extends Component<PropsType, StateType> {
                             ref={x => this.searchCom = x}
                         />
                     </div>
-                    <div className='three columns'>
+                    <div className='two columns' >
                         <button style={{ "color": "skyblue", "borderColor": "skyblue" }} onClick={this.onSearch.bind(this)}>Search</button>
                     </div>
                 </div>

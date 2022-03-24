@@ -92,7 +92,7 @@ export class Sidebar extends Component<PropsType, StateType> {
                 <SidebarLink refreshMainCourse={this.props.refreshMainCourse} text="Profile"
                     Icon={<PermIdentityIcon viewBox={vb} />} href="/p/" />
                 {/* <Button onClick={this.handleClick.bind(this)} id="moreLinks">
-                    <MoreHorizIcon /> More
+                    <NotificationsNoneIcon viewBox={vb} /> More
                 </Button> */}
                 <Button id="tweet">
                     Post
