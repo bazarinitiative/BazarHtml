@@ -173,10 +173,12 @@ class App extends Component<PropsType, StateType> {
         }
       }
 
+      var padside = mobile ? "0" : "null";
+
       return (
         <div className="App">
           {top}
-          <div className="container">
+          <div className="container" style={{ paddingLeft: padside, paddingRight: padside }}>
             <div className="row">
               {left}
               <div className="five columns">

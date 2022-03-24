@@ -222,6 +222,7 @@ export class Post extends Component<PropsType, StateType> {
 
         var mobile = (window.screen.width < 1000);
         var borderside = mobile ? "none" : "null";
+        var picleft = mobile ? "-8px" : "2px";
 
         Modal.setAppElement("#root");
 
@@ -254,7 +255,7 @@ export class Post extends Component<PropsType, StateType> {
 
                     <div className="row">
                         <div style={{ "width": "15%", "display": "inline-block", "verticalAlign": "top", marginTop: "3px" }}>
-                            <p style={{ "marginLeft": "2px" }}>
+                            <p style={{ "marginLeft": picleft }}>
                                 <a className='userimg' href={'/p/' + user.userID}>
                                     <img src={`${HOST_CONCIG.apihost}UserQuery/UserPicImage/${user.userID}.jpeg`} alt="" />
                                 </a>

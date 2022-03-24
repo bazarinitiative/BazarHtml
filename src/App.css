@@ -1197,12 +1197,14 @@ p {
 
 .clickbody {
   cursor: pointer;
-  line-height: 17px;
+  font-size: 16px;
+  line-height: 20px;
 }
 
 .clickbodybold {
   cursor: pointer;
-  font-size: 1.1em;
+  font-size: 16px;
+  line-height: 20px;
   font-weight: bold;
 }
 

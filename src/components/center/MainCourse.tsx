@@ -90,8 +90,11 @@ export class MainCourse extends Component<PropsType, StateType> {
         logger('mainCourse', 'ay.Length:' + ayPath.length);
         logger('mainCourse', 'ay:' + ayPath);
 
+        var mobile = (window.screen.width < 1000);
+        var padside = mobile ? "0" : "null";
+
         if (ayPath[1].length === 0) {
-            return <div className='maincourse container' id='maincourse'>
+            return <div className='maincourse container' id='maincourse' style={{ paddingLeft: padside, paddingRight: padside }}>
                 <div style={{ "width": "100%" }}>
                     <div>
                         <h4><p>Home</p></h4>
