@@ -141,7 +141,7 @@ export class PostList extends Component<PropsType, StateType> {
 
         // logger('PostList', 'render');
         return (
-            <div>
+            <div id='postList'>
                 <div>
                     {
                         Object

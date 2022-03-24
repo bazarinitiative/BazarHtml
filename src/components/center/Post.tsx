@@ -221,13 +221,12 @@ export class Post extends Component<PropsType, StateType> {
         }
 
         var mobile = (window.screen.width < 1000);
-        var borderside = mobile ? "none" : "null";
-        var picleft = mobile ? "-5px" : "2px";
+        var picleft = mobile ? "0px" : "2px";
 
         Modal.setAppElement("#root");
 
         return (
-            <div className="tweet" style={{ "borderLeft": borderside, "borderRight": borderside }}>
+            <div id="post" className="tweet" style={{ margin: "0" }}>
                 <div>
                     <Modal
                         isOpen={this.state.isShowModal}
@@ -254,7 +253,7 @@ export class Post extends Component<PropsType, StateType> {
                     </Modal>
 
                     <div className="row">
-                        <div style={{ "width": "15%", "display": "inline-block", "verticalAlign": "top", marginTop: "3px" }}>
+                        <div style={{ "width": "15%", "display": "inline-block", "verticalAlign": "top", marginTop: "3px", float: "left" }}>
                             <p style={{ "marginLeft": picleft }}>
                                 <a className='userimg' href={'/p/' + user.userID}>
                                     <img src={`${HOST_CONCIG.apihost}UserQuery/UserPicImage/${user.userID}.jpeg`} alt="" />

@@ -1100,6 +1100,9 @@ form {
 .newpostarea {
   width: 100%;
   margin-bottom: 0px;
+  border-left: none;
+  border-right: none;
+  border-radius: 0;
 }
 
 .newpostdiv {
@@ -1263,8 +1266,10 @@ p {
 }
 
 .maincourse {
-  width: 95%;
-  border: "1px solid #dad7d7";
+  width: 99%;
+  border: 1px solid #dad7d7;
+  border-top: none;
+  border-bottom: none;
 }
 
 .followbutton {

@@ -93,9 +93,11 @@ export class MainCourse extends Component<PropsType, StateType> {
 
         var mobile = (window.screen.width < 1000);
         var padside = mobile ? "0" : "null";
+        var border = mobile ? "none" : "null";
 
         if (ayPath[1].length === 0) {
-            return <div className='maincourse container' id='maincourse' style={{ paddingLeft: padside, paddingRight: padside }}>
+            return <div className='maincourse container' id='maincourse'
+                style={{ paddingLeft: padside, paddingRight: padside, border: border, marginTop: "-10px", paddingTop: "15px" }}            >
                 <div style={{ "width": "100%" }}>
                     <div className='row' style={{ "display": "flex" }}>
                         <div style={{ "display": "inline-block" }}>
@@ -110,7 +112,7 @@ export class MainCourse extends Component<PropsType, StateType> {
                             <h4><p style={{ "marginTop": "8px", "marginLeft": "5px" }}>Home</p></h4>
                         </div>
                     </div>
-                    <div>
+                    <div style={{ "margin": "0px 5px" }}>
                         <AddPost
                             refreshMainCourse={this.refreshMainCourse.bind(this)}
                         />

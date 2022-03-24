@@ -50,7 +50,7 @@ export class Recommend extends Component<PropsType, StateType> {
             search = <p style={{ height: "50px" }} />
         }
 
-        return <div>
+        return <div style={{ "marginLeft": "15px" }}>
             <div>
                 {search}
             </div>
