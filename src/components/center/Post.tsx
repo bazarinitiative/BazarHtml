@@ -7,22 +7,23 @@ import { formatRelativeTime, getLocalTime } from '../../utils/date-utils';
 import { getIdentity } from '../../utils/identity-storage';
 import Modal from 'react-modal';
 import { sendPost } from '../../api/impl/cmd/post';
-import { UserInfo } from '../../facade/entity';
+import { PostDto, UserInfo } from '../../facade/entity';
 import { HOST_CONCIG } from '../../bazar-config';
 import { TiArrowBackOutline, TiArrowRepeat, TiHeartFullOutline, TiHeartOutline, TiMessage } from "react-icons/ti";
 import '../../App.css'
 import '../tweet.css'
+import { AiOutlineClose } from "react-icons/ai";
+import { goURL } from '../../utils/bazar-utils';
 
 type PropsType = {
     refreshMainCourse: any,
-    post: any,
-    ps: any,
-    liked: any,
+    dto: PostDto
     boldConent: boolean,
 }
 
 type StateType = {
     authorUserObj: UserInfo | null,
+    replyToUserObj: UserInfo | null,
     isShowModal: boolean,
 }
 
@@ -50,6 +51,7 @@ export class Post extends Component<PropsType, StateType> {
         super(props);
         this.state = {
             authorUserObj: null,
+            replyToUserObj: null,
             isShowModal: false,
         }
     }
@@ -59,7 +61,8 @@ export class Post extends Component<PropsType, StateType> {
     }
 
     async updateUser() {
-        var post = this.props.post
+        var dto = this.props.dto;
+        var post = dto.post
         // logger('Post-updateUser', post.postID + '-' + post.userID)
         var userID = post.userID;
         var userObj = await getUserInfo(userID);
@@ -69,15 +72,22 @@ export class Post extends Component<PropsType, StateType> {
             userObj = user;
         }
 
+        if (dto.replyToUser) {
+            var replyToUserObj = await getUserInfo(dto.replyToUser)
+            this.setState({
+                replyToUserObj: replyToUserObj
+            })
+        }
+
         this.setState({
             authorUserObj: userObj,
         });
     }
 
     async onLike() {
-
-        var post = this.props.post;
-        var liked = this.props.liked;
+        var dto = this.props.dto;
+        var post = dto.post;
+        var liked = dto.liked;
 
         var identityObj = getIdentity();
         if (identityObj == null) {
@@ -106,6 +116,12 @@ export class Post extends Component<PropsType, StateType> {
         this.props.refreshMainCourse();
     }
 
+    async onShare() {
+        alert('not immpl yet');
+
+        this.props.refreshMainCourse();
+    }
+
     openModal() {
         this.setState({
             isShowModal: true,
@@ -128,8 +144,9 @@ export class Post extends Component<PropsType, StateType> {
             return;
         }
 
+        var dto = this.props.dto;
         var contentstr = this.replyctl.value;
-        await sendPost(identityObj, contentstr, this.props.post.postID, this.props.post.threadID, false);
+        await sendPost(identityObj, contentstr, dto.post.postID, dto.post.threadID, false);
 
         this.props.refreshMainCourse();
     }
@@ -139,10 +156,7 @@ export class Post extends Component<PropsType, StateType> {
     }
 
     async onClickContent() {
-        window.history.pushState('', '', '/t/' + this.props.post.postID);
-        setTimeout(() => {
-            this.props.refreshMainCourse();
-        }, 50);
+        goURL('/t/' + this.props.dto.post.postID, this.props.refreshMainCourse);
     }
 
     async onDelete() {
@@ -153,7 +167,7 @@ export class Post extends Component<PropsType, StateType> {
                 return;
             }
             // alert(this.props.post.postID);
-            var ret = await sendDelete(identityObj, "Post", this.props.post.postID);
+            var ret = await sendDelete(identityObj, "Post", this.props.dto.post.postID);
             if (ret.success) {
                 this.props.refreshMainCourse();
             } else {
@@ -163,9 +177,10 @@ export class Post extends Component<PropsType, StateType> {
     }
 
     render() {
-        var post = this.props.post;
-        var ps = this.props.ps;
-        var liked = this.props.liked;
+        var dto = this.props.dto;
+        var post = dto.post;
+        var ps = dto.ps;
+        var liked = dto.liked;
 
         var timestr = getLocalTime(post.commandTime);
         var user = initialUser as UserInfo;
@@ -194,21 +209,35 @@ export class Post extends Component<PropsType, StateType> {
                 className='deletebtn'
                 onClick={this.onDelete.bind(this)}
             >
-                x
+                <AiOutlineClose style={{ "fontSize": "16px", "marginRight": "10px" }} />
             </button>;
         }
+
+        var replyinfo = null
+        if (this.state.replyToUserObj) {
+            replyinfo = <p className='lightsmall'>
+                Replying to <a href={'/p/' + this.state.replyToUserObj.userID}>@{this.state.replyToUserObj.userName}</a>
+            </p>
+        }
+
+        var mobile = (window.screen.width < 1000);
+        var borderside = mobile ? "none" : "null";
 
         Modal.setAppElement("#root");
 
         return (
-            <div className="tweet">
+            <div className="tweet" style={{ "borderLeft": borderside, "borderRight": borderside }}>
                 <div>
                     <Modal
                         isOpen={this.state.isShowModal}
                         style={customStyles}
                     >
                         <div className="row replymodal">
-                            <div><button className="minibutton" onClick={this.closeModalCancel.bind(this)}>x</button></div>
+                            <div>
+                                <button className="minibutton" onClick={this.closeModalCancel.bind(this)}>
+                                    <AiOutlineClose />
+                                </button>
+                            </div>
                             <div className="two columns"><p><img src={`${HOST_CONCIG.apihost}UserQuery/UserPicImage/${user.userID}.jpeg`} alt="" /></p></div>
                             <div className="ten columns">
                                 <p className="author" title={'UserID:' + user.userID + ' - Time:' + timestr}>
@@ -224,8 +253,12 @@ export class Post extends Component<PropsType, StateType> {
                     </Modal>
 
                     <div className="row">
-                        <div style={{ "width": "15%", "display": "inline-block", "verticalAlign": "top" }}>
-                            <p><a className='userimg' href={'/p/' + user.userID}><img src={`${HOST_CONCIG.apihost}UserQuery/UserPicImage/${user.userID}.jpeg`} alt="" /></a></p>
+                        <div style={{ "width": "15%", "display": "inline-block", "verticalAlign": "top", marginTop: "3px" }}>
+                            <p style={{ "marginLeft": "2px" }}>
+                                <a className='userimg' href={'/p/' + user.userID}>
+                                    <img src={`${HOST_CONCIG.apihost}UserQuery/UserPicImage/${user.userID}.jpeg`} alt="" />
+                                </a>
+                            </p>
                         </div>
                         <div style={{ "width": "85%", "display": "inline-block" }}>
                             <p className="author">
@@ -235,25 +268,31 @@ export class Post extends Component<PropsType, StateType> {
                                 </span>
                                 {deletebtn}
                             </p>
+
+                            {replyinfo}
                             <p className={contentstyle} onClick={this.onClickContent.bind(this)}>{post.content}</p>
 
                             <div className='tweet-icons'>
 
-                                <button onClick={this.onReply.bind(this)} title='Reply' style={{ "border": "none" }}>
+                                <div onClick={this.onReply.bind(this)} title='Reply' className='tweet-button'>
                                     <TiMessage className='tweet-icon' />
                                     <span >{replystr}</span>
-                                </button>
-                                <button onClick={this.onRepost.bind(this)} title='Repost' style={{ "border": "none" }}>
+                                </div>
+                                <div onClick={this.onRepost.bind(this)} title='Repost' className='tweet-button'>
                                     <TiArrowRepeat className='tweet-icon' />
                                     <span >{repoststr}</span>
-                                </button>
-                                <button onClick={this.onLike.bind(this)} title='Like' style={{ "border": "none" }}>
+                                </div>
+                                <div onClick={this.onLike.bind(this)} title='Like' className='tweet-button'>
                                     {liked === true ? (
                                         <TiHeartFullOutline color="#e0245e" className='tweet-icon' />
                                     ) : (
                                         <TiHeartOutline className='tweet-icon' />
                                     )}
                                     <span >{likestr}</span>
+                                </div>
+                                <button onClick={this.onShare.bind(this)} title='Share' className='tweet-button'>
+                                    <TiArrowBackOutline className='tweet-icon' />
+                                    <span ></span>
                                 </button>
                             </div>
                         </div>

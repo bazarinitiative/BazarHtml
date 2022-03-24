@@ -96,7 +96,6 @@ export class Search extends Component<PropsType, StateType> {
                 </div>
             </div>
 
-
             <div className='mightlike'>
                 {
                     Object
@@ -114,9 +113,7 @@ export class Search extends Component<PropsType, StateType> {
                     Object
                         .keys(posts)
                         .map(key => <Post key={posts[Number(key)].post.postID}
-                            post={posts[Number(key)].post}
-                            ps={posts[Number(key)].ps}
-                            liked={posts[Number(key)].liked}
+                            dto={posts[Number(key)]}
                             refreshMainCourse={this.props.refreshMainCourse}
                         />)
                 }

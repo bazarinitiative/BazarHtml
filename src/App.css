@@ -532,7 +532,7 @@ th {
 /* For devices larger than 400px */
 @media (min-width: 400px) {
   .container {
-    width: 85%;
+    width: 100%;
     padding: 0;
   }
 }
@@ -1056,7 +1056,7 @@ form {
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .sidebar {
   border: 1px solid #D1D1D1;
-  border-radius: 5px;
+  border-radius: 10px;
   padding: 10px;
   text-align: center;
   margin-bottom: 30px;
@@ -1197,7 +1197,7 @@ p {
 
 .clickbody {
   cursor: pointer;
-  line-height: 13px;
+  line-height: 17px;
 }
 
 .clickbodybold {
@@ -1288,7 +1288,7 @@ p {
 }
 
 .trendunit:hover {
-  background-color: rgb(235, 235, 235);
+  background-color: rgb(245, 245, 245);
   cursor: pointer;
 }
 
@@ -1338,6 +1338,7 @@ p {
   float: none;
   align-items: center;
   width: 100%;
+  border-top: 1px solid #e9e7e7;
 }
 
 .mycell {

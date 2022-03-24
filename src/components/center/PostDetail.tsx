@@ -33,7 +33,6 @@ export class PostDetail extends Component<PropsType, StateType> {
 
     async refreshPage() {
         var resp = await this.getData();
-
         this.setState({
             key: randomString(10),
             resp: resp
@@ -67,9 +66,8 @@ export class PostDetail extends Component<PropsType, StateType> {
         let parent = null;
         if (parentPostM != null) {
             parent = <Post
-                post={parentPostM.post}
-                ps={parentPostM.ps}
-                liked={parentPostM.liked}
+                key={randomString(10)}
+                dto={parentPostM}
                 refreshMainCourse={this.props.refreshMainCourse}
             />
         }
@@ -77,21 +75,22 @@ export class PostDetail extends Component<PropsType, StateType> {
         let thread = null;
         if (topPostM != null) {
             thread = <Post
-                post={topPostM.post}
-                ps={topPostM.ps}
-                liked={topPostM.liked}
+                key={randomString(10)}
+                dto={topPostM}
                 refreshMainCourse={this.props.refreshMainCourse}
             />;
         }
 
         return (
             <div>
+                <div>
+                    <h4><p>Post Detail</p></h4>
+                </div>
                 {thread}
                 {parent}
                 <Post
-                    post={curPostM.post}
-                    ps={curPostM.ps}
-                    liked={curPostM.liked}
+                    key={randomString(10)}
+                    dto={curPostM}
                     refreshMainCourse={this.props.refreshMainCourse}
                     boldConent={true}
                 />
@@ -102,10 +101,8 @@ export class PostDetail extends Component<PropsType, StateType> {
                             {
                                 Object
                                     .keys(replies)
-                                    .map(key => <Post key={replies[key].post.postID}
-                                        post={replies[key].post}
-                                        ps={replies[key].ps}
-                                        liked={replies[key].liked}
+                                    .map(key => <Post key={randomString(10)}
+                                        dto={replies[key]}
                                         refreshMainCourse={this.props.refreshMainCourse}
                                     />)
                             }

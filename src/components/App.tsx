@@ -108,7 +108,7 @@ class App extends Component<PropsType, StateType> {
         var vb = "0,0,24,24"
         bottom = <div className='bottomline'>
           <div className='myline'>
-            <hr />
+            {/* <hr /> */}
             <div className=''>
               <div className='mycell'>
                 <HomeIcon viewBox={vb} className='lineicon' />

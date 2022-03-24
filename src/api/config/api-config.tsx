@@ -8,6 +8,7 @@ const api_router_config = {
     userinfo: '/UserQuery/GetUserInfo',
     userpic: '/UserQuery/GetUserPic',
     postdetail: '/UserQuery/GetPostDetail',
+    getpostsimple: '/UserQuery/GetPostSimple',
     userprofile: '/UserQuery/GetProfile',
     userposts: '/UserQuery/GetPosts',
     getfollowing: '/UserQuery/GetFollowing',

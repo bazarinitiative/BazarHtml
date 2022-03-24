@@ -32,10 +32,13 @@ export class Recommend extends Component<PropsType, StateType> {
         }
         var trend: any
         if (recommendtrend) {
-            trend = <Trend
-                identityObj={this.props.identityObj}
-                refreshMainCourse={this.props.refreshMainCourse}
-            />
+            trend = <div className='mightlike' style={{ "background": "rgb(245, 245, 245)", "borderRadius": "10px", "marginTop": "10px", "padding": "5px" }}>
+                <Trend
+                    identityObj={this.props.identityObj}
+                    refreshMainCourse={this.props.refreshMainCourse}
+                />
+            </div>
+
         }
 
         var search = <SearchCom
@@ -56,8 +59,8 @@ export class Recommend extends Component<PropsType, StateType> {
                     identityObj={this.props.identityObj}
                     refreshMainCourse={this.props.refreshMainCourse}
                 />
-                {trend}
             </div>
+            {trend}
         </div>
     }
 }

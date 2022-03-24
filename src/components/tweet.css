@@ -6,8 +6,8 @@
 
 .tweet {
     width: 100%;
-    /* max-width: 590px; */
-    padding: 10px;
+    max-width: 590px;
+    padding: 5px 5px 0px 5px;
     /* display: flex; */
     margin: 0 auto;
     border: 1px solid #e9e7e7;
@@ -102,4 +102,22 @@
     margin-top: 10px;
     font-size: 20px;
     color: #c3392a;
+}
+
+.tweet-button {
+    display: inline-block;
+    border: none;
+    margin: 0 auto;
+    text-align: left;
+    padding: 0;
+    line-height: 23px;
+    vertical-align: middle;
+    height: 23px;
+}
+
+.tweet-button>span {
+    font-size: 15px;
+    margin-left: 5px;
+    margin-top: -5px;
+    line-height: 23px;
 }

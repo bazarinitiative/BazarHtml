@@ -71,5 +71,6 @@ export interface PostDto {
     post: Post;
     ps: PostStatistic;
     liked: boolean;
+    replyToUser: string;
 }
 
