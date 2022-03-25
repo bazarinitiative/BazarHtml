@@ -175,7 +175,22 @@ export class Post extends Component<PropsType, StateType> {
         this.openModal();
     }
 
+    async onMouseUp() {
+        var txt = window.getSelection()?.toString()
+        logger('post.mouseup', txt)
+        if (txt && txt.length > 0) {
+            return false
+        } else {
+            return true
+        }
+    }
+
     async onClickContent() {
+        var txt = window.getSelection()?.toString()
+        if (txt && txt.length > 0) {
+            return
+        }
+        logger('post.click', txt)
         goURL('/t/' + this.props.dto.post.postID, this.props.refreshMainCourse);
     }
 
@@ -291,7 +306,12 @@ export class Post extends Component<PropsType, StateType> {
                                 </p>
 
                                 {replyinfo}
-                                <p className={contentstyle} onClick={this.onClickContent.bind(this)}>{post.content}</p>
+                                <p className={contentstyle}
+                                    onClick={this.onClickContent.bind(this)}
+                                    onMouseUp={this.onMouseUp.bind(this)}
+                                >
+                                    {post.content}
+                                </p>
 
                                 <div className='tweet-icons'>
 
