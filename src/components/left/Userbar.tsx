@@ -76,15 +76,15 @@ export class Userbar extends Component<PropsType, StateType> {
             <Menu
                 id="ss-menu"
                 open={this.state.open}
-            // anchorEl={this.state.anckerEl}
-            // anchorOrigin={{
-            //     vertical: 'top',
-            //     horizontal: 'right',
-            // }}
-            // transformOrigin={{
-            //     vertical: 'bottom',
-            //     horizontal: 'right'
-            // }}
+                anchorEl={this.state.anckerEl}
+                anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                }}
+                transformOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right'
+                }}
             >
                 <div style={{ width: "100%" }}>
                     <MenuItem onClick={this.logout.bind(this)}>
