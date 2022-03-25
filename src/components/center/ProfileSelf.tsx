@@ -15,9 +15,8 @@ import { getUserProfile } from '../../api/impl/userprofile';
 import { HOST_CONCIG } from '../../bazar-config';
 import { Post } from './Post';
 import { getUserPosts } from '../../api/impl/userposts';
-import { getLocalTime } from '../../utils/date-utils';
-import { TiLinkOutline, TiLocationOutline } from 'react-icons/ti';
-import { BsCalendar3 } from 'react-icons/bs';
+import '../../App.css'
+import { ProfileCenter } from './ProfileCenter';
 
 type PropsType = {
     identityObj: Identity,
@@ -272,12 +271,10 @@ export class ProfileSelf extends Component<PropsType, StateType> {
 
         var realnameurl = HOST_CONCIG.realname
 
-        var s1 = 'UserID: ' + this.props.identityObj.userID + '\n';
-        var s2 = 'PublicKey: ' + this.props.identityObj.publicKey + '\n';
-        var s3 = 'PrivateKey: ' + this.props.identityObj.privateKey + '\n';
+        var s1 = 'UserID: ' + identityObj.userID + '\n';
+        var s2 = 'PublicKey: ' + identityObj.publicKey + '\n';
+        var s3 = 'PrivateKey: ' + identityObj.privateKey + '\n';
         var strpair = s1 + s2 + s3;
-
-        var joined = new Date(getLocalTime(userObj.createTime)).toLocaleDateString("en-US", { year: "numeric", month: "short" });
 
         return (
             <div className="profile-info">
@@ -326,7 +323,9 @@ export class ProfileSelf extends Component<PropsType, StateType> {
                     <div className='container'>
                         <div>
                             <div>Email<div className='closebutton' onClick={this.closeModalCancel2.bind(this)}>x</div></div>
-                            <input type='email' ref={x => this.backupEmailCtl = x}></input>
+                            <input type='email' ref={x => this.backupEmailCtl = x} style={{ "height": "30px" }}></input>
+                            <br />
+                            <br />
                             <p className='lightsmall keypairhint'>
                                 * Bazar blog system is built on public/private key algorithm, the key-pair is your sole passport to this distributed system.
                             </p>
@@ -359,7 +358,7 @@ export class ProfileSelf extends Component<PropsType, StateType> {
                         <div>
                             <textarea className='lightsmall keypairarea'>{strpair}</textarea>
                         </div>
-                        <button className='profilebutton2' style={{ 'float': 'right' }}
+                        <button className='profilebutton' style={{ 'float': 'right' }}
                             onClick={this.closeModalCancel3.bind(this)}>Close</button>
                     </div>
                 </Modal>
@@ -373,40 +372,17 @@ export class ProfileSelf extends Component<PropsType, StateType> {
                             <button
                                 onClick={this.showModal2.bind(this)}
                                 className='profilebutton'
-                                style={{ "marginLeft": "60px", "width": "120px" }}
+                                style={{ "marginLeft": "60px", "width": "110px" }}
                             >
                                 Backup Account
                             </button>
                         </p>
                     </div>
-                    <h3 title={'UserID: ' + identityObj.userID}><p>{userObj.userName}</p></h3>
-                    <p style={{ "fontSize": "12px", "lineHeight": "17px", "marginTop": "-15px" }}>@{userObj.userID}</p>
 
-                    <div style={{ "marginTop": "10px", "fontSize": "14px", "lineHeight": "17px" }}>
-                        <div><p>{userObj.biography}</p></div>
-                    </div>
-                    <div className='row' style={{ "fontSize": "12px" }}>
-                        {userObj.location.length > 0 ?
-                            <div className='two columns' style={{ width: "auto", marginRight: "5px" }}>
-                                <TiLocationOutline /> <span style={{ "fontSize": "14px" }}>{userObj.location}</span></div>
-                            : null
-                        }
-                        {
-                            userObj.website.length > 0 ?
-                                <div className='two columns' style={{ width: "auto", marginRight: "5px" }}>
-                                    <TiLinkOutline /> <span style={{ "fontSize": "14px" }}>{userObj.website}</span></div>
-                                : null
-                        }
-                        <div className='two columns' style={{ width: "auto", marginRight: "5px" }}>
-                            <BsCalendar3 /> <span style={{ "fontSize": "14px" }}>Joined {joined}</span></div>
-                    </div>
-
-                    <p style={{ "marginBottom": "5px" }}>
-                        <button className="profilebutton2" onClick={this.clickFollowees.bind(this)}>
-                            {stat.followingCount} Followings</button>
-                        <button className="profilebutton2" onClick={this.clickFollowers.bind(this)}>
-                            {stat.followedCount} Followers</button>
-                    </p>
+                    <ProfileCenter
+                        userObj={userObj}
+                        stat={stat}
+                    />
 
                     {
                         Object

@@ -91,7 +91,7 @@ export class Search extends Component<PropsType, StateType> {
                         />
                     </div>
                     <div className='two columns' >
-                        <button style={{ "color": "skyblue", "borderColor": "skyblue" }} onClick={this.onSearch.bind(this)}>Search</button>
+                        <button style={{ "color": "skyblue", "borderColor": "skyblue", "lineHeight": "32px", "borderRadius": "3px" }} onClick={this.onSearch.bind(this)}>Search</button>
                     </div>
                 </div>
             </div>

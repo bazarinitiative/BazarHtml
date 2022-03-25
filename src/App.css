@@ -1042,7 +1042,7 @@ form {
 }
 
 .profile-info-img {
-  width: 150px;
+  width: 120px;
   border-radius: 50%;
 }
 
@@ -1050,8 +1050,7 @@ form {
   height: 20px;
   width: 60px;
   padding: 0 0px;
-  line-height: 20px;
-  font-size: 8;
+  line-height: 18px;
   font-weight: 200;
   color: #000;
   text-transform: none;
@@ -1059,21 +1058,28 @@ form {
   border-radius: 2px;
   border: 1px solid #c0c0c0;
   margin-right: -50px;
+  font-size: 13px;
 }
 
-.profilebutton2 {
-  height: 20px;
-  width: 100px;
-  padding: 0 0px;
-  line-height: 20px;
-  font-size: 8;
-  font-weight: 200;
-  color: #000;
-  text-transform: none;
-  padding: 0px 0px;
-  border-radius: 2px;
-  border: 1px solid #c0c0c0;
-  margin-right: 10px;
+.profilelink {
+  margin: 10px 10px 15px 0px;
+  font-size: 14px;
+}
+
+.cellblock {
+  display: inline-block;
+}
+
+.alignleft {
+  text-align: left;
+}
+
+.marginbottom5 {
+  margin-bottom: 5px;
+}
+
+.marginbottom10 {
+  margin-bottom: 10px;
 }
 
 p.date {
@@ -1190,7 +1196,7 @@ p {
   font-weight: 200;
   color: #000;
   text-transform: none;
-  padding: 0px 2%;
+  padding: 0px 5px;
   border-radius: 2px;
   border: 1px solid #c0c0c0;
   /* margin-right: 5px; */
@@ -1246,6 +1252,7 @@ p {
 }
 
 .myline {
+  line-height: 45px;
   position: relative;
   bottom: auto;
   text-align: center;
