@@ -279,10 +279,10 @@ export class Post extends Component<PropsType, StateType> {
                                         <TiMessage className='tweet-icon' />
                                         <span >{replystr}</span>
                                     </div>
-                                    <div onClick={this.onRepost.bind(this)} title='Repost' className='tweet-button'>
+                                    {/* <div onClick={this.onRepost.bind(this)} title='Repost' className='tweet-button'>
                                         <TiArrowRepeat className='tweet-icon' />
                                         <span >{repoststr}</span>
-                                    </div>
+                                    </div> */}
                                     <div onClick={this.onLike.bind(this)} title='Like' className='tweet-button'>
                                         {liked === true ? (
                                             <TiHeartFullOutline color="#e0245e" className='tweet-icon' />
@@ -291,10 +291,10 @@ export class Post extends Component<PropsType, StateType> {
                                         )}
                                         <span >{likestr}</span>
                                     </div>
-                                    <button onClick={this.onShare.bind(this)} title='Share' className='tweet-button'>
+                                    {/* <button onClick={this.onShare.bind(this)} title='Share' className='tweet-button'>
                                         <TiArrowBackOutline className='tweet-icon' />
                                         <span ></span>
-                                    </button>
+                                    </button> */}
                                 </div>
                             </div>
 
