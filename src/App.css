@@ -618,7 +618,7 @@ html {
 body {
   font-size: 17px;
   /* currently ems cause chrome bug misinterpreting rems on body element */
-  line-height: 1.6;
+  /* line-height: 1.6; */
   font-weight: 400;
   font-family: "Roboto", Helvetica, Arial, sans-serif;
   color: #555;
@@ -713,7 +713,7 @@ button,
 input[type="submit"],
 input[type="reset"],
 input[type="button"] {
-  display: inline-block;
+  /* display: inline-block;
   height: 38px;
   padding: 0 20px;
   color: black;
@@ -726,9 +726,10 @@ input[type="button"] {
   white-space: nowrap;
   background-color: transparent;
   border-radius: 3px;
-  border: 1px solid #772953;
   cursor: pointer;
-  box-sizing: border-box;
+  box-sizing: border-box; */
+  border: 1px solid #c0c0c0;
+  background-color: transparent;
 }
 
 .button:hover,
@@ -920,19 +921,11 @@ td:last-child {
   padding-right: 0;
 }
 
-
 /* Spacing
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 button,
 .button {
   margin-bottom: 1rem;
-}
-
-input,
-textarea,
-select,
-fieldset {
-  margin-bottom: 1.5rem;
 }
 
 pre,
@@ -1103,7 +1096,6 @@ p.footer {
 p img {
   width: 48px;
   border-radius: 50%;
-
 }
 
 p {
@@ -1173,7 +1165,7 @@ p {
 }
 
 .mightlikeunit {
-  padding: 5px;
+  padding: 1px 5px;
   border-radius: 4px;
 }
 
@@ -1304,6 +1296,13 @@ p {
   min-height: 250px;
   margin-left: 0px;
   margin-right: 20px;
+}
+
+.emoji-button {
+  font-size: 20px;
+  border: none;
+  cursor: pointer;
+  line-height: 40px;
 }
 
 /* Clearing
