@@ -174,7 +174,7 @@ class App extends Component<PropsType, StateType> {
             <div className="row">
               {left}
               <div id='middleBlock' className={middles}>
-                <div className="content">
+                <div className="content" style={{ "marginLeft": "2px" }}>
                   <MainCourse ref={x => this.MainCourse = x}
                     identityObj={identityObj}
                   />

@@ -59,14 +59,14 @@ export class NotifyUnit extends Component<PropsType, StateType> {
 
         return <div className='container notifyunit'>
             <div className="row">
-                <div className="two columns">
+                <div className="three columns">
                     <p>
                         <a className='userimg' href={'/p/' + user.userID}>
                             <img src={`${HOST_CONCIG.apihost}UserQuery/UserPicImage/${user.userID}.jpeg`} alt="" />
                         </a>
                     </p>
                 </div>
-                <div className="ten columns">
+                <div className="nine columns">
                     <p className="author">
                         <a href={'/p/' + user.userID}>{user.userName}</a>
                         <span title={'UserID:' + user.userID + ' - Time:' + timestr}>

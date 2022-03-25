@@ -22,6 +22,7 @@ import { Menu, MenuItem } from '@material-ui/core';
 import PermIdentityIcon from "@material-ui/icons/PermIdentity";
 import OfflineBoltOutlinedIcon from '@material-ui/icons/OfflineBoltOutlined';
 import PublicIcon from '@material-ui/icons/Public';
+import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
 
 type PropsType = {
     identityObj: Identity | null,
@@ -165,6 +166,12 @@ export class MainCourse extends Component<PropsType, StateType> {
                                     <MenuItem onClick={() => goURL('/timeline', this.refreshMainCourse.bind(this))}>
                                         <PublicIcon viewBox={vb} />
                                         Timeline
+                                    </MenuItem>
+                                </div>
+                                <div style={{ width: "100%" }}>
+                                    <MenuItem onClick={() => goURL('/notification/', this.refreshMainCourse.bind(this))}>
+                                        <NotificationsNoneIcon viewBox={vb} className='lineicon' />
+                                        Notifications
                                     </MenuItem>
                                 </div>
                                 <div style={{ width: "100%" }}>
