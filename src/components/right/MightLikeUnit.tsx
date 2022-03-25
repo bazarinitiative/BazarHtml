@@ -76,8 +76,13 @@ export class MightLikeUnit extends Component<PropsType, StateType> {
         var user = this.props.userInfo;
         var username = user.userName;
         var usertitle = '';
-        if (username.length > 10) {
-            username = username.substring(0, 10) + '...';
+        var lean = 16
+        if (username && username.length > 0 && username.charAt(0) > '~') {
+            //not letter or number, usually wide char
+            lean = 8
+        }
+        if (username.length > lean) {
+            username = username.substring(0, lean) + '...';
             usertitle = user.userName;
         }
 
@@ -91,17 +96,18 @@ export class MightLikeUnit extends Component<PropsType, StateType> {
                 <div style={{ "width": "30%", "display": "inline-block" }} onClick={this.onClick.bind(this)}>
                     <p><img style={{ "marginBottom": "-10px" }} src={`${HOST_CONCIG.apihost}UserQuery/UserPicImage/${user.userID}.jpeg`} alt="" /></p>
                 </div>
-                <div style={{ "width": "40%", "display": "inline-block" }} onClick={this.onClick.bind(this)}>
+                <div style={{ "width": "70%", "display": "inline-block" }} onClick={this.onClick.bind(this)}>
                     <p className="author" title={usertitle}>
                         {username}
                     </p>
                     <p className="author" title={'UserID:' + user.userID}>
-                        @{user.userID.substr(0, 3)}...
+                        @{user.userID.substring(0, 4)}...
+                        <div style={{ "width": "30%", "display": "inline-block", "float": "right" }}>
+                            <button className='followbutton' onClick={this.onClickFollow.bind(this)}>{followstr}</button>
+                        </div>
                     </p>
                 </div>
-                <div style={{ "width": "30%", "display": "inline-block" }}>
-                    <button className='followbutton' onClick={this.onClickFollow.bind(this)}>{followstr}</button>
-                </div>
+
             </div>
         </div>
     }
