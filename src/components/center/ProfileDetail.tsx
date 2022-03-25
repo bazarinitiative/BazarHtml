@@ -1,4 +1,6 @@
 import { Component } from "react"
+import { BsCalendar3 } from "react-icons/bs";
+import { TiLinkOutline, TiLocationOutline } from "react-icons/ti";
 import { sendDelete } from "../../api/impl/cmd/delete";
 import { sendFollow } from "../../api/impl/cmd/follow";
 import { getFollowing } from "../../api/impl/getfollowing";
@@ -126,22 +128,36 @@ export class ProfileDetail extends Component<PropsType, StateType> {
                 </div>
                 <div>
                     <h1><p>{userObj.userName}</p></h1>
-                    <p>{userObj.userID}</p>
-                    <p>
-                        <button className="profilebutton2" onClick={this.clickFollowees.bind(this)}>{stat.followingCount} Followings</button>
-                        <button className="profilebutton2" onClick={this.clickFollowers.bind(this)}>{stat.followedCount} Followers</button>
-                    </p>
+                    <p style={{ "fontSize": "12px", "lineHeight": "17px", "marginTop": "-15px" }}>@{userObj.userID}</p>
                 </div>
-                <div className=''>
-                    <div className='row'><p>Bio: {userObj.biography}</p></div>
-                    <div className='row'><p>Website: {userObj.website}</p></div>
-                    <div className='row'><p>Location: {userObj.location}</p></div>
-                    <div className='row'><p>Joined: {joined}</p></div>
-                    <p></p>
+
+                <div style={{ "marginTop": "10px", "fontSize": "14px", "lineHeight": "17px" }}>
+                    <div><p>{userObj.biography}</p></div>
                 </div>
+                <div className='row' style={{ "fontSize": "12px" }}>
+                    {userObj.location.length > 0 ?
+                        <div className='two columns' style={{ width: "auto", marginRight: "5px" }}>
+                            <TiLocationOutline /> <span style={{ "fontSize": "14px" }}>{userObj.location}</span></div>
+                        : null
+                    }
+                    {
+                        userObj.website.length > 0 ?
+                            <div className='two columns' style={{ width: "auto", marginRight: "5px" }}>
+                                <TiLinkOutline /> <span style={{ "fontSize": "14px" }}>{userObj.website}</span></div>
+                            : null
+                    }
+                    <div className='two columns' style={{ width: "auto", marginRight: "5px" }}>
+                        <BsCalendar3 /> <span style={{ "fontSize": "14px" }}>Joined {joined}</span></div>
+                </div>
+
+                <p style={{ "marginBottom": "5px" }}>
+                    <button className="profilebutton2" onClick={this.clickFollowees.bind(this)}>
+                        {stat.followingCount} Followings</button>
+                    <button className="profilebutton2" onClick={this.clickFollowers.bind(this)}>
+                        {stat.followedCount} Followers</button>
+                </p>
+
             </div>
-            {/* <hr /> */}
-            {/* <Divider></Divider> */}
             {
                 Object
                     .keys(this.state.posts)

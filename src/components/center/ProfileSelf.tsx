@@ -16,6 +16,8 @@ import { HOST_CONCIG } from '../../bazar-config';
 import { Post } from './Post';
 import { getUserPosts } from '../../api/impl/userposts';
 import { getLocalTime } from '../../utils/date-utils';
+import { TiLinkOutline, TiLocationOutline } from 'react-icons/ti';
+import { BsCalendar3 } from 'react-icons/bs';
 
 type PropsType = {
     identityObj: Identity,
@@ -378,23 +380,34 @@ export class ProfileSelf extends Component<PropsType, StateType> {
                         </p>
                     </div>
                     <h3 title={'UserID: ' + identityObj.userID}><p>{userObj.userName}</p></h3>
-                    <p className='lightsmall'>@{userObj.userID}</p>
-                    <p>
+                    <p style={{ "fontSize": "12px", "lineHeight": "17px", "marginTop": "-15px" }}>@{userObj.userID}</p>
+
+                    <div style={{ "marginTop": "10px", "fontSize": "14px", "lineHeight": "17px" }}>
+                        <div><p>{userObj.biography}</p></div>
+                    </div>
+                    <div className='row' style={{ "fontSize": "12px" }}>
+                        {userObj.location.length > 0 ?
+                            <div className='two columns' style={{ width: "auto", marginRight: "5px" }}>
+                                <TiLocationOutline /> <span style={{ "fontSize": "14px" }}>{userObj.location}</span></div>
+                            : null
+                        }
+                        {
+                            userObj.website.length > 0 ?
+                                <div className='two columns' style={{ width: "auto", marginRight: "5px" }}>
+                                    <TiLinkOutline /> <span style={{ "fontSize": "14px" }}>{userObj.website}</span></div>
+                                : null
+                        }
+                        <div className='two columns' style={{ width: "auto", marginRight: "5px" }}>
+                            <BsCalendar3 /> <span style={{ "fontSize": "14px" }}>Joined {joined}</span></div>
+                    </div>
+
+                    <p style={{ "marginBottom": "5px" }}>
                         <button className="profilebutton2" onClick={this.clickFollowees.bind(this)}>
                             {stat.followingCount} Followings</button>
                         <button className="profilebutton2" onClick={this.clickFollowers.bind(this)}>
                             {stat.followedCount} Followers</button>
                     </p>
-                    {/* <hr /> */}
-                    {/* <br /> */}
-                    <div className=''>
-                        <div className='row'><p>Bio: {userObj.biography}</p></div>
-                        <div className='row'><p>Website: {userObj.website}</p></div>
-                        <div className='row'><p>Location: {userObj.location}</p></div>
-                        <div className='row'><p>Joined: {joined}</p></div>
-                        <p></p>
-                    </div>
-                    {/* <hr /> */}
+
                     {
                         Object
                             .keys(this.state.posts)
