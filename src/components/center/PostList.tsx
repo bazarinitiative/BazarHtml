@@ -49,7 +49,7 @@ export class PostList extends Component<PropsType, StateType> {
 
     async fetchData() {
 
-        logger('PostList', `fetchData curPage ${this.state.page}`)
+        // logger('PostList', `fetchData curPage ${this.state.page}`)
 
         if (!this.state.hasMoreData) {
             return
@@ -63,7 +63,7 @@ export class PostList extends Component<PropsType, StateType> {
             fetching: true
         })
 
-        logger('PostList', `fetchData ${this.state.page}`)
+        // logger('PostList', `fetchData ${this.state.page}`)
 
         try {
             var page = this.state.page;
@@ -88,8 +88,8 @@ export class PostList extends Component<PropsType, StateType> {
             } else {
                 ay = this.state.posts.concat(ret.data);
             }
-            logger('PostList', `PostCount ${ay.length}`)
-            logger('PostList', `curPage ${this.state.page}`)
+            // logger('PostList', `PostCount ${ay.length}`)
+            // logger('PostList', `curPage ${this.state.page}`)
             this.setState({
                 page: this.state.page + 1,
                 posts: ay,

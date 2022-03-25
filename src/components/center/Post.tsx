@@ -9,11 +9,14 @@ import Modal from 'react-modal';
 import { sendPost } from '../../api/impl/cmd/post';
 import { PostDto, UserInfo } from '../../facade/entity';
 import { HOST_CONCIG } from '../../bazar-config';
-import { TiArrowBackOutline, TiArrowRepeat, TiHeartFullOutline, TiHeartOutline, TiMessage } from "react-icons/ti";
+import { TiHeartFullOutline, TiHeartOutline, TiMessage } from "react-icons/ti";
 import '../../App.css'
 import '../tweet.css'
 import { AiOutlineClose } from "react-icons/ai";
 import { goURL } from '../../utils/bazar-utils';
+import { getPostSimple } from '../../api/impl/getpostsimple';
+import { randomString } from '../../utils/encryption';
+import { logger } from '../../utils/logger';
 
 type PropsType = {
     refreshMainCourse: any,
@@ -22,6 +25,7 @@ type PropsType = {
 }
 
 type StateType = {
+    key: string,
     authorUserObj: UserInfo | null,
     replyToUserObj: UserInfo | null,
     isShowModal: boolean,
@@ -50,6 +54,7 @@ export class Post extends Component<PropsType, StateType> {
     constructor(props: PropsType) {
         super(props);
         this.state = {
+            key: "",
             authorUserObj: null,
             replyToUserObj: null,
             isShowModal: false,
@@ -107,7 +112,22 @@ export class Post extends Component<PropsType, StateType> {
             }
         }
 
-        this.props.refreshMainCourse();
+        // this.props.refreshMainCourse();
+        await this.refreshSelf()
+    }
+
+    async refreshSelf() {
+        logger('Post', 'refreshSelf')
+        var identityObj = getIdentity();
+        if (identityObj == null) {
+            return;
+        }
+        var newdto = (await getPostSimple(this.props.dto.post.postID, identityObj.userID)).data as PostDto;
+        this.props.dto.liked = newdto.liked
+        this.props.dto.ps = newdto.ps
+        this.setState({
+            key: randomString(10)
+        })
     }
 
     async onRepost() {
@@ -191,7 +211,7 @@ export class Post extends Component<PropsType, StateType> {
         var relativeTime = formatRelativeTime(post.commandTime);
 
         var replystr = ps.replyCount > 0 && ps.replyCount;
-        var repoststr = ps.repostCount > 0 && ps.repostCount;
+        // var repoststr = ps.repostCount > 0 && ps.repostCount;
         var likestr = ps.likeCount > 0 && ps.likeCount;
 
         var contentstyle = 'clickbody';
