@@ -255,8 +255,8 @@ export class Post extends Component<PropsType, StateType> {
             </p>
         }
 
-        var mobile = (window.screen.width < 1000);
-        var picleft = mobile ? "0px" : "2px";
+        // var mobile = (window.screen.width < 1000);
+        // var picleft = mobile ? "3px" : "5px";
 
         Modal.setAppElement("#root");
 
@@ -287,15 +287,15 @@ export class Post extends Component<PropsType, StateType> {
                         <button className="replybutton" onClick={this.closeModalReply.bind(this)}>Reply</button>
                     </Modal>
 
-                    <div className="row">
-                        <div style={{ "width": "15%", "display": "inline-block", "verticalAlign": "top", marginTop: "3px", float: "left" }}>
-                            <p style={{ "marginLeft": picleft }}>
+                    <div className="row" style={{ "paddingLeft": "55px", marginTop: "3px" }}>
+                        <div style={{ "width": "55px", "marginLeft": "-55px", "display": "inline-block", "verticalAlign": "top" }}>
+                            <p style={{ "marginLeft": "5px" }}>
                                 <a className='userimg' href={'/p/' + user.userID}>
                                     <img src={`${HOST_CONCIG.apihost}UserQuery/UserPicImage/${user.userID}.jpeg`} alt="" />
                                 </a>
                             </p>
                         </div>
-                        <div style={{ "width": "85%", "display": "inline-block" }}>
+                        <div style={{ "width": "100%", "display": "inline-block" }}>
                             <div style={{ "marginLeft": "10px" }}>
                                 <p className="author">
                                     <a href={'/p/' + user.userID}>{user.userName}</a>
