@@ -103,7 +103,7 @@ export class MainCourse extends Component<PropsType, StateType> {
         if (mobile) {
             this.onMenu(event);
         } else {
-            goURL('/p', this.refreshMainCourse.bind(this));
+            goURL('/p/', this.refreshMainCourse.bind(this));
         }
     }
 
@@ -143,7 +143,7 @@ export class MainCourse extends Component<PropsType, StateType> {
 
                 <div style={{ "width": "100%" }}>
                     <div className='row' style={{ "display": "flex" }}>
-                        <div style={{ "display": "inline-block" }} onClick={this.onHeadImg.bind(this)}>
+                        <div style={{ "display": "inline-block", "marginLeft": "2px" }} onClick={this.onHeadImg.bind(this)}>
                             <p style={{ "float": "left", "marginLeft": "0px", "marginTop": "5px" }}>
                                 <img src={`${HOST_CONCIG.apihost}UserQuery/UserPicImage/${this.props.identityObj?.userID}.jpeg`}
                                     alt="" style={{ width: "35px" }}>
