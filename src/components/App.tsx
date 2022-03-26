@@ -43,6 +43,11 @@ class App extends Component<PropsType, StateType> {
       return
     }
 
+    window.onpopstate = () => {
+      logger('app', 'onpopstate')
+      this.refreshMainCourse()
+    }
+
     var identityObj = getIdentity();
     var userID = '';
     if (identityObj) {

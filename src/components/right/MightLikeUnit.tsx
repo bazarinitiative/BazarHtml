@@ -27,9 +27,13 @@ export class MightLikeUnit extends Component<PropsType, StateType> {
     }
 
     async componentDidMount() {
+        // await this.updateFollowing();
+    }
+
+    private async updateFollowing() {
         var user = this.props.userInfo;
 
-        var following = false
+        var following = false;
         if (this.props.identityObj) {
             var ret3 = await getFollowing(this.props.identityObj.userID, user.userID);
             if (ret3.data.userID === this.props.identityObj.userID) {
@@ -39,7 +43,7 @@ export class MightLikeUnit extends Component<PropsType, StateType> {
 
         this.setState({
             following: following
-        })
+        });
     }
 
     onClick() {
@@ -69,7 +73,7 @@ export class MightLikeUnit extends Component<PropsType, StateType> {
             }
         }
 
-        await this.componentDidMount();
+        await this.updateFollowing();
     }
 
     render() {
@@ -96,15 +100,15 @@ export class MightLikeUnit extends Component<PropsType, StateType> {
                 <div style={{ "width": "30%", "display": "inline-block" }} onClick={this.onClick.bind(this)}>
                     <p><img style={{ "marginBottom": "-10px" }} src={`${HOST_CONCIG.apihost}UserQuery/UserPicImage/${user.userID}.jpeg`} alt="" /></p>
                 </div>
-                <div style={{ "width": "70%", "display": "inline-block" }} onClick={this.onClick.bind(this)}>
+                <div style={{ "width": "65%", "display": "inline-block" }} onClick={this.onClick.bind(this)}>
                     <p className="author" title={usertitle}>
                         {username}
                     </p>
                     <p className="author" title={'UserID:' + user.userID}>
                         @{user.userID.substring(0, 4)}...
-                        <div style={{ "width": "30%", "display": "inline-block", "float": "right" }}>
+                        <span style={{ "width": "25%", "display": "inline-block", "float": "right", marginRight: "15px" }}>
                             <button className='followbutton' onClick={this.onClickFollow.bind(this)}>{followstr}</button>
-                        </div>
+                        </span>
                     </p>
                 </div>
 

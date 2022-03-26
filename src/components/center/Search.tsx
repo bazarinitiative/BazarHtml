@@ -28,6 +28,9 @@ export class Search extends Component<PropsType, StateType> {
         if (typeof wd != 'string') {
             return
         }
+        if (wd.length === 0) {
+            return
+        }
         var ret = await publicsearch(wd, 0, 20);
 
         var sr = ret.data as SearchResult;
