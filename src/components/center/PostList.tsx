@@ -21,6 +21,9 @@ type StateType = {
     hasMoreData: boolean,
 }
 
+var AsyncLock = require('async-lock');
+var lock = new AsyncLock();
+
 export class PostList extends Component<PropsType, StateType> {
 
     pageSize: number = 25;
@@ -103,11 +106,14 @@ export class PostList extends Component<PropsType, StateType> {
     }
 
     async onScroll() {
-        // logger('PostList', `onscroll ${window.innerHeight}, ${document.documentElement.scrollTop}, ${document.scrollingElement?.scrollHeight}`);
-        if (window.innerHeight + document.documentElement.scrollTop + 5 >= Number(document.scrollingElement?.scrollHeight)) {
-            // logger('PostList', `loadingMoreData ${this.state.page}`);
-            await this.fetchData()
-        }
+        lock.acquire("postlist_onscoll", async () => {
+            var over = window.innerHeight + document.documentElement.scrollTop + 190 - Number(document.scrollingElement?.scrollHeight);
+            // logger('PostList', `onscroll ${window.innerHeight}, ${document.documentElement.scrollTop}, ${document.scrollingElement?.scrollHeight}`);
+            if (over > 0) {
+                logger('PostList', `loadingMoreData ${this.state.page}, over=${over}`);
+                await this.fetchData()
+            }
+        });
     }
 
     async refreshPage() {

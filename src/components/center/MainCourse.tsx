@@ -128,7 +128,6 @@ export class MainCourse extends Component<PropsType, StateType> {
 
         var ayPath = window.location.pathname.split('/', 10);
 
-        logger('mainCourse', 'ay.Length:' + ayPath.length);
         logger('mainCourse', 'ay:' + ayPath);
 
         var mobile = (window.screen.width < 1000);
@@ -243,7 +242,7 @@ export class MainCourse extends Component<PropsType, StateType> {
 
             if (ayPath[1] === 't' && ayPath[2].length > 0) {
                 var postID = ayPath[2];
-                logger('mainCourse', 'postID:' + postID);
+                // logger('mainCourse', 'postID:' + postID);
 
                 return <PostDetail
                     identityObj={this.props.identityObj}
@@ -263,7 +262,7 @@ export class MainCourse extends Component<PropsType, StateType> {
                     />;
                 } else {
                     var userID = ayPath[2];
-                    logger('mainCourse', 'userID:' + userID);
+                    // logger('mainCourse', 'userID:' + userID);
 
                     return <ProfileDetail
                         identityObj={this.props.identityObj}

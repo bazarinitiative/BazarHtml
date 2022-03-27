@@ -14,7 +14,7 @@ export function saveLocalUser(userInfo: UserInfo, expireMilli: number) {
       expire: new Date().getTime() + expireMilli
     }
     localStorage.setItem(key, JSON.stringify(item))
-    logger('localStorage-save-userInfo', 'save in localStorage succeed')
+    // logger('localStorage-save-userInfo', 'save in localStorage succeed')
 
     if (localStorage.length % 10 === 0) {
       var remove = 0;

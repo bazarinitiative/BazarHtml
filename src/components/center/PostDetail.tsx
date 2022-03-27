@@ -3,7 +3,7 @@ import { ApiResponse } from '../../api/impl/ApiResponse';
 import { getPostDetail } from '../../api/impl/postdetail';
 import { Identity } from '../../facade/entity';
 import { randomString } from '../../utils/encryption';
-import { logger } from '../../utils/logger';
+// import { logger } from '../../utils/logger';
 import { Post } from './Post';
 
 type PropsType = {
@@ -44,9 +44,9 @@ export class PostDetail extends Component<PropsType, StateType> {
         if (this.props.identityObj != null) {
             var identityObj = this.props.identityObj;
             userID = identityObj.userID;
-            logger('postdetail', 'userID:' + userID);
+            // logger('postdetail', 'userID:' + userID);
         }
-        logger('postdetail', 'postID:' + this.props.postID);
+        // logger('postdetail', 'postID:' + this.props.postID);
         var resp = await getPostDetail(this.props.postID, 0, 25, userID);
         return resp;
     }

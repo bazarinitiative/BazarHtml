@@ -88,7 +88,6 @@ class App extends Component<PropsType, StateType> {
   render() {
     try {
       var identityObj = getIdentity();
-      logger('app', identityObj);
 
       logger('app_apihost', HOST_CONCIG.apihost);
 
