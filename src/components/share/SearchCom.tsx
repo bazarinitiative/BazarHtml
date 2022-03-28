@@ -1,80 +1,58 @@
 import React, { Component } from 'react';
-import { SearchResult } from '../../api/impl/publicsearch';
 import { Identity } from '../../facade/entity';
 import '@material/list'
-import { goURL } from '../../utils/bazar-utils';
-
+import { getUrlParameter, goURL } from '../../utils/bazar-utils';
 
 type PropsType = {
     identityObj: Identity | null,
     refreshMainCourse: any,
-    wd: string
+    wd: string,
 }
 
 type StateType = {
-    val: string,
-    sresult: SearchResult | null,
-    index: any
 }
 
 export class SearchCom extends Component<PropsType, StateType> {
     input: any;
 
-    constructor(props: PropsType) {
-        super(props);
-        this.state = {
-            val: "",
-            sresult: null,
-            index: -1
-        }
-    }
-
-    async refreshPage() {
-        this.input.value = this.props.wd
-        this.setState({
-            val: '',
-            sresult: null
-        })
-        await this.handleChange()
+    async setInput(wd: string) {
+        this.input.value = wd
     }
 
     async focus() {
         this.input.focus();
     }
 
-    inputval() {
+    getInput() {
         return this.input.value
     }
 
-    async handleChange() {
-        this.setState({
-            val: this.input.value
-        });
-        if (!this.input.value) {
-            return
+    onSearch() {
+        var catalog = getUrlParameter('catalog');
+        var cata = '';
+        if (catalog.length > 0) {
+            cata = `&catalog=${catalog}`;
         }
+        var url = '/search?wd=' + this.input.value + cata
+        goURL(url, this.props.refreshMainCourse);
     }
+
     handleKeyDown(e: any) {
         if (e.keyCode === 13) {
-            goURL('/search?wd=' + this.state.val, this.props.refreshMainCourse);
+            this.onSearch();
         }
     }
     async componentDidMount() {
-        await this.refreshPage()
     }
     handleMouseEnter(key: any, item: any, event: any) {
-    }
-    handleClickItem() {
-        goURL('/search?wd=' + this.state.val, this.props.refreshMainCourse);
-        this.input.focus();
     }
     render() {
         return (
             <div style={{ height: "50px", margin: "0px", padding: "0px" }}>
                 <input type="text"
                     ref={x => this.input = x}
-                    defaultValue={this.state.val}
-                    onChange={this.handleChange.bind(this)}
+                    defaultValue={this.props.wd}
+                    // onChange={this.handleChange.bind(this)}
                     onKeyDown={this.handleKeyDown.bind(this)}
                     placeholder='Search Bazar'
                     style={{ "padding": "0px 6px", width: "98%" }}

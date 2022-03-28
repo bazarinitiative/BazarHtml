@@ -5,20 +5,23 @@ export function handleLogout() {
     window.location.reload();
 }
 
+/**
+ * 
+ * @param paramName 
+ * @returns will return '' if not exist
+ */
 export function getUrlParameter(paramName: string) {
-    var sPageURL = window.location.search.substring(1),
-        sURLVariables = sPageURL.split('&'),
-        sParameterName,
-        i;
+    var queryStr = window.location.search.substring(1);
+    var sURLVariables = queryStr.split('&');
 
-    for (i = 0; i < sURLVariables.length; i++) {
-        sParameterName = sURLVariables[i].split('=');
+    for (var i = 0; i < sURLVariables.length; i++) {
+        var sParameterName = sURLVariables[i].split('=');
 
         if (sParameterName[0] === paramName) {
-            return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+            return sParameterName[1] === undefined ? '' : sParameterName[1];
         }
     }
-    return false;
+    return '';
 }
 
 export function goURL(url: string, refreshMainCourse: any) {

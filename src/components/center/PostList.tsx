@@ -43,11 +43,11 @@ export class PostList extends Component<PropsType, StateType> {
 
         await this.fetchData();
 
-        window.addEventListener('scroll', this.onScroll.bind(this));
+        window.onscroll = this.onScroll.bind(this)
     }
 
     componentWillUnmount() {
-        window.removeEventListener('scroll', this.onScroll.bind(this))
+        window.onscroll = null
     }
 
     async fetchData() {
@@ -109,10 +109,8 @@ export class PostList extends Component<PropsType, StateType> {
         lock.acquire("postlist_onscoll", async () => {
             var top = document.documentElement.scrollTop || document.body.scrollTop
             var over = window.innerHeight + top + 100 - Number(document.scrollingElement?.scrollHeight);
-            // logger('PostList', `onscroll ${window.innerHeight}, ${document.documentElement.scrollTop}, ${document.scrollingElement?.scrollHeight}`);
-            // alert(`onscroll ${window.innerHeight}, ${document.documentElement.scrollTop}, ${document.body.scrollTop}, ${document.scrollingElement?.scrollHeight}`);
             if (over > 0) {
-                logger('PostList', `loadingMoreData ${this.state.page}, over=${over}`);
+                // logger('PostList', `onscroll ${this.state.page}, over=${over}`);
                 await this.fetchData()
             }
         });

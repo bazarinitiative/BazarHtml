@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { publicsearch, SearchResult } from '../../api/impl/publicsearch';
 import '../../App.css';
 import { Identity, PostDto, UserDto } from '../../facade/entity';
-import { getUrlParameter, goURL } from '../../utils/bazar-utils';
-import { randomString } from '../../utils/encryption';
+import { getUrlParameter } from '../../utils/bazar-utils';
 import { logger } from '../../utils/logger';
+// import { logger } from '../../utils/logger';
 import { MightLikeUnit } from '../right/MightLikeUnit';
 import { SearchCom } from '../share/SearchCom';
 import { Post } from './Post';
@@ -16,69 +16,146 @@ type PropsType = {
 }
 
 type StateType = {
-    key: string
-    sresult: SearchResult | null
+    wd: string
+    page: number
+    users: UserDto[]
+    posts: PostDto[]
+    fetching: boolean,
+    hasMoreData: boolean,
 }
+
+var AsyncLock = require('async-lock');
+var lock = new AsyncLock();
 
 export class Search extends Component<PropsType, StateType> {
     searchCom: SearchCom | null | undefined;
 
-    async refreshPage() {
-        var wd = getUrlParameter('wd');
-        if (typeof wd != 'string') {
-            return
-        }
-        if (wd.length === 0) {
-            return
-        }
-        var ret = await publicsearch(wd, 0, 20);
-
-        var sr = ret.data as SearchResult;
-        logger('search1', 'ok: ' + wd)
-        if (sr.posts.length > 0) {
-            logger('search1', 'post0: ' + sr.posts[0].post.content)
-        }
-
-        this.setState({
-            key: randomString(10),
-            sresult: sr
-        });
-
-        if (this.searchCom) {
-            await this.searchCom.refreshPage()
-        }
-    }
-
     constructor(props: PropsType) {
         super(props);
         this.state = {
-            key: '',
-            sresult: null
+            wd: '',
+            page: 0,
+            users: [],
+            posts: [],
+            fetching: false,
+            hasMoreData: true,
         };
     }
 
     async componentDidMount() {
-        await this.refreshPage();
+
+        var wd = getUrlParameter('wd');
+        this.setState({
+            wd: wd
+        })
+        if (this.searchCom) {
+            await this.searchCom.setInput(wd)
+        }
+
+        await this.fetchData();
         this.searchCom?.focus();
+
+        window.onscroll = this.onScroll.bind(this);
+    }
+
+    async componentDidUpdate() {
+        var wd = getUrlParameter('wd');
+        if (this.state.wd !== wd) {
+
+            if (this.searchCom) {
+                await this.searchCom.setInput(wd)
+            }
+
+            logger('search', 'wd not match, will reset and fetch')
+            this.setState({
+                wd: wd,
+                page: 0,
+                users: [],
+                posts: [],
+                hasMoreData: true
+            })
+            // setTimeout(async () => {
+            await this.fetchData();
+            // }, 10);
+        }
+    }
+
+    componentWillUnmount() {
+        window.onscroll = null
+    }
+
+    async onScroll() {
+        lock.acquire("search_onscoll", async () => {
+            var top = document.documentElement.scrollTop || document.body.scrollTop
+            var over = window.innerHeight + top + 100 - Number(document.scrollingElement?.scrollHeight);
+            if (over > 0) {
+                // logger('search', `onscroll page=${this.state.page}, over=${over}`);
+                await this.fetchData()
+            }
+        });
+    }
+
+    async fetchData() {
+        if (!this.state.hasMoreData) {
+            return
+        }
+        if (this.state.fetching) {
+            return
+        }
+        this.setState({
+            fetching: true
+        })
+        try {
+            var wd = getUrlParameter('wd');
+            if (wd.length === 0) {
+                return
+            }
+            var catalog = getUrlParameter('catalog');
+            logger('search', `fetchData starting: wd=${wd}, catalog=${catalog}, page=${this.state.page}`)
+            var pageSize = 20;
+            var ret = await publicsearch(wd, catalog, this.state.page, pageSize);
+            var sr = ret.data as SearchResult;
+            logger('search', `fetch0: ${sr.users.length} ${sr.posts.length}`)
+            if (sr.posts.length + sr.users.length < pageSize) {
+                this.setState({
+                    hasMoreData: false
+                })
+            }
+
+            var users = this.state.users
+            var posts = this.state.posts
+            if (this.state.page === 0) {
+                users = []
+                posts = []
+            }
+            users = users.concat(sr.users);
+            posts = posts.concat(sr.posts);
+            this.setState({
+                page: this.state.page + 1,
+                users: users,
+                posts: posts,
+            });
+            logger('search', `fetch1: ${users.length} ${posts.length} nextPage=${this.state.page}`)
+
+        } finally {
+            this.setState({
+                fetching: false
+            })
+        }
     }
 
     async onSearch() {
-        goURL('/search?wd=' + this.searchCom?.inputval(), this.props.refreshMainCourse);
+        this.searchCom?.onSearch();
     }
 
     render() {
+        let users: UserDto[] = this.state.users
+        let posts: PostDto[] = this.state.posts
 
-        logger('search1', 'render')
-
-        let users: UserDto[] = []
-        let posts: PostDto[] = []
-        if (this.state.sresult) {
-            users = this.state.sresult.users
-            posts = this.state.sresult.posts
-        }
+        // logger('search', `render: ${users.length} ${posts.length}`)
 
         var nodata = <br />
-        if (users.length === 0 && posts.length === 0 && this.props.wd) {
+        if (users.length === 0 && posts.length === 0 && this.props.wd && !this.state.fetching) {
             nodata = <h5><p>No data</p></h5>
         }
 

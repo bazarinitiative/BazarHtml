@@ -68,7 +68,7 @@ export class MainCourse extends Component<PropsType, StateType> {
             }
 
             if (this.search) {
-                await this.search.refreshPage();
+                // await this.search.refreshPage();
             }
 
         } catch (error) {
