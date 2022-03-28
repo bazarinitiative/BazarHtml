@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { Identity } from '../../facade/entity';
+import { Identity, PostDto } from '../../facade/entity';
 import { randomString } from '../../utils/encryption';
 import { logger } from '../../utils/logger';
 import { Post } from './Post';
@@ -16,7 +16,7 @@ type PropsType = {
 type StateType = {
     page: number,
     key: string | null,
-    posts: any,
+    posts: PostDto[],
     fetching: boolean,
     hasMoreData: boolean,
 }
@@ -33,7 +33,7 @@ export class PostList extends Component<PropsType, StateType> {
         this.state = {
             page: 0,
             key: null,
-            posts: null,
+            posts: [],
             fetching: false,
             hasMoreData: true,
         };
@@ -68,41 +68,43 @@ export class PostList extends Component<PropsType, StateType> {
 
         // logger('PostList', `fetchData ${this.state.page}`)
 
-        try {
-            var page = this.state.page;
-            var size = this.pageSize;
+        setTimeout(async () => {
+            try {
+                var page = this.state.page;
+                var size = this.pageSize;
 
-            var userID = '';
-            if (this.props.identityObj != null) {
-                var identityObj = this.props.identityObj;
-                userID = identityObj.userID;
-                logger('postlist', userID);
-            }
+                var userID = '';
+                if (this.props.identityObj != null) {
+                    var identityObj = this.props.identityObj;
+                    userID = identityObj.userID;
+                    logger('postlist', userID);
+                }
 
-            var ret = await this.props.getPostData(userID, page, size);
-            if (ret.data.length < size) {
+                var ret = await this.props.getPostData(userID, page, size);
+                if (ret.data.length < size) {
+                    this.setState({
+                        hasMoreData: false
+                    })
+                }
+                var ay = this.state.posts;
+                if (page === 0) {
+                    ay = ret.data;
+                } else {
+                    ay = this.state.posts.concat(ret.data);
+                }
+                // logger('PostList', `PostCount ${ay.length}`)
+                // logger('PostList', `curPage ${this.state.page}`)
                 this.setState({
-                    hasMoreData: false
+                    page: this.state.page + 1,
+                    posts: ay,
+                })
+
+            } finally {
+                this.setState({
+                    fetching: false
                 })
             }
-            var ay = this.state.posts;
-            if (page === 0) {
-                ay = ret.data;
-            } else {
-                ay = this.state.posts.concat(ret.data);
-            }
-            // logger('PostList', `PostCount ${ay.length}`)
-            // logger('PostList', `curPage ${this.state.page}`)
-            this.setState({
-                page: this.state.page + 1,
-                posts: ay,
-            })
-
-        } finally {
-            this.setState({
-                fetching: false
-            })
-        }
+        }, 50);
     }
 
     async onScroll() {
@@ -121,15 +123,21 @@ export class PostList extends Component<PropsType, StateType> {
         this.setState({
             page: 0,
             key: randomString(10),
-            posts: {},
+            //posts: [],
             hasMoreData: true
         });
         await this.fetchData();
     }
 
     render() {
+        var fetchelm = <div></div>;
+        if (this.state.fetching) {
+            fetchelm = <div style={{ 'marginBottom': "5px" }}>
+                Loading...
+            </div>
+        }
 
-        if (this.state.posts == null) {
+        if (this.state.posts.length === 0 && this.state.fetching) {
             return <div>
                 Loading...
             </div>
@@ -148,12 +156,13 @@ export class PostList extends Component<PropsType, StateType> {
         // logger('PostList', 'render');
         return (
             <div id='postList'>
+                {fetchelm}
                 <div>
                     {
                         Object
                             .keys(this.state.posts)
-                            .map(key => <Post key={this.state.posts[key].post.postID}
-                                dto={this.state.posts[key]}
+                            .map(key => <Post key={this.state.posts[Number(key)].post.postID}
+                                dto={this.state.posts[Number(key)]}
                                 refreshMainCourse={this.props.refreshMainCourse}
                             />)
                     }

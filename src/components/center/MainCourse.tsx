@@ -54,6 +54,12 @@ export class MainCourse extends Component<PropsType, StateType> {
             key: randomString(10)
         });
 
+        var top = document.documentElement.scrollTop || document.body.scrollTop
+        if (top > 0) {
+            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0;
+        }
+
         try {
             if (this.PostList) {
                 await this.PostList.refreshPage();

@@ -12,7 +12,7 @@ import ExploreIcon from '@material-ui/icons/Explore';
 import PublicIcon from '@material-ui/icons/Public';
 import { Button } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
-import { handleLogout } from '../utils/bazar-utils';
+import { goURL, handleLogout } from '../utils/bazar-utils';
 import { HOST_CONCIG } from '../bazar-config';
 
 type PropsType = {
@@ -107,19 +107,19 @@ class App extends Component<PropsType, StateType> {
             <div className=''>
               <div className='mycell'>
                 <HomeIcon viewBox={vb} className='lineicon' />
-                <Button href='/'>Home</Button>
+                <Button onClick={() => goURL('/', this.refreshMainCourse.bind(this))}>Home</Button>
               </div>
               <div className='mycell'>
                 <PublicIcon viewBox={vb} className='lineicon' />
-                <Button href='/timeline/'>Public</Button>
+                <Button onClick={() => goURL('/timeline', this.refreshMainCourse.bind(this))}>Public</Button>
               </div>
               <div className='mycell'>
                 <ExploreIcon viewBox={vb} className='lineicon' />
-                <Button href='/explore/'>Explore</Button>
+                <Button onClick={() => goURL('/explore/', this.refreshMainCourse.bind(this))}>Explore</Button>
               </div>
               <div className='mycell'>
                 <SearchIcon viewBox={vb} className='lineicon' />
-                <Button href='/search/'>Search</Button>
+                <Button onClick={() => goURL('/search/', this.refreshMainCourse.bind(this))}>Search</Button>
               </div>
             </div>
           </div>
@@ -133,12 +133,15 @@ class App extends Component<PropsType, StateType> {
         </header>;
 
         left = <div className="three columns">
-          <Greeting
-            identityObj={identityObj}
-            refreshMainCourse={this.refreshMainCourse.bind(this)}
-          />
+          <div style={{ "position": "fixed", "width": "17.5%" }}>
+            <Greeting
+              identityObj={identityObj}
+              refreshMainCourse={this.refreshMainCourse.bind(this)}
+            />
+            <br />
+            {localdev}
+          </div>
           <br />
-          {localdev}
         </div>;
 
         right = <div className='three columns'>
