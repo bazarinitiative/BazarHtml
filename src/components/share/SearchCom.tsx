@@ -27,11 +27,14 @@ export class SearchCom extends Component<PropsType, StateType> {
         return this.input.value
     }
 
-    onSearch() {
+    onSearch(newcata: string) {
         var catalog = getUrlParameter('catalog');
         var cata = '';
         if (catalog.length > 0) {
             cata = `&catalog=${catalog}`;
+        }
+        if (newcata.length > 0) {
+            cata = `&catalog=${newcata}`;
         }
         var url = '/search?wd=' + this.input.value + cata
         goURL(url, this.props.refreshMainCourse);
@@ -39,7 +42,7 @@ export class SearchCom extends Component<PropsType, StateType> {
 
     handleKeyDown(e: any) {
         if (e.keyCode === 13) {
-            this.onSearch();
+            this.onSearch('');
         }
     }
     async componentDidMount() {

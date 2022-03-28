@@ -1314,6 +1314,26 @@ p {
   line-height: 40px;
 }
 
+.searchtabar {
+  border-bottom: 1px solid #e7e6e6;
+}
+
+.searchtab {
+  cursor: pointer;
+  font-weight: 600;
+  color: #777;
+  line-height: 40px;
+}
+
+.searchtab:hover {
+  background-color: #e7e6e6;
+}
+
+.searchtabsel {
+  font-weight: 800;
+  border-bottom: 3px solid #1EAEDB;
+}
+
 /* Clearing
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 

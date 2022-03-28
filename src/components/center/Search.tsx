@@ -16,7 +16,7 @@ type PropsType = {
 }
 
 type StateType = {
-    wd: string
+    wd_cata: string
     page: number
     users: UserDto[]
     posts: PostDto[]
@@ -33,7 +33,7 @@ export class Search extends Component<PropsType, StateType> {
     constructor(props: PropsType) {
         super(props);
         this.state = {
-            wd: '',
+            wd_cata: '',
             page: 0,
             users: [],
             posts: [],
@@ -45,8 +45,9 @@ export class Search extends Component<PropsType, StateType> {
     async componentDidMount() {
 
         var wd = getUrlParameter('wd');
+        var cata = getUrlParameter('catalog')
         this.setState({
-            wd: wd
+            wd_cata: wd + cata
         })
         if (this.searchCom) {
             await this.searchCom.setInput(wd)
@@ -60,15 +61,16 @@ export class Search extends Component<PropsType, StateType> {
 
     async componentDidUpdate() {
         var wd = getUrlParameter('wd');
-        if (this.state.wd !== wd) {
+        var cata = getUrlParameter('catalog')
+        if (this.state.wd_cata !== wd + cata) {
 
             if (this.searchCom) {
                 await this.searchCom.setInput(wd)
             }
 
-            logger('search', 'wd not match, will reset and fetch')
+            logger('search', 'wd_cata not match, will reset and fetch')
             this.setState({
-                wd: wd,
+                wd_cata: wd + cata,
                 page: 0,
                 users: [],
                 posts: [],
@@ -145,7 +147,11 @@ export class Search extends Component<PropsType, StateType> {
     }
 
     async onSearch() {
-        this.searchCom?.onSearch();
+        this.searchCom?.onSearch('');
+    }
+
+    clickTab(cata: string) {
+        this.searchCom?.onSearch(cata);
     }
 
     render() {
@@ -157,6 +163,18 @@ export class Search extends Component<PropsType, StateType> {
         var nodata = <br />
         if (users.length === 0 && posts.length === 0 && this.props.wd && !this.state.fetching) {
             nodata = <h5><p>No data</p></h5>
+        }
+
+        var tabstyle1 = 'four columns searchtab ';
+        var tabstyle2 = tabstyle1;
+        var tabstyle3 = tabstyle1;
+        var catalog = getUrlParameter('catalog')
+        if (catalog === 'Latest') {
+            tabstyle2 += 'searchtabsel'
+        } else if (catalog === 'People') {
+            tabstyle3 += 'searchtabsel'
+        } else {
+            tabstyle1 += 'searchtabsel'
         }
 
         return <div>
@@ -171,23 +189,35 @@ export class Search extends Component<PropsType, StateType> {
                         />
                     </div>
                     <div className='two columns' >
-                        <button style={{ "color": "skyblue", "borderColor": "skyblue", "lineHeight": "32px", "borderRadius": "3px" }} onClick={this.onSearch.bind(this)}>Search</button>
+                        <button style={{ "color": "skyblue", "borderColor": "skyblue", "lineHeight": "32px", "borderRadius": "3px" }}
+                            onClick={this.onSearch.bind(this)}>Search</button>
                     </div>
                 </div>
             </div>
 
-            <div className='mightlike'>
-                {
-                    Object
-                        .keys(users)
-                        .map(key => <MightLikeUnit key={users[Number(key)].userInfo.userID}
-                            identityObj={this.props.identityObj}
-                            userInfo={users[Number(key)].userInfo}
-                            userStatic={users[Number(key)].userStatistic}
-                            refreshMainCourse={this.props.refreshMainCourse}
-                        />)
-                }
+            <div className='row searchtabar'>
+                <div className={tabstyle1} onClick={() => this.clickTab('Top')}>Top</div>
+                <div className={tabstyle2} onClick={() => this.clickTab('Latest')}>Latest</div>
+                <div className={tabstyle3} onClick={() => this.clickTab('People')}>People</div>
             </div>
+
+            {
+                users.length > 0 ?
+                    <div className='mightlike'>
+                        {
+                            Object
+                                .keys(users)
+                                .map(key => <MightLikeUnit key={users[Number(key)].userInfo.userID}
+                                    identityObj={this.props.identityObj}
+                                    userInfo={users[Number(key)].userInfo}
+                                    userStatic={users[Number(key)].userStatistic}
+                                    refreshMainCourse={this.props.refreshMainCourse}
+                                />)
+                        }
+                    </div>
+                    : <div></div>
+            }
+
             <div>
                 {
                     Object
