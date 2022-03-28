@@ -18,7 +18,7 @@ export function getUrlParameter(paramName: string) {
         var sParameterName = sURLVariables[i].split('=');
 
         if (sParameterName[0] === paramName) {
-            return sParameterName[1] === undefined ? '' : sParameterName[1];
+            return sParameterName[1] === undefined ? '' : decodeURI(sParameterName[1]);
         }
     }
     return '';

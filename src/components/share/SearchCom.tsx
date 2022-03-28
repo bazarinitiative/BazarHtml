@@ -16,7 +16,7 @@ export class SearchCom extends Component<PropsType, StateType> {
     input: any;
 
     async setInput(wd: string) {
-        this.input.value = wd
+        this.input.value = decodeURI(wd)
     }
 
     async focus() {
