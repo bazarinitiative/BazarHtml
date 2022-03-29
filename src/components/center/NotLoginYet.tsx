@@ -178,29 +178,32 @@ export class NotLoginYet extends Component<PropsType, StateType> {
                 <br />
                 <div id='login1' className="content boldlarge">
                     <div className="row">
-                        <div className="eight columns">
-                            Email <input type='email' id="email" className='lightsmall' />
+                        <span className="two columns labelright">Email </span>
+                        <div className="six columns">
+                            <input type='email' id="email" className='lightsmall' />
                         </div>
                         <div className="four columns">
-                            <button className="loginbtn" disabled={this.state.btnDisable}
+                            <button className="loginbtn lightsmall" disabled={this.state.btnDisable}
                                 onClick={sendCodex}>{this.state.btnContent}</button>
                         </div>
                     </div>
                     <div className="row">
-                        <div className="eight columns">
-                            Code <input type='text' id="code" className='lightsmall' />
+                        <span className="two columns labelright">Code </span>
+                        <div className="six columns">
+                            <input type='text' id="code" className='lightsmall' />
                         </div>
                         <div className="four columns">
-                            <button className="loginbtn"
+                            <button className="loginbtn lightsmall"
                                 onClick={this.onCode.bind(this)}>Verify Code</button>
                         </div>
                     </div>
                 </div>
                 <br />
+                <br />
                 <Divider text='Register for Me' />
                 <br />
                 <div>
-                    <button onClick={this.autoregister.bind(this)}>
+                    <button className="oneclickbutton" onClick={this.autoregister.bind(this)}>
                         OneClick Register
                     </button>
                 </div>
@@ -216,10 +219,11 @@ export class NotLoginYet extends Component<PropsType, StateType> {
                     <div>
                         Private Key:
                         <textarea id='privateKey' className='lightsmall' />
-                        <button className="loginbtn" onClick={this.onRestore.bind(this)}>
+                        <button className="oneclickbutton" onClick={this.onRestore.bind(this)}>
                             Restore
                         </button>
                     </div>
+                    <br />
                 </div>
                 <br />
             </div>

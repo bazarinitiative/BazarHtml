@@ -132,8 +132,8 @@ export class PostList extends Component<PropsType, StateType> {
     render() {
         var fetchelm = <div></div>;
         if (this.state.fetching) {
-            fetchelm = <div style={{ 'marginBottom': "5px" }}>
-                Loading...
+            fetchelm = <div style={{ 'marginBottom': "8px" }}>
+                ...
             </div>
         }
 

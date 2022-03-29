@@ -784,9 +784,8 @@ input[type="url"],
 input[type="password"],
 textarea,
 select {
-  height: 38px;
-  width: 80%;
-  padding: 6px 10px;
+  height: 35px;
+  width: 90%;
   background-color: #fff;
   border: 1px solid #D1D1D1;
   border-radius: 4px;
@@ -1222,10 +1221,22 @@ p {
 }
 
 .loginbtn {
-  width: 140px;
+  width: 100%;
   padding: 0;
   color: #000;
   margin-right: 0px;
+  line-height: 32px;
+  border-radius: 2px;
+}
+
+.oneclickbutton {
+  width: 200px;
+  height: 48px;
+  line-height: 35px;
+  border: none;
+  border-radius: 24px;
+  color: white;
+  background-color: rgb(131, 175, 155);
 }
 
 .notifyunit {
@@ -1332,6 +1343,13 @@ p {
 .searchtabsel {
   font-weight: 800;
   border-bottom: 3px solid #1EAEDB;
+}
+
+.labelright {
+  /* width: 100px; */
+  text-align: right;
+  line-height: 35px;
+  /* padding: 0px 10px; */
 }
 
 /* Clearing
