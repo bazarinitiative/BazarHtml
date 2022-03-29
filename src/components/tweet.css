@@ -24,27 +24,6 @@
     flex-direction: column;
 }
 
-/* Hacky but less typing in the video */
-.tweet-info>div>span:first-child {
-    font-weight: bold;
-    margin-right: 5px;
-}
-
-.tweet-info>div>span:nth-child(2) {
-    color: #969696;
-    font-size: 16px;
-}
-
-.tweet-info>div>div {
-    color: #969696;
-    font-size: 15px;
-}
-
-.tweet-info>div>p {
-    font-size: 18px;
-    margin: 10px 0;
-}
-
 .tweet-icons {
     display: flex;
     align-items: center;
@@ -59,6 +38,14 @@
 .tweet-icon {
     font-size: 27px;
     color: #697784;
+}
+
+.tweet-num {
+    height: 20px;
+    font-size: 17px;
+    color: #697784;
+    vertical-align: top;
+    margin-top: 5px;
 }
 
 .tweet-icon:hover {
@@ -109,14 +96,9 @@
     margin: 0 auto;
     text-align: left;
     padding: 0;
-    line-height: 23px;
-    vertical-align: middle;
-    height: 23px;
+    cursor: pointer;
 }
 
-.tweet-button>span {
-    font-size: 15px;
-    margin-left: 5px;
-    margin-top: -5px;
-    line-height: 23px;
+.tweet-button:hover {
+    color: #00b5d6;
 }

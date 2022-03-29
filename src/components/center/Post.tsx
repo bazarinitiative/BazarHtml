@@ -17,6 +17,8 @@ import { goURL } from '../../utils/bazar-utils';
 import { getPostSimple } from '../../api/impl/getpostsimple';
 import { randomString } from '../../utils/encryption';
 import { logger } from '../../utils/logger';
+import { EmojiButton } from '@joeattardi/emoji-button';
+import twemoji from 'twemoji';
 
 type PropsType = {
     refreshMainCourse: any,
@@ -63,6 +65,26 @@ export class Post extends Component<PropsType, StateType> {
 
     componentDidMount() {
         this.updateUser();
+
+        const picker = new EmojiButton({
+            emojiSize: '20px',
+            // style: 'twemoji'
+        });
+        const trigger = document.querySelector('#emoji-trigger') as HTMLElement;
+        if (trigger) {
+            picker.on('emoji', selection => {
+                // handle the selected emoji here
+                console.log(selection.emoji);
+
+                if (this.replyctl) {
+                    this.replyctl.value += selection.emoji;
+                    this.replyctl.focus();
+
+                    twemoji.parse(this.replyctl, { size: '20px' })
+                }
+            });
+            trigger.addEventListener('click', () => picker.togglePicker(trigger));
+        }
     }
 
     async updateUser() {
@@ -166,6 +188,11 @@ export class Post extends Component<PropsType, StateType> {
 
         var dto = this.props.dto;
         var contentstr = this.replyctl.value;
+        if (contentstr.length === 0) {
+            alert('Please input content')
+            this.replyctl.focus();
+            return;
+        }
         await sendPost(identityObj, contentstr, dto.post.postID, dto.post.threadID, false);
 
         this.props.refreshMainCourse();
@@ -225,9 +252,9 @@ export class Post extends Component<PropsType, StateType> {
 
         var relativeTime = formatRelativeTime(post.commandTime);
 
-        var replystr = ps.replyCount > 0 && ps.replyCount;
+        var replystr = ps.replyCount > 0 ? ps.replyCount : null;
         // var repoststr = ps.repostCount > 0 && ps.repostCount;
-        var likestr = ps.likeCount > 0 && ps.likeCount;
+        var likestr = ps.likeCount > 0 ? ps.likeCount : null;
 
         var contentstyle = 'clickbody';
         if (this.props.boldConent) {
@@ -251,12 +278,15 @@ export class Post extends Component<PropsType, StateType> {
         var replyinfo = null
         if (this.state.replyToUserObj) {
             replyinfo = <p className='lightsmall'>
-                Replying to <a href={'/p/' + this.state.replyToUserObj.userID}>@{this.state.replyToUserObj.userName}</a>
+                Replying to @<a href={'/p/' + this.state.replyToUserObj.userID}>{this.state.replyToUserObj.userName}</a>
             </p>
         }
 
-        // var mobile = (window.screen.width < 1000);
-        // var picleft = mobile ? "3px" : "5px";
+        var mobile = (window.screen.width < 1000);
+        var rpwidth = 'replymodal';
+        if (mobile) {
+            rpwidth = 'replymodalmobile';
+        }
 
         Modal.setAppElement("#root");
 
@@ -267,24 +297,38 @@ export class Post extends Component<PropsType, StateType> {
                         isOpen={this.state.isShowModal}
                         style={customStyles}
                     >
-                        <div className="row replymodal">
-                            <div>
+                        <div className={`row ${rpwidth}`} style={{ "paddingLeft": "55px" }}>
+                            <div style={{ "marginLeft": "-55px" }}>
                                 <button className="minibutton" onClick={this.closeModalCancel.bind(this)}>
                                     <AiOutlineClose />
                                 </button>
                             </div>
-                            <div className="two columns"><p><img src={`${HOST_CONCIG.apihost}UserQuery/UserPicImage/${user.userID}.jpeg`} alt="" /></p></div>
-                            <div className="ten columns">
+                            <div style={{ "marginLeft": "-55px", "width": "55px", display: "inline-block", "verticalAlign": "top", "marginTop": "5px" }}>
+                                <p><img src={`${HOST_CONCIG.apihost}UserQuery/UserPicImage/${user.userID}.jpeg`} alt="" /></p>
+                            </div>
+                            <div style={{ "width": "100%", display: "inline-block" }}>
                                 <p className="author" title={'UserID:' + user.userID + ' - Time:' + timestr}>
-                                    {user.userName}@{user.userID.substr(0, 3)}... - {relativeTime}
+                                    {user.userName}@{user.userID.substring(0, 3)}... - {relativeTime}
                                 </p>
-                                <p className='replybold'>{post.content}</p>
+                                <p className='replycontent'>{post.content}</p>
                             </div>
                         </div>
                         <p></p>
-                        <p className="lightp">Replying to {user.userName}</p>
-                        <p><textarea className='replymodal' placeholder='Write your reply' ref={(x) => this.replyctl = x} /></p>
-                        <button className="replybutton" onClick={this.closeModalReply.bind(this)}>Reply</button>
+                        <div className='row margintop10' style={{ "paddingLeft": "55px" }}>
+                            <div style={{ "marginLeft": "-55px", "width": "55px", display: "inline-block", "verticalAlign": "top", "marginTop": "10px" }}>
+                                <p><img src={`${HOST_CONCIG.apihost}UserQuery/UserPicImage/${identityObj.userID}.jpeg`} alt="" /></p>
+                            </div>
+                            <div style={{ "width": "100%", display: "inline-block" }}>
+                                <p className="lightp  margintop10 marginbottom10">Replying to @<a href={`/p/${user.userID}`}>{user.userName}</a></p>
+                                <textarea className='replytxt' placeholder='Write your reply' ref={(x) => this.replyctl = x} />
+                                <div>
+                                    {/* <div id="emoji-trigger" className='two columns emoji-button' title='Emoji'>🙂</div> */}
+                                    <button className="replybutton" onClick={this.closeModalReply.bind(this)}>Reply</button>
+                                </div>
+
+                            </div>
+                        </div>
+
                     </Modal>
 
                     <div className="row" style={{ "paddingLeft": "55px", marginTop: "3px" }}>
@@ -314,22 +358,25 @@ export class Post extends Component<PropsType, StateType> {
                                 </p>
 
                                 <div className='tweet-icons'>
-
                                     <div onClick={this.onReply.bind(this)} title='Reply' className='tweet-button'>
-                                        <TiMessage className='tweet-icon' />
-                                        <span >{replystr}</span>
+                                        <div style={{ "display": "inline-block" }}>
+                                            <TiMessage className='tweet-icon' />
+                                        </div>
+                                        <div style={{ "display": "inline-block" }} className='tweet-num'><p>{replystr}</p></div>
                                     </div>
                                     {/* <div onClick={this.onRepost.bind(this)} title='Repost' className='tweet-button'>
                                         <TiArrowRepeat className='tweet-icon' />
                                         <span >{repoststr}</span>
                                     </div> */}
                                     <div onClick={this.onLike.bind(this)} title='Like' className='tweet-button'>
-                                        {liked === true ? (
-                                            <TiHeartFullOutline color="#e0245e" className='tweet-icon' />
-                                        ) : (
-                                            <TiHeartOutline className='tweet-icon' />
-                                        )}
-                                        <span >{likestr}</span>
+                                        <div style={{ "display": "inline-block" }}>
+                                            {liked === true ? (
+                                                <TiHeartFullOutline color="#e0245e" className='tweet-icon' />
+                                            ) : (
+                                                <TiHeartOutline className='tweet-icon' />
+                                            )}
+                                        </div>
+                                        <div style={{ "display": "inline-block" }} className='tweet-num'><p>{likestr}</p></div>
                                     </div>
                                     {/* <button onClick={this.onShare.bind(this)} title='Share' className='tweet-button'>
                                         <TiArrowBackOutline className='tweet-icon' />

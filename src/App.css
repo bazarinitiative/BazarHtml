@@ -987,18 +987,17 @@ form {
 }
 
 .replybutton {
-  height: 20px;
-  width: 80px;
-  padding: 0 0px;
-  line-height: 20px;
-  font-size: 8;
-  font-weight: 200;
-  color: #000;
-  text-transform: none;
+  height: 32px;
+  width: 90px;
+  font-size: 14px;
+  color: #eee;
+  background-color: rgb(131, 175, 155);
   padding: 0px 10px;
-  border-radius: 2px;
-  border: 1px solid #c0c0c0;
+  border-radius: 16px;
+  border: none;
   margin-right: 5px;
+  margin-top: 2px;
+  float: right;
 }
 
 .minibutton {
@@ -1089,6 +1088,14 @@ form {
   margin-bottom: 10px;
 }
 
+.marginleft5 {
+  margin-left: 5px;
+}
+
+.marginleft10 {
+  margin-left: 10px;
+}
+
 p.date {
   font-size: 0.8em;
   color: #999;
@@ -1136,13 +1143,18 @@ p {
 }
 
 .replymodal {
-  max-width: 400px;
-  min-width: 300px;
+  max-width: 500px;
+  min-width: 450px;
 }
 
-.replybold {
-  font-size: 1.2em;
-  font-weight: bold;
+.replymodalmobile {
+  width: 80%;
+  padding: 2px 5px;
+}
+
+.replycontent {
+  font-size: 13px;
+  font-weight: 300;
 }
 
 .userimg {
@@ -1371,9 +1383,26 @@ p {
   border-bottom: 1px solid #e7e6e6;
 }
 
+.padleft5 {
+  padding-left: 5px;
+}
+
 .padleft10 {
   padding-left: 10px;
 }
+
+.padright5 {
+  padding-right: 5px;
+}
+
+.padright10 {
+  padding-right: 10px;
+}
+
+.replytxt {
+  width: 100%;
+}
+
 
 /* Clearing
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
