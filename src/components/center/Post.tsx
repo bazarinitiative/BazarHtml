@@ -16,8 +16,8 @@ import { goURL } from '../../utils/bazar-utils';
 import { getPostSimple } from '../../api/impl/getpostsimple';
 import { randomString } from '../../utils/encryption';
 import { logger } from '../../utils/logger';
-import { EmojiButton } from '@joeattardi/emoji-button';
-import twemoji from 'twemoji';
+// import { EmojiButton } from '@joeattardi/emoji-button';
+// import twemoji from 'twemoji';
 
 type PropsType = {
     refreshMainCourse: any,
@@ -65,25 +65,25 @@ export class Post extends Component<PropsType, StateType> {
     componentDidMount() {
         this.updateUser();
 
-        const picker = new EmojiButton({
-            emojiSize: '20px',
-            // style: 'twemoji'
-        });
-        const trigger = document.querySelector('#emoji-trigger') as HTMLElement;
-        if (trigger) {
-            picker.on('emoji', selection => {
-                // handle the selected emoji here
-                console.log(selection.emoji);
+        // const picker = new EmojiButton({
+        //     emojiSize: '20px',
+        //     // style: 'twemoji'
+        // });
+        // const trigger = document.querySelector('#emoji-trigger') as HTMLElement;
+        // if (trigger) {
+        //     picker.on('emoji', selection => {
+        //         // handle the selected emoji here
+        //         console.log(selection.emoji);
 
-                if (this.replyctl) {
-                    this.replyctl.value += selection.emoji;
-                    this.replyctl.focus();
+        //         if (this.replyctl) {
+        //             this.replyctl.value += selection.emoji;
+        //             this.replyctl.focus();
 
-                    twemoji.parse(this.replyctl, { size: '20px' })
-                }
-            });
-            trigger.addEventListener('click', () => picker.togglePicker(trigger));
-        }
+        //             twemoji.parse(this.replyctl, { size: '20px' })
+        //         }
+        //     });
+        //     trigger.addEventListener('click', () => picker.togglePicker(trigger));
+        // }
     }
 
     getInitUser(userID: string) {
