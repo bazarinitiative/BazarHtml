@@ -43,24 +43,33 @@ export class Explore extends Component<PropsType, StateType> {
 
     render() {
 
-        return <div>
-            <Trend
-                identityObj={this.props.identityObj}
-                refreshMainCourse={this.props.refreshMainCourse}
-            />
-            <h4><p>You might like</p></h4>
-            <div className='mightlike'>
-                {
-                    Object
-                        .keys(this.state.mightlikes)
-                        .map(key => <MightLikeUnit key={this.state.mightlikes[key].userInfo.userID}
-                            identityObj={this.props.identityObj}
-                            userInfo={this.state.mightlikes[key].userInfo}
-                            userStatic={this.state.mightlikes[key].userStatic}
-                            refreshMainCourse={this.props.refreshMainCourse}
-                        />)
-                }
+        return <div className='exploreinfo'>
+            <div className='bottomborder'>
+                <div className='padleft10'>
+                    <Trend
+                        identityObj={this.props.identityObj}
+                        refreshMainCourse={this.props.refreshMainCourse}
+                    />
+                </div>
+
             </div>
+
+            <div className='padleft10 margintop10'>
+                <h4><p >You might like</p></h4>
+                <div className='mightlike'>
+                    {
+                        Object
+                            .keys(this.state.mightlikes)
+                            .map(key => <MightLikeUnit key={this.state.mightlikes[key].userInfo.userID}
+                                identityObj={this.props.identityObj}
+                                userInfo={this.state.mightlikes[key].userInfo}
+                                userStatic={this.state.mightlikes[key].userStatic}
+                                refreshMainCourse={this.props.refreshMainCourse}
+                            />)
+                    }
+                </div>
+            </div>
+
             <br />
             <br />
         </div>

@@ -1073,6 +1073,14 @@ form {
   text-align: left;
 }
 
+.margintop5 {
+  margin-top: 5px;
+}
+
+.margintop10 {
+  margin-top: 10px;
+}
+
 .marginbottom5 {
   margin-bottom: 5px;
 }
@@ -1149,7 +1157,7 @@ p {
 
 .boldlarge {
   font-size: large;
-  font-weight: bolder;
+  font-weight: bold;
   line-height: 110%;
 }
 
@@ -1168,7 +1176,7 @@ p {
 }
 
 .mightlike {
-  margin: 1%
+  margin-top: 0px;
 }
 
 .mightlikeunit {
@@ -1205,8 +1213,8 @@ p {
 
 .trendunit {
   margin: 0px 0px;
-  line-height: 80%;
-  padding: 10px;
+  /* line-height: 90%; */
+  padding: 4px 10px;
   border-radius: 4px;
 }
 
@@ -1350,6 +1358,21 @@ p {
   text-align: right;
   line-height: 35px;
   /* padding: 0px 10px; */
+}
+
+.exploreinfo {
+  /*hide in mobile*/
+  margin-left: -2px;
+  border-left: 1px solid #e7e6e6;
+  border-right: 1px solid #e7e6e6;
+}
+
+.bottomborder {
+  border-bottom: 1px solid #e7e6e6;
+}
+
+.padleft10 {
+  padding-left: 10px;
 }
 
 /* Clearing
