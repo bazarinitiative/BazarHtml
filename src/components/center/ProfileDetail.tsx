@@ -27,12 +27,12 @@ export class ProfileDetail extends Component<PropsType, StateType> {
     constructor(props: PropsType) {
         super(props)
 
-        this.setState({
+        this.state = {
             profile: null,
             posts: null,
             userDto: null,
             following: false,
-        })
+        }
     }
 
     async componentDidMount() {
