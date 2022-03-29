@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import { sendDelete } from '../../api/impl/cmd/delete';
 import { sendLike } from '../../api/impl/cmd/like';
-import { getUserInfo } from '../../facade/userfacade';
+import { getUserDto, getUserImgUrl } from '../../facade/userfacade';
 import { initialUser } from '../../initdata/users';
 import { formatRelativeTime, getLocalTime } from '../../utils/date-utils';
 import { getIdentity } from '../../utils/identity-storage';
 import Modal from 'react-modal';
 import { sendPost } from '../../api/impl/cmd/post';
-import { PostDto, UserInfo } from '../../facade/entity';
-import { HOST_CONCIG } from '../../bazar-config';
+import { PostDto, UserDto, UserInfo } from '../../facade/entity';
 import { TiHeartFullOutline, TiHeartOutline, TiMessage } from "react-icons/ti";
 import '../../App.css'
 import '../tweet.css'
@@ -22,14 +21,14 @@ import twemoji from 'twemoji';
 
 type PropsType = {
     refreshMainCourse: any,
-    dto: PostDto
+    postDto: PostDto
     boldConent: boolean,
 }
 
 type StateType = {
     key: string,
-    authorUserObj: UserInfo | null,
-    replyToUserObj: UserInfo | null,
+    authorUserObj: UserDto | null,
+    replyToUserObj: UserDto | null,
     isShowModal: boolean,
 }
 
@@ -87,20 +86,21 @@ export class Post extends Component<PropsType, StateType> {
         }
     }
 
+    getInitUser(userID: string) {
+        var user = initialUser as UserInfo;
+        user.userID = userID;
+        return user;
+    }
+
     async updateUser() {
-        var dto = this.props.dto;
+        var dto = this.props.postDto;
         var post = dto.post
         // logger('Post-updateUser', post.postID + '-' + post.userID)
         var userID = post.userID;
-        var userObj = await getUserInfo(userID);
-        if (userObj == null) {
-            var user = initialUser as UserInfo;
-            user.userID = userID;
-            userObj = user;
-        }
+        var userObj = await getUserDto(userID);
 
         if (dto.replyToUser) {
-            var replyToUserObj = await getUserInfo(dto.replyToUser)
+            var replyToUserObj = await getUserDto(dto.replyToUser)
             this.setState({
                 replyToUserObj: replyToUserObj
             })
@@ -112,7 +112,7 @@ export class Post extends Component<PropsType, StateType> {
     }
 
     async onLike() {
-        var dto = this.props.dto;
+        var dto = this.props.postDto;
         var post = dto.post;
         var liked = dto.liked;
 
@@ -144,9 +144,9 @@ export class Post extends Component<PropsType, StateType> {
         if (identityObj == null) {
             return;
         }
-        var newdto = (await getPostSimple(this.props.dto.post.postID, identityObj.userID)).data as PostDto;
-        this.props.dto.liked = newdto.liked
-        this.props.dto.ps = newdto.ps
+        var newdto = (await getPostSimple(this.props.postDto.post.postID, identityObj.userID)).data as PostDto;
+        this.props.postDto.liked = newdto.liked
+        this.props.postDto.ps = newdto.ps
         this.setState({
             key: randomString(10)
         })
@@ -186,7 +186,7 @@ export class Post extends Component<PropsType, StateType> {
             return;
         }
 
-        var dto = this.props.dto;
+        var dto = this.props.postDto;
         var contentstr = this.replyctl.value;
         if (contentstr.length === 0) {
             alert('Please input content')
@@ -218,7 +218,7 @@ export class Post extends Component<PropsType, StateType> {
             return
         }
         logger('post.click', txt)
-        goURL('/t/' + this.props.dto.post.postID, this.props.refreshMainCourse);
+        goURL('/t/' + this.props.postDto.post.postID, this.props.refreshMainCourse);
     }
 
     async onDelete() {
@@ -229,7 +229,7 @@ export class Post extends Component<PropsType, StateType> {
                 return;
             }
             // alert(this.props.post.postID);
-            var ret = await sendDelete(identityObj, "Post", this.props.dto.post.postID);
+            var ret = await sendDelete(identityObj, "Post", this.props.postDto.post.postID);
             if (ret.success) {
                 this.props.refreshMainCourse();
             } else {
@@ -239,7 +239,7 @@ export class Post extends Component<PropsType, StateType> {
     }
 
     render() {
-        var dto = this.props.dto;
+        var dto = this.props.postDto;
         var post = dto.post;
         var ps = dto.ps;
         var liked = dto.liked;
@@ -247,8 +247,9 @@ export class Post extends Component<PropsType, StateType> {
         var timestr = getLocalTime(post.commandTime);
         var user = initialUser as UserInfo;
         if (this.state.authorUserObj != null) {
-            user = this.state.authorUserObj;
+            user = this.state.authorUserObj.userInfo;
         }
+        var userDto = this.state.authorUserObj;
 
         var relativeTime = formatRelativeTime(post.commandTime);
 
@@ -266,7 +267,7 @@ export class Post extends Component<PropsType, StateType> {
             return;
         }
         var deletebtn;
-        if (identityObj.userID === this.state.authorUserObj?.userID) {
+        if (identityObj.userID === userDto?.userID) {
             deletebtn = <button
                 className='deletebtn'
                 onClick={this.onDelete.bind(this)}
@@ -278,7 +279,7 @@ export class Post extends Component<PropsType, StateType> {
         var replyinfo = null
         if (this.state.replyToUserObj) {
             replyinfo = <p className='lightsmall'>
-                Replying to @<a href={'/p/' + this.state.replyToUserObj.userID}>{this.state.replyToUserObj.userName}</a>
+                Replying to @<a href={'/p/' + this.state.replyToUserObj.userID}>{this.state.replyToUserObj.userInfo.userName}</a>
             </p>
         }
 
@@ -304,7 +305,7 @@ export class Post extends Component<PropsType, StateType> {
                                 </button>
                             </div>
                             <div style={{ "marginLeft": "-55px", "width": "55px", display: "inline-block", "verticalAlign": "top", "marginTop": "5px" }}>
-                                <p><img src={`${HOST_CONCIG.apihost}UserQuery/UserPicImage/${user.userID}.jpeg`} alt="" /></p>
+                                <p><img src={getUserImgUrl(userDto)} alt="" /></p>
                             </div>
                             <div style={{ "width": "100%", display: "inline-block" }}>
                                 <p className="author" title={'UserID:' + user.userID + ' - Time:' + timestr}>
@@ -316,7 +317,7 @@ export class Post extends Component<PropsType, StateType> {
                         <p></p>
                         <div className='row margintop10' style={{ "paddingLeft": "55px" }}>
                             <div style={{ "marginLeft": "-55px", "width": "55px", display: "inline-block", "verticalAlign": "top", "marginTop": "10px" }}>
-                                <p><img src={`${HOST_CONCIG.apihost}UserQuery/UserPicImage/${identityObj.userID}.jpeg`} alt="" /></p>
+                                <p><img src={getUserImgUrl(userDto)} alt="" /></p>
                             </div>
                             <div style={{ "width": "100%", display: "inline-block" }}>
                                 <p className="lightp  margintop10 marginbottom10">Replying to @<a href={`/p/${user.userID}`}>{user.userName}</a></p>
@@ -335,7 +336,7 @@ export class Post extends Component<PropsType, StateType> {
                         <div style={{ "width": "55px", "marginLeft": "-55px", "display": "inline-block", "verticalAlign": "top" }}>
                             <p style={{ "marginLeft": "5px" }}>
                                 <a className='userimg' href={'/p/' + user.userID}>
-                                    <img src={`${HOST_CONCIG.apihost}UserQuery/UserPicImage/${user.userID}.jpeg`} alt="" />
+                                    <img src={getUserImgUrl(userDto)} alt="" />
                                 </a>
                             </p>
                         </div>

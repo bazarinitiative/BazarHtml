@@ -4,9 +4,8 @@ import { sendFollow } from "../../api/impl/cmd/follow";
 import { getFollowing } from "../../api/impl/getfollowing";
 import { getUserPosts } from "../../api/impl/userposts";
 import { getUserProfile } from "../../api/impl/userprofile";
-import { HOST_CONCIG } from "../../bazar-config";
-import { Identity, UserInfo } from "../../facade/entity"
-import { getUserInfo } from "../../facade/userfacade";
+import { Identity, UserDto } from "../../facade/entity"
+import { getUserDto, getUserImgUrl } from "../../facade/userfacade";
 import { Post } from "./Post";
 import { ProfileCenter } from "./ProfileCenter";
 
@@ -19,7 +18,7 @@ type PropsType = {
 type StateType = {
     profile: any
     posts: any
-    userObj: UserInfo | null
+    userDto: UserDto | null
     following: boolean
 }
 
@@ -31,7 +30,7 @@ export class ProfileDetail extends Component<PropsType, StateType> {
         this.setState({
             profile: null,
             posts: null,
-            userObj: null,
+            userDto: null,
             following: false,
         })
     }
@@ -47,7 +46,7 @@ export class ProfileDetail extends Component<PropsType, StateType> {
         var ret = await getUserProfile(this.props.userID)
         var ret2 = await getUserPosts(this.props.userID, false, 0, 20)
 
-        var userObj = await getUserInfo(this.props.userID);
+        var userObj = await getUserDto(this.props.userID);
 
         var following = false;
         if (this.props.identityObj && userObj) {
@@ -60,7 +59,7 @@ export class ProfileDetail extends Component<PropsType, StateType> {
         this.setState({
             profile: ret.data,
             posts: ret2.data,
-            userObj: userObj,
+            userDto: userObj,
             following: following
         })
     }
@@ -96,10 +95,10 @@ export class ProfileDetail extends Component<PropsType, StateType> {
     render() {
 
         var userID = this.props.userID;
-        if (this.state?.userObj == null) {
+        if (this.state.userDto == null) {
             return <div>Loading for userID:{userID}</div>
         }
-        var userObj = this.state?.userObj;
+        var userObj = this.state.userDto;
         var followstr = 'Follow';
         if (this.state.following) {
             followstr = 'Following'
@@ -112,7 +111,7 @@ export class ProfileDetail extends Component<PropsType, StateType> {
                 <div className='row'>
                     <div>
                         <div className="two columns">
-                            <img className="profile-info-img" src={`${HOST_CONCIG.apihost}UserQuery/UserPicImage/${userObj.userID}.jpeg`} alt="" />
+                            <img className="profile-info-img" src={getUserImgUrl(userObj)} alt="" />
                         </div>
                         <div className="six columns">
                             <p></p>
@@ -133,7 +132,7 @@ export class ProfileDetail extends Component<PropsType, StateType> {
                 Object
                     .keys(this.state.posts)
                     .map(key => <Post key={this.state.posts[key].post.postID}
-                        dto={this.state.posts[key]}
+                        postDto={this.state.posts[key]}
                         refreshMainCourse={this.props.refreshMainCourse}
                     />)
             }

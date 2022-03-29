@@ -3,13 +3,12 @@ import { sendDelete } from '../../api/impl/cmd/delete';
 import { sendFollow } from '../../api/impl/cmd/follow';
 import { getFollowing } from '../../api/impl/getfollowing';
 import '../../App.css';
-import { HOST_CONCIG } from '../../bazar-config';
-import { Identity, UserInfo } from '../../facade/entity';
+import { Identity, UserDto } from '../../facade/entity';
+import { getUserImgUrl } from '../../facade/userfacade';
 
 type PropsType = {
     identityObj: Identity | null
-    userInfo: UserInfo
-    userStatic: any
+    userDto: UserDto
     refreshMainCourse: any
 }
 
@@ -31,7 +30,7 @@ export class MightLikeUnit extends Component<PropsType, StateType> {
     }
 
     private async updateFollowing() {
-        var user = this.props.userInfo;
+        var user = this.props.userDto;
 
         var following = false;
         if (this.props.identityObj) {
@@ -47,7 +46,7 @@ export class MightLikeUnit extends Component<PropsType, StateType> {
     }
 
     onClick() {
-        var user = this.props.userInfo;
+        var user = this.props.userDto;
         var uri = '/p/' + user.userID;
 
         window.history.pushState('', '', uri);
@@ -62,12 +61,12 @@ export class MightLikeUnit extends Component<PropsType, StateType> {
         }
 
         if (this.state.following) {
-            var ret = await sendDelete(this.props.identityObj, 'Following', this.props.userInfo.userID);
+            var ret = await sendDelete(this.props.identityObj, 'Following', this.props.userDto.userID);
             if (!ret.success) {
                 alert(ret.msg)
             }
         } else {
-            var ret2 = await sendFollow(this.props.identityObj, 'User', this.props.userInfo.userID);
+            var ret2 = await sendFollow(this.props.identityObj, 'User', this.props.userDto.userID);
             if (!ret2.success) {
                 alert(ret2.msg)
             }
@@ -77,7 +76,7 @@ export class MightLikeUnit extends Component<PropsType, StateType> {
     }
 
     render() {
-        var user = this.props.userInfo;
+        var user = this.props.userDto.userInfo;
         var username = user.userName;
         var usertitle = '';
         var lean = 16
@@ -98,7 +97,7 @@ export class MightLikeUnit extends Component<PropsType, StateType> {
         return <div className='mightlikeunit'>
             <div style={{ "maxWidth": "220px", marginBottom: '5px', marginTop: '5px' }}>
                 <div style={{ "width": "30%", "display": "inline-block" }} onClick={this.onClick.bind(this)}>
-                    <p><img style={{ "marginBottom": "-10px" }} src={`${HOST_CONCIG.apihost}UserQuery/UserPicImage/${user.userID}.jpeg`} alt="" /></p>
+                    <p><img style={{ "marginBottom": "-10px" }} src={getUserImgUrl(this.props.userDto)} alt="" /></p>
                 </div>
                 <div style={{ "width": "65%", "display": "inline-block" }} onClick={this.onClick.bind(this)}>
                     <p className="author" title={usertitle}>

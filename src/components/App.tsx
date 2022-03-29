@@ -5,8 +5,8 @@ import { getIdentity } from '../utils/identity-storage';
 import { logger } from '../utils/logger';
 import { MainCourse } from './center/MainCourse';
 import { Recommend } from './right/Recommend';
-import { getUserInfo } from '../facade/userfacade';
-import { UserInfo } from '../facade/entity';
+import { getUserDto } from '../facade/userfacade';
+import { UserDto } from '../facade/entity';
 import HomeIcon from "@material-ui/icons/Home";
 import ExploreIcon from '@material-ui/icons/Explore';
 import PublicIcon from '@material-ui/icons/Public';
@@ -19,7 +19,7 @@ type PropsType = {
 }
 
 type StateType = {
-  user: UserInfo | null
+  owner: UserDto | null
 }
 
 class App extends Component<PropsType, StateType> {
@@ -30,7 +30,7 @@ class App extends Component<PropsType, StateType> {
   constructor(props: PropsType) {
     super(props);
     this.state = {
-      user: null,
+      owner: null,
     }
   }
 
@@ -53,10 +53,10 @@ class App extends Component<PropsType, StateType> {
     if (identityObj) {
       userID = identityObj.userID;
 
-      var user = await getUserInfo(userID);
+      var user = await getUserDto(userID);
 
       this.setState({
-        user: user,
+        owner: user,
       })
     }
   }
@@ -184,6 +184,7 @@ class App extends Component<PropsType, StateType> {
                 <div className="content" style={{ "marginLeft": "2px" }}>
                   <MainCourse ref={x => this.MainCourse = x}
                     identityObj={identityObj}
+                    ownerDto={this.state.owner}
                   />
                 </div>
               </div>

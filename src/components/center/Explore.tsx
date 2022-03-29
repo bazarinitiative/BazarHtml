@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { mightLike } from '../../api/impl/mightlike';
 import '../../App.css';
-import { Identity } from '../../facade/entity';
+import { Identity, UserDto } from '../../facade/entity';
 import { currentTimeMillis } from '../../utils/date-utils';
 import { getPrivateKey, signMessage } from '../../utils/encryption';
 import { MightLikeUnit } from '../right/MightLikeUnit';
@@ -13,7 +13,7 @@ type PropsType = {
 }
 
 type StateType = {
-    mightlikes: any
+    mightlikes: UserDto[]
 }
 
 export class Explore extends Component<PropsType, StateType> {
@@ -21,7 +21,7 @@ export class Explore extends Component<PropsType, StateType> {
     constructor(props: PropsType) {
         super(props);
         this.state = {
-            mightlikes: {}
+            mightlikes: []
         };
     }
 
@@ -60,10 +60,9 @@ export class Explore extends Component<PropsType, StateType> {
                     {
                         Object
                             .keys(this.state.mightlikes)
-                            .map(key => <MightLikeUnit key={this.state.mightlikes[key].userInfo.userID}
+                            .map(key => <MightLikeUnit key={this.state.mightlikes[Number(key)].userInfo.userID}
                                 identityObj={this.props.identityObj}
-                                userInfo={this.state.mightlikes[key].userInfo}
-                                userStatic={this.state.mightlikes[key].userStatic}
+                                userDto={this.state.mightlikes[Number(key)]}
                                 refreshMainCourse={this.props.refreshMainCourse}
                             />)
                     }

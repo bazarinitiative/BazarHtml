@@ -67,7 +67,7 @@ export class PostDetail extends Component<PropsType, StateType> {
         if (parentPostM != null) {
             parent = <Post
                 key={randomString(10)}
-                dto={parentPostM}
+                postDto={parentPostM}
                 refreshMainCourse={this.props.refreshMainCourse}
             />
         }
@@ -76,7 +76,7 @@ export class PostDetail extends Component<PropsType, StateType> {
         if (topPostM != null) {
             thread = <Post
                 key={randomString(10)}
-                dto={topPostM}
+                postDto={topPostM}
                 refreshMainCourse={this.props.refreshMainCourse}
             />;
         }
@@ -90,7 +90,7 @@ export class PostDetail extends Component<PropsType, StateType> {
                 {parent}
                 <Post
                     key={randomString(10)}
-                    dto={curPostM}
+                    postDto={curPostM}
                     refreshMainCourse={this.props.refreshMainCourse}
                     boldConent={true}
                 />
@@ -102,7 +102,7 @@ export class PostDetail extends Component<PropsType, StateType> {
                                 Object
                                     .keys(replies)
                                     .map(key => <Post key={randomString(10)}
-                                        dto={replies[key]}
+                                        postDto={replies[key]}
                                         refreshMainCourse={this.props.refreshMainCourse}
                                     />)
                             }

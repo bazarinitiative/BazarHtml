@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { getPublicTimeline } from '../../api/impl/timeline';
 import '../../App.css';
-import { Identity } from '../../facade/entity';
+import { Identity, UserDto } from '../../facade/entity';
 import { getPrivateKey, randomString, signMessage } from '../../utils/encryption';
 import { logger } from '../../utils/logger';
 import { NotLoginYet } from './NotLoginYet';
@@ -17,15 +17,16 @@ import { Follow } from './Follow';
 import { Explore } from './Explore';
 import { getUrlParameter, goURL, handleLogout } from '../../utils/bazar-utils';
 import { Search } from './Search';
-import { HOST_CONCIG } from '../../bazar-config';
 import { Menu, MenuItem } from '@material-ui/core';
 import PermIdentityIcon from "@material-ui/icons/PermIdentity";
 import OfflineBoltOutlinedIcon from '@material-ui/icons/OfflineBoltOutlined';
 import PublicIcon from '@material-ui/icons/Public';
 import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
+import { getUserImgUrl } from '../../facade/userfacade';
 
 type PropsType = {
     identityObj: Identity | null,
+    ownerDto: UserDto | null
 }
 
 type StateType = {
@@ -150,7 +151,7 @@ export class MainCourse extends Component<PropsType, StateType> {
                     <div className='row' style={{ "display": "flex" }}>
                         <div style={{ "display": "inline-block", "marginLeft": "2px" }} onClick={this.onHeadImg.bind(this)}>
                             <p style={{ "float": "left", "marginLeft": "0px", "marginTop": "5px" }}>
-                                <img src={`${HOST_CONCIG.apihost}UserQuery/UserPicImage/${this.props.identityObj?.userID}.jpeg`}
+                                <img src={getUserImgUrl(this.props.ownerDto)}
                                     alt="" style={{ width: "35px" }}>
                                 </img>
                             </p>

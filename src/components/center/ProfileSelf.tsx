@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import Modal from 'react-modal';
-import { getUserInfo } from '../../facade/userfacade';
+import { getUserDto, getUserImgUrl } from '../../facade/userfacade';
 import { initialUser } from '../../initdata/users';
 import { getIdentity } from '../../utils/identity-storage';
 import { removeLocalUser } from '../../utils/user-storage';
@@ -9,7 +9,7 @@ import { sendUserPic } from '../../api/impl/cmd/userpic';
 import { logger } from '../../utils/logger';
 import { compressImg } from '../../utils/image';
 import { backupAccount } from '../../api/impl/backupaccount';
-import { Identity, UserInfo } from '../../facade/entity';
+import { Identity, UserDto } from '../../facade/entity';
 import { randomInt } from '../../utils/encryption'
 import { getUserProfile } from '../../api/impl/userprofile';
 import { HOST_CONCIG } from '../../bazar-config';
@@ -24,7 +24,7 @@ type PropsType = {
 }
 
 type StateType = {
-    userObj: UserInfo | null,
+    userObj: UserDto | null,
     isShowModal: boolean,
     isShowModal2: boolean,
     isShowModal3: boolean,
@@ -78,7 +78,7 @@ export class ProfileSelf extends Component<PropsType, StateType> {
     async refreshUser() {
         var identityObj = this.props.identityObj;
 
-        var userObj = await getUserInfo(identityObj.userID);
+        var userObj = await getUserDto(identityObj.userID);
         if (userObj == null) {
             var user = initialUser;
             user.userID = identityObj.userID;
@@ -89,7 +89,7 @@ export class ProfileSelf extends Component<PropsType, StateType> {
 
             }
 
-            userObj = await getUserInfo(identityObj.userID);
+            userObj = await getUserDto(identityObj.userID);
         }
 
         var profile = (await getUserProfile(identityObj.userID)).data
@@ -252,18 +252,16 @@ export class ProfileSelf extends Component<PropsType, StateType> {
     }
 
     render() {
-        var identityObj = this.props.identityObj;
-        var userObj = initialUser as UserInfo;
-        if (this.state.userObj != null) {
-            userObj = this.state.userObj
-        }
-        var picstr2 = this.state.picstrModal;
-
-        if (!this.state.profile) {
+        if (!this.state.profile || !this.state.userObj) {
             return <div>
                 Loading user data...
             </div>
         }
+
+        var identityObj = this.props.identityObj;
+        var userInfo = this.state.userObj.userInfo
+        var userDto = this.state.userObj;
+        var picstr2 = this.state.picstrModal;
 
         var stat = this.state.profile.userStatistic;
 
@@ -293,10 +291,10 @@ export class ProfileSelf extends Component<PropsType, StateType> {
                                     </p>
                                     <p />
                                     <p />
-                                    <p>UserName<input ref={(x) => this.userNameCtl = x} type='text' defaultValue={userObj.userName} /></p>
-                                    <p>Biography  <input ref={(x) => this.bioCtl = x} type='text' defaultValue={userObj.biography} /></p>
-                                    <p>Website<input ref={(x) => this.websiteCtl = x} type='text' defaultValue={userObj.website} /></p>
-                                    <p>Location<input ref={(x) => this.locationCtl = x} type='text' defaultValue={userObj.location} /></p>
+                                    <p>UserName<input ref={(x) => this.userNameCtl = x} type='text' defaultValue={userInfo.userName} /></p>
+                                    <p>Biography  <input ref={(x) => this.bioCtl = x} type='text' defaultValue={userInfo.biography} /></p>
+                                    <p>Website<input ref={(x) => this.websiteCtl = x} type='text' defaultValue={userInfo.website} /></p>
+                                    <p>Location<input ref={(x) => this.locationCtl = x} type='text' defaultValue={userInfo.location} /></p>
                                 </div>
 
                             </div>
@@ -366,7 +364,7 @@ export class ProfileSelf extends Component<PropsType, StateType> {
                 <div className='content'>
                     <div>
                         <p>
-                            <img className='profile-info-img' src={`${HOST_CONCIG.apihost}UserQuery/UserPicImage/${userObj.userID}.jpeg`} alt="" />
+                            <img className='profile-info-img' src={getUserImgUrl(userDto)} alt="" />
                             <button className='profilebutton' onClick={this.showModal.bind(this)}>Edit</button>
 
                             <button
@@ -380,7 +378,7 @@ export class ProfileSelf extends Component<PropsType, StateType> {
                     </div>
 
                     <ProfileCenter
-                        userObj={userObj}
+                        userObj={userDto}
                         stat={stat}
                     />
 
@@ -388,7 +386,7 @@ export class ProfileSelf extends Component<PropsType, StateType> {
                         Object
                             .keys(this.state.posts)
                             .map(key => <Post key={this.state.posts[key].post.postID}
-                                dto={this.state.posts[key]}
+                                postDto={this.state.posts[key]}
                                 refreshMainCourse={this.props.refreshMainCourse}
                             />)
                     }

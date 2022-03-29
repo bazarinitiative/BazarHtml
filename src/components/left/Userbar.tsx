@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import '../../App.css';
 import './userbar.css'
-import { Identity, UserInfo } from '../../facade/entity';
-import { getUserInfo } from '../../facade/userfacade';
+import { Identity, UserDto } from '../../facade/entity';
+import { getUserDto, getUserImgUrl } from '../../facade/userfacade';
 import { Menu, MenuItem } from '@material-ui/core';
 import { handleLogout } from '../../utils/bazar-utils';
-import { HOST_CONCIG } from '../../bazar-config';
 
 type PropsType = {
     identityObj: Identity | null
@@ -13,7 +12,7 @@ type PropsType = {
 }
 
 type StateType = {
-    user: UserInfo | null
+    userDto: UserDto | null
     open: boolean
     anckerEl: any
 }
@@ -23,7 +22,7 @@ export class Userbar extends Component<PropsType, StateType> {
     constructor(props: PropsType) {
         super(props);
         this.state = {
-            user: null,
+            userDto: null,
             open: false,
             anckerEl: null
         };
@@ -33,13 +32,13 @@ export class Userbar extends Component<PropsType, StateType> {
         if (this.props.identityObj == null) {
             return;
         }
-        var user = await getUserInfo(this.props.identityObj.userID);
+        var user = await getUserDto(this.props.identityObj.userID);
         if (user == null) {
             return;
         }
 
         this.setState({
-            user: user,
+            userDto: user,
         })
     }
 
@@ -59,16 +58,17 @@ export class Userbar extends Component<PropsType, StateType> {
     }
 
     render() {
-        var user = this.state.user;
-        if (user == null) {
+        var userDto = this.state.userDto;
+        if (userDto == null) {
             return <div></div>
         }
+        var userInfo = userDto.userInfo
 
-        var username = user.userName;
+        var username = userInfo.userName;
         var usertitle = '';
         if (username.length > 10) {
             username = username.substring(0, 10) + '...';
-            usertitle = user.userName;
+            usertitle = userInfo.userName;
         }
 
         return <div id='userbar' onClick={this.onMenu.bind(this)}>
@@ -88,7 +88,7 @@ export class Userbar extends Component<PropsType, StateType> {
             >
                 <div style={{ width: "100%" }}>
                     <MenuItem onClick={this.logout.bind(this)}>
-                        logout @{user.userID.substring(0, 4)}...
+                        logout @{userDto.userID.substring(0, 4)}...
                     </MenuItem>
                 </div>
 
@@ -97,15 +97,15 @@ export class Userbar extends Component<PropsType, StateType> {
             <div className='row'>
                 <div className="three columns">
                     <p className='pmargin'>
-                        <img src={`${HOST_CONCIG.apihost}UserQuery/UserPicImage/${user.userID}.jpeg`} alt="" />
+                        <img src={getUserImgUrl(userDto)} alt="" />
                     </p>
                 </div>
                 <div className="six columns" id="userinfo">
                     <p className="author" title={usertitle} style={{ "marginLeft": "25px", "textAlign": "left" }}>
                         {username}
                     </p>
-                    <p id='userid' title={'UserID:' + user.userID} style={{ "marginLeft": "25px", "textAlign": "left" }}>
-                        @{user.userID.substring(0, 4)}...
+                    <p id='userid' title={'UserID:' + userDto.userID} style={{ "marginLeft": "25px", "textAlign": "left" }}>
+                        @{userDto.userID.substring(0, 4)}...
                     </p>
                 </div>
                 <div className='three columns'>

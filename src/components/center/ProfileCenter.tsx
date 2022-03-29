@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { BsCalendar3 } from 'react-icons/bs';
 import { TiLinkOutline, TiLocationOutline } from 'react-icons/ti';
 import '../../App.css';
-import { UserInfo, UserStatistic } from '../../facade/entity';
+import { UserDto, UserStatistic } from '../../facade/entity';
 import { getLocalTime } from '../../utils/date-utils';
 
 type PropsType = {
-    userObj: UserInfo
+    userObj: UserDto
     stat: UserStatistic
 }
 
@@ -27,25 +27,26 @@ export class ProfileCenter extends Component<PropsType, StateType> {
     render() {
         var userObj = this.props.userObj;
         var stat = this.props.stat;
-        var joined = new Date(getLocalTime(userObj.createTime)).toLocaleDateString("en-US", { year: "numeric", month: "short" });
+        var joined = new Date(getLocalTime(userObj.userInfo.createTime)).toLocaleDateString("en-US", { year: "numeric", month: "short" });
+        var userInfo = userObj.userInfo
 
         return <div className=''>
-            <h3 title={'UserID: ' + userObj.userID}><p>{userObj.userName}</p></h3>
+            <h3 title={'UserID: ' + userObj.userID}><p>{userInfo.userName}</p></h3>
             <p style={{ "fontSize": "12px", "lineHeight": "17px", "marginTop": "-15px" }}>@{userObj.userID}</p>
 
             <div style={{ "marginTop": "10px", "fontSize": "14px", "lineHeight": "17px", marginBottom: "10px" }}>
-                <div><p>{userObj.biography}</p></div>
+                <div><p>{userInfo.biography}</p></div>
             </div>
             <div className='row' style={{ "fontSize": "12px" }}>
-                {userObj.location.length > 0 ?
+                {userInfo.location.length > 0 ?
                     <div className='two columns' style={{ width: "auto", marginRight: "5px" }}>
-                        <TiLocationOutline /> <span style={{ "fontSize": "14px" }}>{userObj.location}</span></div>
+                        <TiLocationOutline /> <span style={{ "fontSize": "14px" }}>{userInfo.location}</span></div>
                     : null
                 }
                 {
-                    userObj.website.length > 0 ?
+                    userInfo.website.length > 0 ?
                         <div className='two columns' style={{ width: "auto", marginRight: "5px" }}>
-                            <TiLinkOutline /> <span style={{ "fontSize": "14px" }}>{userObj.website}</span></div>
+                            <TiLinkOutline /> <span style={{ "fontSize": "14px" }}>{userInfo.website}</span></div>
                         : null
                 }
                 <div className='two columns' style={{ width: "auto", marginRight: "5px" }}>

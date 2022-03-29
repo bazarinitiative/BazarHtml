@@ -41,8 +41,8 @@ export async function getUserInfo(userID: string) {
     return dto.userInfo;
 }
 
-export function getUserImgUrl(dto: UserDto) {
-    var lpt = dto.lastPicTime;
-    var url = `${HOST_CONCIG.apihost}UserQuery/UserPicImage/${dto.userID}.jpeg?lpt=${lpt}`;
+export function getUserImgUrl(dto: UserDto | null) {
+    var lpt = dto?.lastPicTime;
+    var url = `${HOST_CONCIG.apihost}UserQuery/UserPicImage/${dto?.userID}.jpeg?lpt=${lpt}`;
     return url
 }

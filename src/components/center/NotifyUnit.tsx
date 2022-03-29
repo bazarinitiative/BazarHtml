@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { NotifyMessage } from '../../api/impl/notifications';
 import '../../App.css';
-import { HOST_CONCIG } from '../../bazar-config';
-import { UserInfo } from '../../facade/entity';
-import { getUserInfo } from '../../facade/userfacade';
+import { UserDto } from '../../facade/entity';
+import { getUserDto, getUserImgUrl } from '../../facade/userfacade';
 import { formatRelativeTime, getLocalTime } from '../../utils/date-utils';
 
 type PropsType = {
@@ -11,7 +10,7 @@ type PropsType = {
 }
 
 type StateType = {
-    user: UserInfo | null
+    user: UserDto | null
 }
 
 export class NotifyUnit extends Component<PropsType, StateType> {
@@ -24,7 +23,7 @@ export class NotifyUnit extends Component<PropsType, StateType> {
     }
 
     async componentDidMount() {
-        var user = await getUserInfo(this.props.noti.fromWho)
+        var user = await getUserDto(this.props.noti.fromWho)
         if (user == null) {
             return
         }
@@ -62,13 +61,13 @@ export class NotifyUnit extends Component<PropsType, StateType> {
                 <div className="three columns">
                     <p>
                         <a className='userimg' href={'/p/' + user.userID}>
-                            <img src={`${HOST_CONCIG.apihost}UserQuery/UserPicImage/${user.userID}.jpeg`} alt="" />
+                            <img src={getUserImgUrl(this.state.user)} alt="" />
                         </a>
                     </p>
                 </div>
                 <div className="nine columns">
                     <p className="author">
-                        <a href={'/p/' + user.userID}>{user.userName}</a>
+                        <a href={'/p/' + user.userID}>{user.userInfo.userName}</a>
                         <span title={'UserID:' + user.userID + ' - Time:' + timestr}>
                             <b className='lightsmall'> @{user.userID.substr(0, 4)} - {relativeTime}</b>
                         </span>

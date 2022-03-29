@@ -162,7 +162,7 @@ export class PostList extends Component<PropsType, StateType> {
                         Object
                             .keys(this.state.posts)
                             .map(key => <Post key={this.state.posts[Number(key)].post.postID}
-                                dto={this.state.posts[Number(key)]}
+                                postDto={this.state.posts[Number(key)]}
                                 refreshMainCourse={this.props.refreshMainCourse}
                             />)
                     }

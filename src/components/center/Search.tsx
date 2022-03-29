@@ -209,8 +209,7 @@ export class Search extends Component<PropsType, StateType> {
                                 .keys(users)
                                 .map(key => <MightLikeUnit key={users[Number(key)].userInfo.userID}
                                     identityObj={this.props.identityObj}
-                                    userInfo={users[Number(key)].userInfo}
-                                    userStatic={users[Number(key)].userStatistic}
+                                    userDto={users[Number(key)]}
                                     refreshMainCourse={this.props.refreshMainCourse}
                                 />)
                         }
@@ -223,7 +222,7 @@ export class Search extends Component<PropsType, StateType> {
                     Object
                         .keys(posts)
                         .map(key => <Post key={posts[Number(key)].post.postID}
-                            dto={posts[Number(key)]}
+                            postDto={posts[Number(key)]}
                             refreshMainCourse={this.props.refreshMainCourse}
                         />)
                 }
