@@ -133,7 +133,7 @@ class App extends Component<PropsType, StateType> {
         </header>;
 
         left = <div className="three columns">
-          <div style={{ "position": "fixed", "width": "14%" }}>
+          <div style={{ "position": "fixed", "width": "240px" }}>
             <Greeting
               identityObj={identityObj}
               refreshMainCourse={this.refreshMainCourse.bind(this)}
