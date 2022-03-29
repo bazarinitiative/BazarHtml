@@ -46,3 +46,18 @@ export function compressImg(img: any, type: string | null, mx: number, mh: numbe
     var ss = canvas.toDataURL()
     return ss;
 }
+
+export async function refreshImg(url: string) {
+    var headers = new Headers()
+    headers.append('pragma', 'no-cache')
+    headers.append('cache-control', 'no-cache')
+
+    var init = {
+        method: 'GET',
+        headers: headers,
+        mode: ('no-cors' as RequestMode),
+        cache: ('no-cache' as RequestCache),
+    }
+
+    await fetch(new Request(url), init)
+} 

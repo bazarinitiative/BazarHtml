@@ -1,20 +1,20 @@
-import { UserInfo } from '../facade/entity';
+import { UserDto } from '../facade/entity';
 import { logger } from './logger'
 
 function getUserKey(userID: string) {
-  return 'userInfo-' + userID;
+  return 'userDto-' + userID;
 }
 
-export function saveLocalUser(userInfo: UserInfo, expireMilli: number) {
+export function saveLocalUser(dto: UserDto, expireMilli: number) {
   const localStorage = window.localStorage
   try {
-    var key = getUserKey(userInfo.userID);
+    var key = getUserKey(dto.userID);
     const item = {
-      value: userInfo,
+      value: dto,
       expire: new Date().getTime() + expireMilli
     }
     localStorage.setItem(key, JSON.stringify(item))
-    // logger('localStorage-save-userInfo', 'save in localStorage succeed')
+    // logger('localStorage-save-userDto', 'save in localStorage succeed')
 
     if (localStorage.length % 10 === 0) {
       // var remove = 0;
@@ -34,7 +34,7 @@ export function saveLocalUser(userInfo: UserInfo, expireMilli: number) {
       // logger('localStorage-remove', `remove:${remove}, remain:${localStorage.length}`);
     }
   } catch (error) {
-    logger('localStorage-save-userInfo', error)
+    logger('localStorage-save-userDto', error)
   }
 }
 
@@ -44,12 +44,12 @@ export function removeLocalUser(userID: string) {
     var key = getUserKey(userID);
     if (localStorage.getItem(key)) {
       localStorage.removeItem(key);
-      logger('localStorage-clear-userInfo', 'key clear')
+      logger('localStorage-clear-userDto', 'key clear')
     } else {
-      logger('localStorage-clear-userInfo', 'not found: ' + key);
+      logger('localStorage-clear-userDto', 'not found: ' + key);
     }
   } catch (error) {
-    logger('localStorage-clear-userInfo', error)
+    logger('localStorage-clear-userDto', error)
   }
 }
 
@@ -67,11 +67,11 @@ export function getLocalUser(userID: string) {
       removeLocalUser(userID);
       return null;
     }
-    var ret = item.value as UserInfo;
+    var ret = item.value as UserDto;
     return ret;
 
   } catch (error) {
-    logger('localStorage-get-userInfo', error)
+    logger('localStorage-get-userDto', error)
     return null;
   }
 }

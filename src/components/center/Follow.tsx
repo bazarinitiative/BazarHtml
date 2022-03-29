@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { getFollowees } from '../../api/impl/getfollowees';
 import { getFollowers } from '../../api/impl/getfollowers';
 import '../../App.css';
+import { UserDto } from '../../facade/entity';
 import { getIdentity } from '../../utils/identity-storage';
 import { FollowUnit } from './FollowUnit';
 
@@ -12,7 +13,7 @@ type PropsType = {
 }
 
 type StateType = {
-    units: any
+    units: UserDto[]
 }
 
 /**
@@ -23,7 +24,7 @@ export class Follow extends Component<PropsType, StateType> {
     constructor(props: PropsType) {
         super(props);
         this.state = {
-            units: {}
+            units: []
         };
     }
 
@@ -31,13 +32,15 @@ export class Follow extends Component<PropsType, StateType> {
         var userID = this.props.userID;
         if (this.props.showfollowers) {
             var ret = await getFollowers(userID, 0, 20);
+            var ay = ret.data as UserDto[]
             this.setState({
-                units: ret.data
+                units: ay
             });
         } else {
             var ret2 = await getFollowees(userID, 0, 20);
+            var ay2 = ret2.data as UserDto[]
             this.setState({
-                units: ret2.data
+                units: ay2
             });
         }
     }
@@ -56,10 +59,9 @@ export class Follow extends Component<PropsType, StateType> {
                 {
                     Object
                         .keys(this.state.units)
-                        .map(key => <FollowUnit key={this.state.units[key].userInfo.userID}
+                        .map(key => <FollowUnit key={this.state.units[Number(key)].userInfo.userID}
                             identityObj={identityObj}
-                            userInfo={this.state.units[key].userInfo}
-                            userStatic={this.state.units[key].userStatic}
+                            userDto={this.state.units[Number(key)]}
                             refreshMainCourse={this.props.refreshMainCourse}
                         />)
                 }

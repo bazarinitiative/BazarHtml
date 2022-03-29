@@ -16,3 +16,11 @@ export async function getRemoteUserPic(userID: string) {
     var ret = await getBazarData(API_ROUTER_CONFIG.userpic, request_data);
     return ret;
 }
+
+export async function getRemoteUserDto(userID: string) {
+    var request_data = {
+        userid: userID,
+    }
+    var ret = await getBazarData(API_ROUTER_CONFIG.userdto, request_data);
+    return ret;
+}

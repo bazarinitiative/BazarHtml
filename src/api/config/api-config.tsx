@@ -6,6 +6,7 @@ const api_router_config = {
     backupaccount: '/Email/BackupAccount',
     sendCode: '/Email/SendCode',
     userinfo: '/UserQuery/GetUserInfo',
+    userdto: '/UserQuery/GetUserDto',
     userpic: '/UserQuery/GetUserPic',
     postdetail: '/UserQuery/GetPostDetail',
     getpostsimple: '/UserQuery/GetPostSimple',

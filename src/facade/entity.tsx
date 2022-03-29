@@ -42,6 +42,7 @@ export interface UserDto {
     userID: string;
     userInfo: UserInfo;
     userStatistic: UserStatistic;
+    lastPicTime: Number;
 }
 
 export interface Post {

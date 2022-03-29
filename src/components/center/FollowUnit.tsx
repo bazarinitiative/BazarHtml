@@ -3,13 +3,12 @@ import { sendDelete } from '../../api/impl/cmd/delete';
 import { sendFollow } from '../../api/impl/cmd/follow';
 import { getFollowing } from '../../api/impl/getfollowing';
 import '../../App.css';
-import { HOST_CONCIG } from '../../bazar-config';
-import { Identity, UserInfo } from '../../facade/entity';
+import { Identity, UserDto } from '../../facade/entity';
+import { getUserImgUrl } from '../../facade/userfacade';
 
 type PropsType = {
     identityObj: Identity | null
-    userInfo: UserInfo
-    userStatic: any
+    userDto: UserDto
     refreshMainCourse: any
 }
 
@@ -27,7 +26,7 @@ export class FollowUnit extends Component<PropsType, StateType> {
     }
 
     async componentDidMount() {
-        var user = this.props.userInfo;
+        var user = this.props.userDto.userInfo;
 
         var following = false
         if (this.props.identityObj) {
@@ -43,7 +42,7 @@ export class FollowUnit extends Component<PropsType, StateType> {
     }
 
     onClick() {
-        var user = this.props.userInfo;
+        var user = this.props.userDto.userInfo;
         var uri = '/p/' + user.userID;
 
         window.history.pushState('', '', uri);
@@ -58,12 +57,12 @@ export class FollowUnit extends Component<PropsType, StateType> {
         }
 
         if (this.state.following) {
-            var ret = await sendDelete(this.props.identityObj, 'Following', this.props.userInfo.userID);
+            var ret = await sendDelete(this.props.identityObj, 'Following', this.props.userDto.userID);
             if (!ret.success) {
                 alert(ret.msg)
             }
         } else {
-            var ret2 = await sendFollow(this.props.identityObj, 'User', this.props.userInfo.userID);
+            var ret2 = await sendFollow(this.props.identityObj, 'User', this.props.userDto.userID);
             if (!ret2.success) {
                 alert(ret2.msg)
             }
@@ -73,7 +72,7 @@ export class FollowUnit extends Component<PropsType, StateType> {
     }
 
     render() {
-        var user = this.props.userInfo;
+        var user = this.props.userDto.userInfo;
         var username = user.userName;
         var usertitle = '';
         if (username.length > 10) {
@@ -88,7 +87,7 @@ export class FollowUnit extends Component<PropsType, StateType> {
 
         return <div className='mightlikeunit'>
             <div className='row'>
-                <div className="three columns" onClick={this.onClick.bind(this)}><p><img src={`${HOST_CONCIG.apihost}UserQuery/UserPicImage/${user.userID}.jpeg`} alt="" /></p></div>
+                <div className="three columns" onClick={this.onClick.bind(this)}><p><img src={getUserImgUrl(this.props.userDto)} alt="" /></p></div>
                 <div className="six columns" onClick={this.onClick.bind(this)}>
                     <p className="author" title={usertitle}>
                         {username}
