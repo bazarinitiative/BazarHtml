@@ -1149,9 +1149,8 @@ p {
 }
 
 .contentinreply {
-  font-size: 13px;
-  font-weight: 300;
-  max-width: 80%;
+  font-size: 15px;
+  max-width: 100%;
   overflow-wrap: break-word;
 }
 

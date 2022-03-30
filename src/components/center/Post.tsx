@@ -239,6 +239,19 @@ export class Post extends Component<PropsType, StateType> {
         }
     }
 
+    onReplyOpen() {
+        this.replyctl.focus();
+    }
+
+    onReplyRequestClose(event: React.MouseEvent | React.KeyboardEvent) {
+        if (this.replyctl.value.length > 0) {
+            if (!window.confirm('Your uncommited reply content will lost, sure to close?')) {
+                return;
+            }
+        }
+        this.closeModalCancel();
+    }
+
     render() {
         var dto = this.props.postDto;
         var post = dto.post;
@@ -300,8 +313,13 @@ export class Post extends Component<PropsType, StateType> {
             <div id="post" className="tweet" style={{ margin: "0" }}>
                 <div>
                     <Modal
+                        /** reply modal */
                         isOpen={this.state.isShowModal}
                         style={customStyles}
+                        onAfterOpen={this.onReplyOpen.bind(this)}
+                        shouldCloseOnEsc={true}
+                        shouldCloseOnOverlayClick={true}
+                        onRequestClose={this.onReplyRequestClose.bind(this)}
                     >
                         <div className="row" style={{ "paddingLeft": "55px", "width": `${rpwidth}px` }}>
                             <div style={{ "marginLeft": "-55px" }}>
