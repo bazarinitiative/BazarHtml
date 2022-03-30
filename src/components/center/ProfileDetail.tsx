@@ -136,6 +136,11 @@ export class ProfileDetail extends Component<PropsType, StateType> {
                         refreshMainCourse={this.props.refreshMainCourse}
                     />)
             }
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
         </div>
     }
 }

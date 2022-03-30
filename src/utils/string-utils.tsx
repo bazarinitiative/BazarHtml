@@ -1,6 +1,3 @@
-const URL_REG = /((\w+:\/\/)[-a-zA-Z0-9:@;?&=\/%\+\.\*!'\(\),\$_\{\}\^~\[\]`#|]+)/g
-const AT_REG = /@[\u4e00-\u9fa5a-zA-Z0-9_-]{2,30}/g
-const TAG_REG = /#[^#]+#/g
 
 export const getUrlKey = (key: any) => {
     return (
@@ -13,23 +10,6 @@ export const getUrlKey = (key: any) => {
             ) || [, ""]) as any)[1].replace(/\+/g, "%20")
         ) || null
     );
-}
-
-export const formatContent = (content: any) => {
-
-    let format = content.replace(URL_REG, function ($0: any) {
-        return '<a href="$0" >' + $0 + '</a>'
-    })
-
-    format = format.replace(AT_REG, function ($0: any) {
-        return '<a href="$0" >' + $0 + '</a>'
-    })
-
-    format = format.replace(TAG_REG, function ($0: any) {
-        return '<a href="$0" >' + $0 + '</a>'
-    })
-
-    return format;
 }
 
 export const formatImgThumb = (img: any) => {
@@ -58,3 +38,9 @@ export const formatNum = (num: any) => {
     }
     return result;
 }
+
+export function htmlDecode(input: string) {
+    var doc = new DOMParser().parseFromString(input, "text/html");
+    return doc.documentElement.textContent;
+}
+

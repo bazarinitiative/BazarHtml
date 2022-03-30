@@ -16,6 +16,7 @@ import { goURL } from '../../utils/bazar-utils';
 import { getPostSimple } from '../../api/impl/getpostsimple';
 import { randomString } from '../../utils/encryption';
 import { logger } from '../../utils/logger';
+import { htmlDecode } from '../../utils/string-utils';
 // import { EmojiButton } from '@joeattardi/emoji-button';
 // import twemoji from 'twemoji';
 
@@ -315,7 +316,7 @@ export class Post extends Component<PropsType, StateType> {
                                 <p className="author" title={'UserID:' + user.userID + ' - Time:' + timestr}>
                                     {leanname}@{user.userID.substring(0, 3)}... - {relativeTime}
                                 </p>
-                                <p className='contentinreply'>{post.content}</p>
+                                <p className='contentinreply'>{htmlDecode(post.content)}</p>
                             </div>
                         </div>
                         <p></p>
@@ -359,7 +360,7 @@ export class Post extends Component<PropsType, StateType> {
                                     onClick={this.onClickContent.bind(this)}
                                     onMouseUp={this.onMouseUp.bind(this)}
                                 >
-                                    {post.content}
+                                    {htmlDecode(post.content)}
                                 </p>
 
                                 <div className='tweet-icons'>
