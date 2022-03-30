@@ -288,9 +288,9 @@ export class Post extends Component<PropsType, StateType> {
         }
 
         var mobile = (window.screen.width < 1000);
-        var rpwidth = 'replymodal';
+        var rpwidth = 400;
         if (mobile) {
-            rpwidth = 'replymodalmobile';
+            rpwidth = window.innerWidth - 120;
         }
 
         Modal.setAppElement("#root");
@@ -302,7 +302,7 @@ export class Post extends Component<PropsType, StateType> {
                         isOpen={this.state.isShowModal}
                         style={customStyles}
                     >
-                        <div className={`row ${rpwidth}`} style={{ "paddingLeft": "55px" }}>
+                        <div className="row" style={{ "paddingLeft": "55px", "width": `${rpwidth}px` }}>
                             <div style={{ "marginLeft": "-55px" }}>
                                 <button className="minibutton" onClick={this.closeModalCancel.bind(this)}>
                                     <AiOutlineClose />
@@ -315,7 +315,7 @@ export class Post extends Component<PropsType, StateType> {
                                 <p className="author" title={'UserID:' + user.userID + ' - Time:' + timestr}>
                                     {leanname}@{user.userID.substring(0, 3)}... - {relativeTime}
                                 </p>
-                                <p className='replycontent'>{post.content}</p>
+                                <p className='contentinreply'>{post.content}</p>
                             </div>
                         </div>
                         <p></p>

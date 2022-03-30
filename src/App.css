@@ -1144,19 +1144,15 @@ p {
   overflow-wrap: break-word;
 }
 
-.replymodal {
-  max-width: 500px;
-  min-width: 450px;
+.replytxt {
+  width: 100%;
 }
 
-.replymodalmobile {
-  width: 80%;
-  padding: 2px 5px;
-}
-
-.replycontent {
+.contentinreply {
   font-size: 13px;
   font-weight: 300;
+  max-width: 80%;
+  overflow-wrap: break-word;
 }
 
 .userimg {
@@ -1399,10 +1395,6 @@ p {
 
 .padright10 {
   padding-right: 10px;
-}
-
-.replytxt {
-  width: 100%;
 }
 
 
