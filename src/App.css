@@ -1132,6 +1132,7 @@ p {
   font-size: 15px;
   line-height: 20px;
   margin-right: 5px;
+  overflow-wrap: break-word;
 }
 
 .clickbodybold {
@@ -1140,6 +1141,7 @@ p {
   line-height: 20px;
   margin-right: 5px;
   font-weight: bold;
+  overflow-wrap: break-word;
 }
 
 .replymodal {

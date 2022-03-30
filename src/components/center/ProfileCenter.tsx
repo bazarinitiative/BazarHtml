@@ -31,7 +31,7 @@ export class ProfileCenter extends Component<PropsType, StateType> {
         var userInfo = userObj.userInfo
 
         return <div className=''>
-            <h3 title={'UserID: ' + userObj.userID}><p>{userInfo.userName}</p></h3>
+            <h3><p style={{ "overflowWrap": "break-word" }}>{userInfo.userName}</p></h3>
             <p style={{ "fontSize": "12px", "lineHeight": "17px", "marginTop": "-15px" }}>@{userObj.userID}</p>
 
             <div style={{ "marginTop": "10px", "fontSize": "14px", "lineHeight": "17px", marginBottom: "10px" }}>

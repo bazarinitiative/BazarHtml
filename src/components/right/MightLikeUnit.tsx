@@ -4,7 +4,7 @@ import { sendFollow } from '../../api/impl/cmd/follow';
 import { getFollowing } from '../../api/impl/getfollowing';
 import '../../App.css';
 import { Identity, UserDto } from '../../facade/entity';
-import { getUserImgUrl } from '../../facade/userfacade';
+import { getUserImgUrl, getUserNameTitleLean } from '../../facade/userfacade';
 
 type PropsType = {
     identityObj: Identity | null
@@ -77,17 +77,9 @@ export class MightLikeUnit extends Component<PropsType, StateType> {
 
     render() {
         var user = this.props.userDto.userInfo;
-        var username = user.userName;
-        var usertitle = '';
-        var lean = 16
-        if (username && username.length > 0 && username.charAt(0) > '~') {
-            //not letter or number, usually wide char
-            lean = 8
-        }
-        if (username.length > lean) {
-            username = username.substring(0, lean) + '...';
-            usertitle = user.userName;
-        }
+        var ds = getUserNameTitleLean(user.userName);
+        var leanname = ds.name;
+        var leantitle = ds.title;
 
         var followstr = 'Follow'
         if (this.state.following) {
@@ -100,8 +92,8 @@ export class MightLikeUnit extends Component<PropsType, StateType> {
                     <p><img style={{ "marginBottom": "-10px" }} src={getUserImgUrl(this.props.userDto)} alt="" /></p>
                 </div>
                 <div style={{ "width": "65%", "display": "inline-block" }} onClick={this.onClick.bind(this)}>
-                    <p className="author" title={usertitle}>
-                        {username}
+                    <p className="author" title={leantitle}>
+                        {leanname}
                     </p>
                     <p className="author" title={'UserID:' + user.userID}>
                         @{user.userID.substring(0, 4)}...
