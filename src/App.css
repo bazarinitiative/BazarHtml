@@ -1122,9 +1122,22 @@ p {
   margin-bottom: 5px;
 }
 
-.lightp {
-  font-size: small;
-  font-weight: lighter;
+.linelimitlength {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.usernameshort {
+  max-width: 50%;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.usernameshort2 {
+  max-width: 80%;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .clickbody {
@@ -1161,7 +1174,28 @@ p {
 .lightsmall {
   font-size: small;
   font-weight: lighter;
-  line-height: 90%;
+  line-height: 98%;
+}
+
+.replylead {
+  font-size: 13px;
+}
+
+.nounderline {
+  text-decoration: none;
+  vertical-align: middle;
+  font: 10px;
+  font-weight: normal;
+  vertical-align: top;
+}
+
+.nounderlineblue {
+  text-decoration: none;
+  /* color: rgb(64, 153, 255); */
+  color: cornflowerblue;
+  font: 10px;
+  font-weight: normal;
+
 }
 
 .boldlarge {
@@ -1206,18 +1240,15 @@ p {
 }
 
 .followbutton {
-  height: 20px;
-  width: 100% auto;
-  padding: 0 0px;
-  line-height: 20px;
-  font-size: 8;
-  font-weight: 200;
-  color: #000;
-  text-transform: none;
-  padding: 0px 5px;
-  border-radius: 2px;
-  border: 1px solid #c0c0c0;
-  /* margin-right: 5px; */
+  font-size: 10px;
+  font-weight: 600;
+  padding: 0px 8px;
+  line-height: 24px;
+  border: none;
+  border-radius: 18px;
+  color: white;
+  background-color: rgb(131, 175, 155);
+  margin-top: 6px;
 }
 
 .trendunit {
@@ -1378,6 +1409,14 @@ p {
 
 .bottomborder {
   border-bottom: 1px solid #e7e6e6;
+}
+
+.lineheightfull {
+  line-height: 100%;
+}
+
+.verticalmiddle {
+  vertical-align: middle;
 }
 
 .padleft5 {

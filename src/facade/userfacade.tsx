@@ -47,23 +47,4 @@ export function getUserImgUrl(dto: UserDto | null) {
     return url
 }
 
-/**
- * convert to short strings for display
- * @param username 
- * @returns 
- */
-export function getUserNameTitleLean(username: string) {
-    var name = username;
-    var title = '';
-    var lean = 16
-    if (username && username.length > 0 && username.charAt(0) > '~') {
-        //not letter or number, usually wide char
-        lean = 8
-    }
-    if (username.length > lean) {
-        name = username.substring(0, lean) + '...';
-        title = username;
-    }
-    return { name, title };
-}
 

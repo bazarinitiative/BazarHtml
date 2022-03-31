@@ -86,22 +86,29 @@ export class FollowUnit extends Component<PropsType, StateType> {
         }
 
         return <div className='mightlikeunit'>
-            <div className='row'>
-                <div className="three columns" onClick={this.onClick.bind(this)}><p><img src={getUserImgUrl(this.props.userDto)} alt="" /></p></div>
-                <div className="six columns" onClick={this.onClick.bind(this)}>
-                    <p className="author" title={usertitle}>
-                        {username}
-                    </p>
-                    <p className="author" title={'UserID:' + user.userID}>
-                        @{user.userID.substring(0, 3)}...
-                    </p>
-                    <div>
-                        <p className='lightsmall'>{user.biography}</p>
+            <div style={{ "maxWidth": "220px", marginBottom: '-3px', marginTop: '5px', "paddingLeft": "55px" }}>
+                <div style={{ "width": "55px", "marginLeft": "-55px", "display": "inline-block" }} onClick={this.onClick.bind(this)}>
+                    <p><img src={getUserImgUrl(this.props.userDto)} alt="" /></p></div>
+                <div style={{ "width": "100%", "display": "inline-block" }}>
+                    <div className='row'>
+                        <div className="eight columns" onClick={this.onClick.bind(this)}>
+                            <p className="author" title={usertitle}>
+                                {username}
+                            </p>
+                            <p className="author" title={'UserID:' + user.userID}>
+                                @{user.userID.substring(0, 4)}...
+                            </p>
+                            <div>
+                                {/* <p className='lightsmall'>{user.biography}</p> */}
+                            </div>
+                        </div>
+                        <div className='three columns '>
+                            <button className='followbutton' onClick={this.onClickFollow.bind(this)}>{followstr}</button>
+                        </div>
                     </div>
                 </div>
-                <div className='three columns'>
-                    <button className='followbutton' onClick={this.onClickFollow.bind(this)}>{followstr}</button>
-                </div>
+
+
 
             </div>
 

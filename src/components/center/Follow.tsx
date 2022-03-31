@@ -3,6 +3,7 @@ import { getFollowees } from '../../api/impl/getfollowees';
 import { getFollowers } from '../../api/impl/getfollowers';
 import '../../App.css';
 import { UserDto } from '../../facade/entity';
+import { getUserDto } from '../../facade/userfacade';
 import { getIdentity } from '../../utils/identity-storage';
 import { FollowUnit } from './FollowUnit';
 
@@ -14,6 +15,7 @@ type PropsType = {
 
 type StateType = {
     units: UserDto[]
+    userDto: UserDto | null
 }
 
 /**
@@ -24,7 +26,8 @@ export class Follow extends Component<PropsType, StateType> {
     constructor(props: PropsType) {
         super(props);
         this.state = {
-            units: []
+            units: [],
+            userDto: null,
         };
     }
 
@@ -43,6 +46,11 @@ export class Follow extends Component<PropsType, StateType> {
                 units: ay2
             });
         }
+
+        var dto = await getUserDto(userID);
+        this.setState({
+            userDto: dto
+        })
     }
 
     render() {
@@ -51,9 +59,11 @@ export class Follow extends Component<PropsType, StateType> {
         if (this.props.showfollowers) {
             hint = "Followers"
         }
+        var userDto = this.state.userDto
 
-        return <div>
-            <h4><p>@{this.props.userID}</p></h4>
+        return <div style={{ "padding": "0px 10px" }}>
+            <p style={{ "fontSize": "30px", "overflowWrap": "break-word" }}>{userDto?.userInfo.userName}</p>
+            <div style={{ "fontSize": "12px", "marginTop": "-5px", "marginBottom": "10px", "overflowWrap": "break-word", textAlign: "left" }}>@{userDto?.userID}</div>
             <h4><p>{hint}</p></h4>
             <div className='mightlike'>
                 {

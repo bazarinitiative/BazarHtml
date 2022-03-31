@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { sendDelete } from '../../api/impl/cmd/delete';
 import { sendLike } from '../../api/impl/cmd/like';
-import { getUserDto, getUserImgUrl, getUserNameTitleLean } from '../../facade/userfacade';
+import { getUserDto, getUserImgUrl } from '../../facade/userfacade';
 import { initialUser } from '../../initdata/users';
 import { formatRelativeTime, getLocalTime } from '../../utils/date-utils';
 import { getIdentity } from '../../utils/identity-storage';
@@ -265,10 +265,6 @@ export class Post extends Component<PropsType, StateType> {
         }
         var userDto = this.state.authorUserObj;
 
-        var ds = getUserNameTitleLean(user.userName);
-        var leanname = ds.name;
-        var leantitle = ds.title;
-
         var relativeTime = formatRelativeTime(post.commandTime);
 
         var replystr = ps.replyCount > 0 ? ps.replyCount : null;
@@ -296,8 +292,12 @@ export class Post extends Component<PropsType, StateType> {
 
         var replyinfo = null
         if (this.state.replyToUserObj) {
-            replyinfo = <p className='lightsmall'>
-                Replying to @<a href={'/p/' + this.state.replyToUserObj.userID}>{this.state.replyToUserObj.userInfo.userName}</a>
+            replyinfo = <p className='replylead'>
+                Replying to&nbsp;
+                <span className='linelimitlength usernameshort lightsmall'>
+                    <a href={'/p/' + this.state.replyToUserObj.userID} className='nounderlineblue'>
+                        @{this.state.replyToUserObj.userInfo.userName}</a>
+                </span>
             </p>
         }
 
@@ -332,7 +332,8 @@ export class Post extends Component<PropsType, StateType> {
                             </div>
                             <div style={{ "width": "100%", display: "inline-block" }}>
                                 <p className="author" title={'UserID:' + user.userID + ' - Time:' + timestr}>
-                                    {leanname}@{user.userID.substring(0, 3)}... - {relativeTime}
+                                    <span className='linelimitlength usernameshort'>{user.userName}</span>
+                                    <span className='lightsmall'>@{user.userID.substring(0, 4)} - {relativeTime}</span>
                                 </p>
                                 <p className='contentinreply'>{htmlDecode(post.content)}</p>
                             </div>
@@ -343,7 +344,10 @@ export class Post extends Component<PropsType, StateType> {
                                 <p><img src={getUserImgUrl(userDto)} alt="" /></p>
                             </div>
                             <div style={{ "width": "100%", display: "inline-block" }}>
-                                <p className="lightp  margintop10 marginbottom10">Replying to @<a href={`/p/${user.userID}`}>{leanname}</a></p>
+                                <p className="replylead margintop10 marginbottom10">Replying to&nbsp;
+                                    <span className='linelimitlength usernameshort'>
+                                        <a href={`/p/${user.userID}`} className='nounderlineblue'>@{user.userName}</a></span>
+                                </p>
                                 <textarea className='replytxt' placeholder='Write your reply' ref={(x) => this.replyctl = x} />
                                 <div>
                                     {/* <div id="emoji-trigger" className='two columns emoji-button' title='Emoji'>🙂</div> */}
@@ -366,14 +370,16 @@ export class Post extends Component<PropsType, StateType> {
                         <div style={{ "width": "100%", "display": "inline-block" }}>
                             <div style={{ "marginLeft": "10px" }}>
                                 <p className="author">
-                                    <a href={'/p/' + user.userID} title={leantitle}>{leanname}</a>
+                                    <span className='linelimitlength usernameshort'>
+                                        <a href={'/p/' + user.userID} className='nounderline'>{user.userName}</a>
+                                    </span>
                                     <span title={'UserID:' + user.userID + ' - Time:' + timestr}>
                                         <b className='lightsmall'> @{user.userID.substring(0, 4)} - {relativeTime}</b>
                                     </span>
                                     {deletebtn}
                                 </p>
 
-                                {replyinfo}
+                                <p>{replyinfo}</p>
                                 <p className={contentstyle}
                                     onClick={this.onClickContent.bind(this)}
                                     onMouseUp={this.onMouseUp.bind(this)}

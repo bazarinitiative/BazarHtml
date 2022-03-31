@@ -4,7 +4,7 @@ import { sendFollow } from '../../api/impl/cmd/follow';
 import { getFollowing } from '../../api/impl/getfollowing';
 import '../../App.css';
 import { Identity, UserDto } from '../../facade/entity';
-import { getUserImgUrl, getUserNameTitleLean } from '../../facade/userfacade';
+import { getUserImgUrl } from '../../facade/userfacade';
 
 type PropsType = {
     identityObj: Identity | null
@@ -77,9 +77,6 @@ export class MightLikeUnit extends Component<PropsType, StateType> {
 
     render() {
         var user = this.props.userDto.userInfo;
-        var ds = getUserNameTitleLean(user.userName);
-        var leanname = ds.name;
-        var leantitle = ds.title;
 
         var followstr = 'Follow'
         if (this.state.following) {
@@ -87,21 +84,27 @@ export class MightLikeUnit extends Component<PropsType, StateType> {
         }
 
         return <div className='mightlikeunit'>
-            <div style={{ "maxWidth": "220px", marginBottom: '5px', marginTop: '5px' }}>
-                <div style={{ "width": "30%", "display": "inline-block" }} onClick={this.onClick.bind(this)}>
-                    <p><img style={{ "marginBottom": "-10px" }} src={getUserImgUrl(this.props.userDto)} alt="" /></p>
+            <div style={{ "maxWidth": "220px", marginBottom: '-3px', marginTop: '5px', "paddingLeft": "55px" }}>
+                <div style={{ "width": "55px", "marginLeft": "-55px", "display": "inline-block" }} onClick={this.onClick.bind(this)}>
+                    <p><img style={{ "marginTop": "0px" }} src={getUserImgUrl(this.props.userDto)} alt="" /></p>
                 </div>
-                <div style={{ "width": "65%", "display": "inline-block" }} onClick={this.onClick.bind(this)}>
-                    <p className="author" title={leantitle}>
-                        {leanname}
-                    </p>
-                    <p className="author" title={'UserID:' + user.userID}>
-                        @{user.userID.substring(0, 4)}...
-                        <span style={{ "width": "25%", "display": "inline-block", "float": "right", marginRight: "15px" }}>
+                <div style={{ "width": "100%", "display": "inline-block" }}>
+                    <div className='row'>
+                        <div className='eight columns' onClick={this.onClick.bind(this)}>
+                            <p className="author">
+                                <span className='linelimitlength usernameshort2'>{user.userName}</span>
+                            </p>
+                            <p className="author" title={'UserID:' + user.userID}>
+                                @{user.userID.substring(0, 4)}...
+                            </p>
+                        </div>
+                        <div className='three columns'>
                             <button className='followbutton' onClick={this.onClickFollow.bind(this)}>{followstr}</button>
-                        </span>
-                    </p>
+                        </div>
+                    </div>
+
                 </div>
+
 
             </div>
         </div>
