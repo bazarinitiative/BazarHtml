@@ -1,28 +1,20 @@
-import React, { Component } from 'react';
-import { getPublicTimeline } from '../../api/impl/timeline';
+import { Component } from 'react';
 import '../../App.css';
 import { Identity, UserDto } from '../../facade/entity';
-import { getPrivateKey, randomString, signMessage } from '../../utils/encryption';
+import { randomString } from '../../utils/encryption';
 import { logger } from '../../utils/logger';
 import { NotLoginYet } from './NotLoginYet';
 import { ProfileSelf } from './ProfileSelf';
-import { AddPost } from './AddPost';
 import { PostDetail } from './PostDetail';
 import { PostList } from './PostList';
 import { ProfileDetail } from './ProfileDetail';
-import { getHomeline } from '../../api/impl/homeline';
 import { Notifications } from './Notifications';
-import { currentTimeMillis } from '../../utils/date-utils';
 import { Follow } from './Follow';
 import { Explore } from './Explore';
-import { getUrlParameter, goURL, handleLogout } from '../../utils/bazar-utils';
+import { getUrlParameter } from '../../utils/bazar-utils';
 import { Search } from './Search';
-import { Menu, MenuItem } from '@material-ui/core';
-import PermIdentityIcon from "@material-ui/icons/PermIdentity";
-import OfflineBoltOutlinedIcon from '@material-ui/icons/OfflineBoltOutlined';
-import PublicIcon from '@material-ui/icons/Public';
-import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
-import { getUserImgUrl } from '../../facade/userfacade';
+import { Home } from './Home';
+import { PublicTimeline } from './PublicTimeline';
 
 type PropsType = {
     identityObj: Identity | null,
@@ -31,22 +23,20 @@ type PropsType = {
 
 type StateType = {
     key: string | null;
-    openMenu: boolean;
-    anckerEl: any;
 }
 
 export class MainCourse extends Component<PropsType, StateType> {
-    PostList: PostList | null | undefined;
+    publicPostList: PostList | null | undefined;
     PostDetail: PostDetail | null | undefined;
     profileDetail: ProfileDetail | null | undefined;
     search: Search | null | undefined;
+    Home: Home | null | undefined;
+    Timeline: PublicTimeline | null | undefined;
 
     constructor(props: PropsType) {
         super(props);
         this.state = {
             key: null,
-            openMenu: false,
-            anckerEl: null,
         };
     }
 
@@ -62,8 +52,16 @@ export class MainCourse extends Component<PropsType, StateType> {
         }
 
         try {
-            if (this.PostList) {
-                await this.PostList.refreshPage();
+            if (this.Home) {
+                await this.Home.refreshPage();
+            }
+
+            if (this.Timeline) {
+                await this.Timeline.refreshPage();
+            }
+
+            if (this.publicPostList) {
+                await this.publicPostList.refreshPage();
             }
 
             if (this.PostDetail) {
@@ -84,43 +82,6 @@ export class MainCourse extends Component<PropsType, StateType> {
 
     }
 
-    async getHomelineData(userID: string, page: number, pageSize: number) {
-        if (!this.props.identityObj) {
-            return
-        }
-
-        var privateKeyObj = await getPrivateKey(this.props.identityObj.privateKey);
-        logger('getHomelineData', 'query')
-        var queryTime = currentTimeMillis();
-        var token = await signMessage(privateKeyObj, queryTime.toString());
-        var ret = await getHomeline(userID, queryTime, token, page, pageSize)
-        return ret;
-    }
-
-    onMenu(event: any) {
-        var oepnMenu = !this.state.openMenu;
-        this.setState({
-            openMenu: oepnMenu,
-            anckerEl: event.currentTarget
-        })
-    }
-
-    onHeadImg(event: any) {
-        var mobile = (window.screen.width < 1000);
-        if (mobile) {
-            this.onMenu(event);
-        } else {
-            goURL('/p/', this.refreshMainCourse.bind(this));
-        }
-    }
-
-    logout() {
-        var out = window.confirm("Sure to logout?")
-        if (out) {
-            handleLogout();
-        }
-    }
-
     render() {
 
         if (this.props.identityObj == null) {
@@ -137,97 +98,20 @@ export class MainCourse extends Component<PropsType, StateType> {
 
         logger('mainCourse', 'ay:' + ayPath);
 
-        var mobile = (window.screen.width < 1000);
-        var padside = mobile ? "0" : "null";
-        var border = mobile ? "none" : "null";
-
-        var vb = "0,0,24,24"
-
         if (ayPath[1].length === 0) {
-            return <div className='maincourse container' id='maincourse'
-                style={{ paddingLeft: padside, paddingRight: padside, border: border, marginTop: "-10px", paddingTop: "15px" }}>
-
-                <div style={{ "width": "100%" }}>
-                    <div className='row' style={{ "display": "flex" }}>
-                        <div style={{ "display": "inline-block", "marginLeft": "2px" }} onClick={this.onHeadImg.bind(this)}>
-                            <p style={{ "float": "left", "marginLeft": "0px", "marginTop": "5px" }}>
-                                <img src={getUserImgUrl(this.props.ownerDto)}
-                                    alt="" style={{ width: "35px" }}>
-                                </img>
-                            </p>
-                            <Menu
-                                id="ss-menu"
-                                open={this.state.openMenu}
-                                anchorEl={this.state.anckerEl}
-                                anchorOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'left',
-                                }}
-                                transformOrigin={{
-                                    vertical: 'bottom',
-                                    horizontal: 'left'
-                                }}
-                            >
-                                <div style={{ width: "100%" }}>
-                                    <MenuItem onClick={() => goURL('/timeline', this.refreshMainCourse.bind(this))}>
-                                        <PublicIcon viewBox={vb} />
-                                        Timeline
-                                    </MenuItem>
-                                </div>
-                                <div style={{ width: "100%" }}>
-                                    <MenuItem onClick={() => goURL('/notification/', this.refreshMainCourse.bind(this))}>
-                                        <NotificationsNoneIcon viewBox={vb} className='lineicon' />
-                                        Notifications
-                                    </MenuItem>
-                                </div>
-                                <div style={{ width: "100%" }}>
-                                    <MenuItem onClick={() => goURL('/p/', this.refreshMainCourse.bind(this))}>
-                                        <PermIdentityIcon viewBox={vb} className='lineicon' />
-                                        Profile
-                                    </MenuItem>
-                                </div>
-                                <div style={{ width: "100%" }}>
-                                    <MenuItem onClick={() => this.logout()}>
-                                        <OfflineBoltOutlinedIcon viewBox={vb} className='lineicon' />
-                                        Logout
-                                    </MenuItem>
-                                </div>
-                            </Menu>
-
-                        </div>
-                        <div style={{ "display": "inline-block" }}>
-                            <h4><p style={{ "marginTop": "8px", "marginLeft": "5px" }}>Home</p></h4>
-                        </div>
-                    </div>
-                    <div style={{ "margin": "0px 5px" }}>
-                        <AddPost
-                            refreshMainCourse={this.refreshMainCourse.bind(this)}
-                        />
-                    </div>
-                </div>
-                <div>
-                    <PostList
-                        identityObj={this.props.identityObj}
-                        refreshMainCourse={this.refreshMainCourse.bind(this)}
-                        getPostData={this.getHomelineData.bind(this)}
-                        ref={node => this.PostList = node}
-                    />
-                </div>
-            </div>;
+            return <Home
+                ref={x => this.Home = x}
+                identityObj={this.props.identityObj}
+                ownerDto={this.props.ownerDto}
+                refreshMainCourse={this.refreshMainCourse.bind(this)}
+            />;
         } else {
             if (ayPath[1] === 'timeline') {
-                return <div>
-                    <div>
-                        <h4><p>Timeline</p></h4>
-                    </div>
-                    <PostList
-                        identityObj={this.props.identityObj}
-                        refreshMainCourse={this.refreshMainCourse.bind(this)}
-                        getPostData={getPublicTimeline}
-                        ref={node => this.PostList = node}
-                    />
-                    <br />
-                </div>
+                return <PublicTimeline
+                    identityObj={this.props.identityObj}
+                    refreshMainCourse={this.refreshMainCourse.bind(this)}
+                    ref={x => this.Timeline = x}
+                />
             }
             if (ayPath[1] === 'explore') {
                 return <div>
