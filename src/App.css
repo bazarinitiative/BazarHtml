@@ -1020,9 +1020,10 @@ form {
 
 #newpostbutton {
   width: 30%;
-  height: 50px;
+  max-width: 100px;
+  height: 42px;
   background-color: rgb(131, 175, 155);
-  ;
+  font-size: 16px;
   border-radius: 30px;
   color: white;
   font-weight: 600;

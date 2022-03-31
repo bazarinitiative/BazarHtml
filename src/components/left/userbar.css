@@ -3,6 +3,7 @@
     margin-top: 60px;
     border-radius: 40px;
     cursor: pointer;
+    background-color: rgb(245, 245, 245);
 }
 
 #userbar:hover {

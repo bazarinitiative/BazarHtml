@@ -4,6 +4,7 @@ import { sendPost } from '../../api/impl/cmd/post'
 import { getIdentity } from '../../utils/identity-storage';
 import { EmojiButton } from '@joeattardi/emoji-button';
 import twemoji from 'twemoji'
+import '../../App.css'
 
 type PropsType = {
     refreshMainCourse: any

@@ -94,9 +94,9 @@ export class Sidebar extends Component<PropsType, StateType> {
                 {/* <Button onClick={this.handleClick.bind(this)} id="moreLinks">
                     <NotificationsNoneIcon viewBox={vb} /> More
                 </Button> */}
-                <Button id="tweet">
+                {/* <Button id="tweet">
                     Post
-                </Button>
+                </Button> */}
 
                 <Menu
                     id="long-menu"
