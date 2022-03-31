@@ -64,13 +64,6 @@ export class Userbar extends Component<PropsType, StateType> {
         }
         var userInfo = userDto.userInfo
 
-        var username = userInfo.userName;
-        var usertitle = '';
-        if (username.length > 10) {
-            username = username.substring(0, 10) + '...';
-            usertitle = userInfo.userName;
-        }
-
         return <div id='userbar' onClick={this.onMenu.bind(this)}>
 
             <Menu
@@ -100,16 +93,16 @@ export class Userbar extends Component<PropsType, StateType> {
                         <img src={getUserImgUrl(userDto)} alt="" />
                     </p>
                 </div>
-                <div className="six columns" id="userinfo">
-                    <p className="author" title={usertitle} style={{ "marginLeft": "25px", "textAlign": "left" }}>
-                        {username}
+                <div className="seven columns userinfo">
+                    <p className="author linelimitlength" style={{ "marginLeft": "25px", "textAlign": "left" }}>
+                        {userInfo.userName}
                     </p>
-                    <p id='userid' title={'UserID:' + userDto.userID} style={{ "marginLeft": "25px", "textAlign": "left" }}>
+                    <p className='userid' title={'UserID:' + userDto.userID} style={{ "marginLeft": "25px", "textAlign": "left" }}>
                         @{userDto.userID.substring(0, 4)}...
                     </p>
                 </div>
-                <div className='three columns'>
-                    <p id='extshow'>...</p>
+                <div className='two columns'>
+                    <p className='extshow'>...</p>
                 </div>
             </div>
         </div >

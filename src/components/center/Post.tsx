@@ -252,6 +252,26 @@ export class Post extends Component<PropsType, StateType> {
         this.closeModalCancel();
     }
 
+    /** in mobile, userName should be short to keep window width normal */
+    getCopUserName(userName: string) {
+        var mobile = (window.screen.width < 1000);
+        var modUserName = userName;
+        if (mobile) {
+            modUserName = userName.substring(0, 20);
+        }
+        return modUserName
+    }
+
+    /** in mobile width is special */
+    getCopWidth() {
+        var mobile = (window.screen.width < 1000);
+        var modWidth = 400;
+        if (mobile) {
+            modWidth = window.screen.availWidth - 120;
+        }
+        return modWidth
+    }
+
     render() {
         var dto = this.props.postDto;
         var post = dto.post;
@@ -294,18 +314,15 @@ export class Post extends Component<PropsType, StateType> {
         if (this.state.replyToUserObj) {
             replyinfo = <p className='replylead'>
                 Replying to&nbsp;
-                <span className='linelimitlength usernameshort lightsmall'>
+                <span className='linelimitlength usernameshort lightsmall' style={{ "marginBottom": "1px" }} >
                     <a href={'/p/' + this.state.replyToUserObj.userID} className='nounderlineblue'>
                         @{this.state.replyToUserObj.userInfo.userName}</a>
                 </span>
             </p>
         }
 
-        var mobile = (window.screen.width < 1000);
-        var rpwidth = 400;
-        if (mobile) {
-            rpwidth = window.innerWidth - 120;
-        }
+        var rpwidth = this.getCopWidth();
+        var rpusername = this.getCopUserName(user.userName);
 
         Modal.setAppElement("#root");
 
@@ -332,7 +349,7 @@ export class Post extends Component<PropsType, StateType> {
                             </div>
                             <div style={{ "width": "100%", display: "inline-block" }}>
                                 <p className="author" title={'UserID:' + user.userID + ' - Time:' + timestr}>
-                                    <span className='linelimitlength usernameshort'>{user.userName}</span>
+                                    <span className='linelimitlength usernameshort'>{rpusername}</span>
                                     <span className='lightsmall'>@{user.userID.substring(0, 4)} - {relativeTime}</span>
                                 </p>
                                 <p className='contentinreply'>{htmlDecode(post.content)}</p>
@@ -345,8 +362,8 @@ export class Post extends Component<PropsType, StateType> {
                             </div>
                             <div style={{ "width": "100%", display: "inline-block" }}>
                                 <p className="replylead margintop10 marginbottom10">Replying to&nbsp;
-                                    <span className='linelimitlength usernameshort'>
-                                        <a href={`/p/${user.userID}`} className='nounderlineblue'>@{user.userName}</a></span>
+                                    <span className='linelimitlength usernameshort' style={{ "marginBottom": "1px" }}>
+                                        <a href={`/p/${user.userID}`} className='nounderlineblue' >@{rpusername}</a></span>
                                 </p>
                                 <textarea className='replytxt' placeholder='Write your reply' ref={(x) => this.replyctl = x} />
                                 <div>
@@ -373,7 +390,7 @@ export class Post extends Component<PropsType, StateType> {
                                     <span className='linelimitlength usernameshort'>
                                         <a href={'/p/' + user.userID} className='nounderline'>{user.userName}</a>
                                     </span>
-                                    <span title={'UserID:' + user.userID + ' - Time:' + timestr}>
+                                    <span title={'UserID:' + user.userID + ' - Time:' + timestr} style={{ "verticalAlign": "bottom" }}>
                                         <b className='lightsmall'> @{user.userID.substring(0, 4)} - {relativeTime}</b>
                                     </span>
                                     {deletebtn}
