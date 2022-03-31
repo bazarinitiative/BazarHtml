@@ -1184,18 +1184,12 @@ p {
 .nounderline {
   text-decoration: none;
   vertical-align: middle;
-  font: 10px;
-  font-weight: normal;
   vertical-align: top;
 }
 
 .nounderlineblue {
   text-decoration: none;
-  /* color: rgb(64, 153, 255); */
   color: cornflowerblue;
-  font: 10px;
-  font-weight: normal;
-
 }
 
 .boldlarge {
