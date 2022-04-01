@@ -93,6 +93,8 @@ export class AddPost extends Component<PropsType, StateType> {
         this.blogPost.value = "";
         this.blogPost.placeholder = "What are you doing?";
 
+        this.onTxtChange();
+
         this.props.refreshMainCourse();
     }
 
