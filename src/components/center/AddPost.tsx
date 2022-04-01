@@ -5,23 +5,28 @@ import { getIdentity } from '../../utils/identity-storage';
 import { EmojiButton } from '@joeattardi/emoji-button';
 import twemoji from 'twemoji'
 import '../../App.css'
+import './Post.css'
+import { CircleProgress } from './CircleProgress';
 
 type PropsType = {
     refreshMainCourse: any
 }
 
 type StateType = {
+    leftNum: number
 }
 
 export class AddPost extends Component<PropsType, StateType> {
 
     blogPost: HTMLTextAreaElement | null | undefined;
     btnPost: HTMLButtonElement | null | undefined;
+    canv: HTMLCanvasElement | null | undefined;
 
     constructor(props: PropsType) {
         super(props)
 
-        if (true) {
+        this.state = {
+            leftNum: 300
         }
     }
 
@@ -59,6 +64,9 @@ export class AddPost extends Component<PropsType, StateType> {
                 this.btnPost.style.backgroundColor = "rgb(131, 175, 155)"
             }
         }
+        this.setState({
+            leftNum: 300 - contentstr.length
+        })
     }
 
     async addNewPost(e: any) {
@@ -76,6 +84,10 @@ export class AddPost extends Component<PropsType, StateType> {
         if (contentstr.length === 0) {
             return
         }
+        if (contentstr.length > 300) {
+            alert('content too long')
+            return;
+        }
         await sendPost(identityObj, contentstr, '', '', false);
 
         this.blogPost.value = "";
@@ -85,16 +97,29 @@ export class AddPost extends Component<PropsType, StateType> {
     }
 
     render() {
+
         return (
             <div>
                 <textarea className='newpostarea' onChange={this.onTxtChange.bind(this)}
                     ref={(input) => this.blogPost = input} placeholder="What are you doing?" />
                 <div className='row'>
                     <div id="emoji-trigger" className='two columns emoji-button' title='Emoji'>🙂</div>
-                    <div className='newpostdiv'>
-                        <Button id='newpostbutton' ref={x => this.btnPost = x}
-                            type="submit" onClick={this.addNewPost.bind(this)}>
-                            Post</Button>
+                    <div style={{ "textAlign": "right" }}>
+                        <div className='cellblock canv'>
+                            <CircleProgress
+                                curNum={300 - this.state.leftNum}
+                                totalNum={300}
+                                viewboxSize={40}
+                                r={9}
+                                hideOnZero={true}
+                            />
+                        </div>
+                        <div className='cellblock newpostdiv'>
+                            <Button id='newpostbutton' ref={x => this.btnPost = x}
+                                type="submit" onClick={this.addNewPost.bind(this)}>
+                                Post</Button>
+                        </div>
+
                     </div>
                 </div>
 

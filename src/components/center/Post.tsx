@@ -6,7 +6,6 @@ import { initialUser } from '../../initdata/users';
 import { formatRelativeTime, getLocalTime } from '../../utils/date-utils';
 import { getIdentity } from '../../utils/identity-storage';
 import Modal from 'react-modal';
-import { sendPost } from '../../api/impl/cmd/post';
 import { PostDto, UserDto, UserInfo } from '../../facade/entity';
 import { TiHeartFullOutline, TiHeartOutline, TiMessage } from "react-icons/ti";
 import '../../App.css'
@@ -17,6 +16,7 @@ import { getPostSimple } from '../../api/impl/getpostsimple';
 import { randomString } from '../../utils/encryption';
 import { logger } from '../../utils/logger';
 import { htmlDecode } from '../../utils/string-utils';
+import { PostReply } from './PostReply';
 // import { EmojiButton } from '@joeattardi/emoji-button';
 // import twemoji from 'twemoji';
 
@@ -51,7 +51,7 @@ export class Post extends Component<PropsType, StateType> {
     }
 
     origPost: any;
-    replyctl: any;
+    ccreply: PostReply | null | undefined;
 
     constructor(props: PropsType) {
         super(props);
@@ -171,32 +171,10 @@ export class Post extends Component<PropsType, StateType> {
         });
     }
 
-    closeModalCancel() {
+    closeReplyModal() {
         this.setState({
             isShowModal: false,
         });
-    }
-
-    async closeModalReply() {
-        this.setState({
-            isShowModal: false,
-        });
-
-        var identityObj = getIdentity();
-        if (identityObj == null) {
-            return;
-        }
-
-        var dto = this.props.postDto;
-        var contentstr = this.replyctl.value;
-        if (contentstr.length === 0) {
-            alert('Please input content')
-            this.replyctl.focus();
-            return;
-        }
-        await sendPost(identityObj, contentstr, dto.post.postID, dto.post.threadID, false);
-
-        this.props.refreshMainCourse();
     }
 
     async onReply() {
@@ -240,36 +218,19 @@ export class Post extends Component<PropsType, StateType> {
     }
 
     onReplyOpen() {
-        this.replyctl.focus();
+        this.ccreply?.focus();
     }
 
     onReplyRequestClose(event: React.MouseEvent | React.KeyboardEvent) {
-        if (this.replyctl.value.length > 0) {
+        if (!this.ccreply) {
+            return
+        }
+        if (this.ccreply.getReplyContent().length > 0) {
             if (!window.confirm('Your uncommited reply content will lost, sure to close?')) {
                 return;
             }
         }
-        this.closeModalCancel();
-    }
-
-    /** in mobile, userName should be short to keep window width normal */
-    getCopUserName(userName: string) {
-        var mobile = (window.screen.width < 1000);
-        var modUserName = userName;
-        if (mobile) {
-            modUserName = userName.substring(0, 20);
-        }
-        return modUserName
-    }
-
-    /** in mobile width is special */
-    getCopWidth() {
-        var mobile = (window.screen.width < 1000);
-        var modWidth = 400;
-        if (mobile) {
-            modWidth = window.screen.availWidth - 120;
-        }
-        return modWidth
+        this.closeReplyModal();
     }
 
     render() {
@@ -321,8 +282,6 @@ export class Post extends Component<PropsType, StateType> {
             </p>
         }
 
-        var rpwidth = this.getCopWidth();
-        var rpusername = this.getCopUserName(user.userName);
 
         Modal.setAppElement("#root");
 
@@ -338,42 +297,15 @@ export class Post extends Component<PropsType, StateType> {
                         shouldCloseOnOverlayClick={true}
                         onRequestClose={this.onReplyRequestClose.bind(this)}
                     >
-                        <div className="row" style={{ "paddingLeft": "55px", "width": `${rpwidth}px` }}>
-                            <div style={{ "marginLeft": "-55px" }}>
-                                <button className="minibutton" onClick={this.closeModalCancel.bind(this)}>
-                                    <AiOutlineClose />
-                                </button>
-                            </div>
-                            <div style={{ "marginLeft": "-55px", "width": "55px", display: "inline-block", "verticalAlign": "top", "marginTop": "5px" }}>
-                                <p><img src={getUserImgUrl(userDto)} alt="" /></p>
-                            </div>
-                            <div style={{ "width": "100%", display: "inline-block" }}>
-                                <p className="author" title={'UserID:' + user.userID + ' - Time:' + timestr}>
-                                    <span className='linelimitlength usernameshort'>{rpusername}</span>
-                                    <span className='lightsmall'>@{user.userID.substring(0, 4)} - {relativeTime}</span>
-                                </p>
-                                <p className='contentinreply'>{htmlDecode(post.content)}</p>
-                            </div>
-                        </div>
-                        <p></p>
-                        <div className='row margintop10' style={{ "paddingLeft": "55px" }}>
-                            <div style={{ "marginLeft": "-55px", "width": "55px", display: "inline-block", "verticalAlign": "top", "marginTop": "10px" }}>
-                                <p><img src={getUserImgUrl(userDto)} alt="" /></p>
-                            </div>
-                            <div style={{ "width": "100%", display: "inline-block" }}>
-                                <p className="replylead margintop10 marginbottom10">Replying to&nbsp;
-                                    <span className='linelimitlength usernameshort' style={{ "marginBottom": "1px" }}>
-                                        <a href={`/p/${user.userID}`} className='nounderlineblue' >@{rpusername}</a></span>
-                                </p>
-                                <textarea className='replytxt' placeholder='Write your reply' ref={(x) => this.replyctl = x} />
-                                <div>
-                                    {/* <div id="emoji-trigger" className='two columns emoji-button' title='Emoji'>🙂</div> */}
-                                    <button className="replybutton" onClick={this.closeModalReply.bind(this)}>Reply</button>
-                                </div>
-
-                            </div>
-                        </div>
-
+                        <PostReply
+                            ref={x => this.ccreply = x}
+                            user={user}
+                            userDto={userDto}
+                            post={post}
+                            postDto={this.props.postDto}
+                            closeModal={this.closeReplyModal.bind(this)}
+                            refreshMainCourse={this.props.refreshMainCourse}
+                        />
                     </Modal>
 
                     <div className="row" style={{ "paddingLeft": "55px", marginTop: "3px" }}>

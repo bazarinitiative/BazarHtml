@@ -1,0 +1,23 @@
+.bottomcmdline {
+    line-height: 45px;
+    position: relative;
+    bottom: auto;
+    text-align: center;
+    display: table;
+    table-layout: fixed;
+    float: none;
+    align-items: center;
+    width: 100%;
+    border-top: 1px solid #e9e7e7;
+}
+
+.bottomcmdcell {
+    display: table-cell;
+    text-align: left;
+}
+
+.lineicon {
+    margin-left: 5px;
+    margin-right: -5px;
+    margin-bottom: -2px;
+}

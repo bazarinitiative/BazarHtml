@@ -1011,23 +1011,7 @@ form {
   border-left: none;
   border-right: none;
   border-radius: 0;
-}
-
-.newpostdiv {
-  text-align: right;
-  margin-bottom: 20px;
-}
-
-#newpostbutton {
-  width: 30%;
-  max-width: 100px;
-  height: 42px;
-  background-color: rgb(131, 175, 155);
-  font-size: 16px;
-  border-radius: 30px;
-  color: white;
-  font-weight: 600;
-  text-transform: inherit;
+  resize: none;
 }
 
 .content p {
@@ -1141,33 +1125,6 @@ p {
   vertical-align: middle;
 }
 
-.clickbody {
-  cursor: pointer;
-  font-size: 15px;
-  line-height: 20px;
-  margin-right: 5px;
-  overflow-wrap: break-word;
-}
-
-.clickbodybold {
-  cursor: pointer;
-  font-size: 14px;
-  line-height: 20px;
-  margin-right: 5px;
-  font-weight: bold;
-  overflow-wrap: break-word;
-}
-
-.replytxt {
-  width: 100%;
-}
-
-.contentinreply {
-  font-size: 15px;
-  max-width: 100%;
-  overflow-wrap: break-word;
-}
-
 .userimg {
   cursor: pointer;
 }
@@ -1176,21 +1133,6 @@ p {
   font-size: small;
   font-weight: lighter;
   line-height: 98%;
-}
-
-.replylead {
-  font-size: 13px;
-}
-
-.nounderline {
-  text-decoration: none;
-  vertical-align: middle;
-  vertical-align: top;
-}
-
-.nounderlineblue {
-  text-decoration: none;
-  color: cornflowerblue;
 }
 
 .boldlarge {
@@ -1305,30 +1247,6 @@ p {
   text-align: center;
   /* left: 2%; */
   /* width: 96%; */
-}
-
-.myline {
-  line-height: 45px;
-  position: relative;
-  bottom: auto;
-  text-align: center;
-  display: table;
-  table-layout: fixed;
-  float: none;
-  align-items: center;
-  width: 100%;
-  border-top: 1px solid #e9e7e7;
-}
-
-.mycell {
-  display: table-cell;
-  text-align: left;
-}
-
-.lineicon {
-  margin-left: 5px;
-  margin-right: -5px;
-  margin-bottom: -2px;
 }
 
 .showpairbutton {

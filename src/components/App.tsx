@@ -7,13 +7,9 @@ import { MainCourse } from './center/MainCourse';
 import { Recommend } from './right/Recommend';
 import { getUserDto } from '../facade/userfacade';
 import { UserDto } from '../facade/entity';
-import HomeIcon from "@material-ui/icons/Home";
-import ExploreIcon from '@material-ui/icons/Explore';
-import PublicIcon from '@material-ui/icons/Public';
-import { Button } from '@material-ui/core';
-import SearchIcon from '@material-ui/icons/Search';
-import { goURL, handleLogout } from '../utils/bazar-utils';
+import { handleLogout } from '../utils/bazar-utils';
 import { HOST_CONCIG } from '../bazar-config';
+import { BottomLine } from './BottomLine';
 
 type PropsType = {
 }
@@ -100,31 +96,9 @@ class App extends Component<PropsType, StateType> {
       var top, left, right, bottom;
 
       if (mobile) {
-        var vb = "0,0,24,24"
-        bottom = <div className='bottomline'>
-          <div className='myline'>
-            {/* <hr /> */}
-            <div className=''>
-              <div className='mycell'>
-                <HomeIcon viewBox={vb} className='lineicon' />
-                <Button onClick={() => goURL('/', this.refreshMainCourse.bind(this))}>Home</Button>
-              </div>
-              <div className='mycell'>
-                <PublicIcon viewBox={vb} className='lineicon' />
-                <Button onClick={() => goURL('/timeline', this.refreshMainCourse.bind(this))}>Public</Button>
-              </div>
-              <div className='mycell'>
-                <ExploreIcon viewBox={vb} className='lineicon' />
-                <Button onClick={() => goURL('/explore/', this.refreshMainCourse.bind(this))}>Explore</Button>
-              </div>
-              <div className='mycell'>
-                <SearchIcon viewBox={vb} className='lineicon' />
-                <Button onClick={() => goURL('/search/', this.refreshMainCourse.bind(this))}>Search</Button>
-              </div>
-            </div>
-          </div>
-
-        </div>;
+        bottom = <BottomLine
+          refreshMainCourse={this.refreshMainCourse.bind(this)}
+        />
       }
 
       if (!mobile) {
