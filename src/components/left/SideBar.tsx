@@ -9,7 +9,6 @@ import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
 import PublicIcon from '@material-ui/icons/Public';
 import ExploreIcon from '@material-ui/icons/Explore';
 import PermIdentityIcon from "@material-ui/icons/PermIdentity";
-import { Button } from "@material-ui/core";
 import BookmarkBorderOutlinedIcon from '@material-ui/icons/BookmarkBorderOutlined';
 import ListAltOutlinedIcon from '@material-ui/icons/ListAltOutlined';
 import ChatOutlinedIcon from '@material-ui/icons/ChatOutlined';

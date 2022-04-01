@@ -15,7 +15,8 @@ type StateType = {
 
 export class AddPost extends Component<PropsType, StateType> {
 
-    blogPost: any;
+    blogPost: HTMLTextAreaElement | null | undefined;
+    btnPost: HTMLButtonElement | null | undefined;
 
     constructor(props: PropsType) {
         super(props)
@@ -44,6 +45,20 @@ export class AddPost extends Component<PropsType, StateType> {
             });
             trigger.addEventListener('click', () => picker.togglePicker(trigger));
         }
+
+        this.onTxtChange();
+    }
+
+    onTxtChange() {
+        var contentstr = this.blogPost?.value ?? "";
+        // logger('addPost', `content: ${contentstr}`);
+        if (this.btnPost) {
+            if (contentstr.length === 0) {
+                this.btnPost.style.backgroundColor = "rgb(180, 235, 210)";
+            } else {
+                this.btnPost.style.backgroundColor = "rgb(131, 175, 155)"
+            }
+        }
     }
 
     async addNewPost(e: any) {
@@ -53,8 +68,14 @@ export class AddPost extends Component<PropsType, StateType> {
         if (identityObj == null) {
             return;
         }
+        if (this.blogPost == null) {
+            return;
+        }
 
         var contentstr = this.blogPost.value;
+        if (contentstr.length === 0) {
+            return
+        }
         await sendPost(identityObj, contentstr, '', '', false);
 
         this.blogPost.value = "";
@@ -66,11 +87,14 @@ export class AddPost extends Component<PropsType, StateType> {
     render() {
         return (
             <div>
-                <textarea className='newpostarea' ref={(input) => this.blogPost = input} placeholder="What are you doing?" />
+                <textarea className='newpostarea' onChange={this.onTxtChange.bind(this)}
+                    ref={(input) => this.blogPost = input} placeholder="What are you doing?" />
                 <div className='row'>
                     <div id="emoji-trigger" className='two columns emoji-button' title='Emoji'>🙂</div>
                     <div className='newpostdiv'>
-                        <Button id='newpostbutton' type="submit" onClick={this.addNewPost.bind(this)}>Post</Button>
+                        <Button id='newpostbutton' ref={x => this.btnPost = x}
+                            type="submit" onClick={this.addNewPost.bind(this)}>
+                            Post</Button>
                     </div>
                 </div>
 
