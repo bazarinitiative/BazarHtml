@@ -13,10 +13,9 @@ import { Identity, UserDto } from '../../facade/entity';
 import { randomInt } from '../../utils/encryption'
 import { getUserProfile } from '../../api/impl/userprofile';
 import { HOST_CONCIG } from '../../bazar-config';
-import { Post } from './Post';
-import { getUserPosts } from '../../api/impl/userposts';
 import '../../App.css'
 import { ProfileCenter } from './ProfileCenter';
+import { ProfileTab } from './ProfileTab';
 
 type PropsType = {
     identityObj: Identity,
@@ -30,7 +29,6 @@ type StateType = {
     isShowModal3: boolean,
     picstrModal: string | null,
     profile: any,
-    posts: any,
 }
 
 const customStyles = {
@@ -64,13 +62,11 @@ export class ProfileSelf extends Component<PropsType, StateType> {
             isShowModal3: false,
             picstrModal: null,
             profile: null,
-            posts: null,
         }
     }
 
     componentDidMount() {
         this.setState({
-            posts: null
         })
         this.refreshUser();
     }
@@ -94,12 +90,9 @@ export class ProfileSelf extends Component<PropsType, StateType> {
 
         var profile = (await getUserProfile(identityObj.userID)).data
 
-        var ret2 = await getUserPosts(identityObj.userID, false, 0, 20)
-
         this.setState({
             userObj: userObj,
             profile: profile,
-            posts: ret2.data,
         });
     }
 
@@ -382,14 +375,12 @@ export class ProfileSelf extends Component<PropsType, StateType> {
                         stat={stat}
                     />
 
-                    {
-                        Object
-                            .keys(this.state.posts)
-                            .map(key => <Post key={this.state.posts[key].post.postID}
-                                postDto={this.state.posts[key]}
-                                refreshMainCourse={this.props.refreshMainCourse}
-                            />)
-                    }
+                    <ProfileTab
+                        identityObj={this.props.identityObj}
+                        refreshMainCourse={this.props.refreshMainCourse}
+                        userID={this.props.identityObj.userID}
+                    />
+
                     <br />
                     <br />
                     <br />

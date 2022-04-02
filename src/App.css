@@ -1287,6 +1287,8 @@ p {
 }
 
 .searchtabar {
+  width: 100%;
+  font-size: 15px;
   border-bottom: 1px solid #e7e6e6;
 }
 

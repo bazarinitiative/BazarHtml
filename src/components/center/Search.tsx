@@ -195,7 +195,7 @@ export class Search extends Component<PropsType, StateType> {
                 </div>
             </div>
 
-            <div className='row searchtabar'>
+            <div className='row searchtabar' style={{ "marginTop": "-15px" }}>
                 <div className={tabstyle1} onClick={() => this.clickTab('Top')}>Top</div>
                 <div className={tabstyle2} onClick={() => this.clickTab('Latest')}>Latest</div>
                 <div className={tabstyle3} onClick={() => this.clickTab('People')}>People</div>

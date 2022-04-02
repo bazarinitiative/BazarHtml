@@ -143,18 +143,18 @@ export class MainCourse extends Component<PropsType, StateType> {
                 />;
             }
             if (ayPath[1] === 'p') {
-                if (ayPath[2].length === 0) {
+                if (ayPath[2].length === 0 || ayPath[2] === this.props.identityObj.userID) {
                     if (this.props.identityObj == null) {
                         return <a href='/'><p>Not Login Yet</p></a>
                     }
+                    logger('mainCourse', 'ProfileSelf');
                     return <ProfileSelf
                         identityObj={this.props.identityObj}
                         refreshMainCourse={this.refreshMainCourse.bind(this)}
                     />;
                 } else {
                     var userID = ayPath[2];
-                    // logger('mainCourse', 'userID:' + userID);
-
+                    logger('mainCourse', 'ProfileDetail');
                     return <ProfileDetail
                         identityObj={this.props.identityObj}
                         refreshMainCourse={this.refreshMainCourse.bind(this)}

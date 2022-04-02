@@ -40,6 +40,7 @@ export class PublicTimeline extends Component<PropsType, StateType> {
                 identityObj={this.props.identityObj}
                 refreshMainCourse={this.props.refreshMainCourse}
                 getPostData={getPublicTimeline}
+                userID={this.props.identityObj?.userID ?? ""}
                 ref={node => this.PostList = node}
             />
             <br />

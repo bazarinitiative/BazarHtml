@@ -157,6 +157,7 @@ export class Home extends Component<PropsType, StateType> {
                     identityObj={this.props.identityObj}
                     refreshMainCourse={this.props.refreshMainCourse}
                     getPostData={this.getHomelineData.bind(this)}
+                    userID={this.props.identityObj?.userID ?? ""}
                     ref={node => this.PostList = node}
                 />
             </div>

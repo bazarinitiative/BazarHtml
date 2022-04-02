@@ -10,7 +10,8 @@ type PropsType = {
     /**
      * getPublicTimeline or something similar
      */
-    getPostData: any
+    getPostData: any,
+    userID: string,
 }
 
 type StateType = {
@@ -73,12 +74,8 @@ export class PostList extends Component<PropsType, StateType> {
                 var page = this.state.page;
                 var size = this.pageSize;
 
-                var userID = '';
-                if (this.props.identityObj != null) {
-                    var identityObj = this.props.identityObj;
-                    userID = identityObj.userID;
-                    logger('postlist', userID);
-                }
+                var userID = this.props.userID;
+                logger('postlist', userID);
 
                 var ret = await this.props.getPostData(userID, page, size);
                 if (ret.data.length < size) {
@@ -148,8 +145,8 @@ export class PostList extends Component<PropsType, StateType> {
             </div>
         }
 
-        var nomore = <div>No more data</div>
-        if (this.state.hasMoreData) {
+        var nomore = <div><br />No more data</div>
+        if (this.state.hasMoreData || this.state.page === 1) {
             nomore = <div></div>
         }
 

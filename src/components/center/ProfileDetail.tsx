@@ -6,8 +6,8 @@ import { getUserPosts } from "../../api/impl/userposts";
 import { getUserProfile } from "../../api/impl/userprofile";
 import { Identity, UserDto } from "../../facade/entity"
 import { getUserDto, getUserImgUrl } from "../../facade/userfacade";
-import { Post } from "./Post";
 import { ProfileCenter } from "./ProfileCenter";
+import { ProfileTab } from "./ProfileTab";
 
 type PropsType = {
     identityObj: Identity | null,
@@ -44,7 +44,7 @@ export class ProfileDetail extends Component<PropsType, StateType> {
 
     async refreshPage() {
         var ret = await getUserProfile(this.props.userID)
-        var ret2 = await getUserPosts(this.props.userID, false, 0, 20)
+        var ret2 = await getUserPosts(this.props.userID, false, 0, 20, this.props.identityObj?.userID ?? "")
 
         var userObj = await getUserDto(this.props.userID);
 
@@ -128,14 +128,13 @@ export class ProfileDetail extends Component<PropsType, StateType> {
                 />
 
             </div>
-            {
-                Object
-                    .keys(this.state.posts)
-                    .map(key => <Post key={this.state.posts[key].post.postID}
-                        postDto={this.state.posts[key]}
-                        refreshMainCourse={this.props.refreshMainCourse}
-                    />)
-            }
+            <div>
+                <ProfileTab
+                    identityObj={this.props.identityObj}
+                    refreshMainCourse={this.props.refreshMainCourse}
+                    userID={this.props.userID}
+                />
+            </div>
             <br />
             <br />
             <br />

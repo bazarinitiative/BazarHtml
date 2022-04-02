@@ -51,7 +51,7 @@ export class SearchCom extends Component<PropsType, StateType> {
     }
     render() {
         return (
-            <div style={{ height: "50px", margin: "0px", padding: "0px" }}>
+            <div style={{ height: "45px", margin: "0px", padding: "0px" }}>
                 <input type="text"
                     ref={x => this.input = x}
                     defaultValue={this.props.wd}
