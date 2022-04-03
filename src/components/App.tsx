@@ -129,9 +129,9 @@ class App extends Component<PropsType, StateType> {
             <div className="eleven columns">
               <p className="footer">
                 Official site:
-                <a href="https://bazarinitiative.org/">bazarinitiative.org</a> <br />
+                <a href="https://bazarinitiative.org/" target="_blank" rel="noreferrer">bazarinitiative.org</a> <br />
                 Github:
-                <a href="https://github.com/bazarinitiative">github.com/bazarinitiative</a></p>
+                <a href="https://github.com/bazarinitiative" target="_blank" rel="noreferrer">github.com/bazarinitiative</a></p>
             </div>
           </div>
         </div>;
