@@ -342,7 +342,7 @@ export class ProfileSelf extends Component<PropsType, StateType> {
                                 {/* <button className='showpairbutton' onClick={this.copykeypair.bind(this)}>copy</button> */}
                             </p>
                             <p className='lightsmall keypairhint'>
-                                * In case of you still lost your key-pair, you will need to create a new account with another key-pair. If you had made a <a href={realnameurl}><b>Real Name Authentication</b></a> in advance, we will be able to help your followers to find your new account again.
+                                * In case of you still lost your key-pair, you will need to create a new account with another key-pair. If you had made a <a href={realnameurl} target="_blank" rel="noreferrer"><b>Real Name Authentication</b></a> in advance, we will be able to help your followers to find your new account again.
                             </p>
                             <br />
                             <button onClick={this.onBackupAccount.bind(this)}>Backup Account</button>
