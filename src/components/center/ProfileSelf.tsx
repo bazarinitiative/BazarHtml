@@ -37,7 +37,17 @@ const customStyles = {
         left: '50%',
         right: 'auto',
         bottom: 'auto',
-        marginRight: '-50%',
+        marginRight: '-40%',
+        transform: 'translate(-50%, -50%)',
+    },
+};
+
+const customStyles3 = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
         transform: 'translate(-50%, -50%)',
     },
 };
@@ -271,12 +281,13 @@ export class ProfileSelf extends Component<PropsType, StateType> {
             <div className="profile-info">
 
                 <Modal
+                    /** edit profile modal */
                     isOpen={this.state.isShowModal}
                     style={customStyles}
                 >
                     <div className='container'>
                         <div className='row'>
-                            <div className='ten columns'>
+                            <div className='twelve columns'>
                                 <div>
                                     <p>UserPic<br />
                                         <img src={'data:image/gif;base64,' + picstr2} alt='' />
@@ -289,10 +300,9 @@ export class ProfileSelf extends Component<PropsType, StateType> {
                                     <p>Website<input ref={(x) => this.websiteCtl = x} type='text' defaultValue={userInfo.website} /></p>
                                     <p>Location<input ref={(x) => this.locationCtl = x} type='text' defaultValue={userInfo.location} /></p>
                                 </div>
-
                             </div>
                             <div className='row'>
-                                <div className='two columns'>
+                                <div className='four columns'>
                                     <br />
                                 </div>
                                 <div className='four columns'>
@@ -303,11 +313,11 @@ export class ProfileSelf extends Component<PropsType, StateType> {
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </Modal>
 
                 <Modal
+                    /** backup account modal */
                     isOpen={this.state.isShowModal2}
                     style={customStyles}
                 >
@@ -341,16 +351,20 @@ export class ProfileSelf extends Component<PropsType, StateType> {
                 </Modal>
 
                 <Modal
+                    /** show keypair modal */
                     isOpen={this.state.isShowModal3}
-                    style={customStyles}
+                    style={customStyles3}
                 >
                     <div className='container'>
                         <h4><p>You Key-pair information</p></h4>
                         <div>
                             <textarea className='lightsmall keypairarea'>{strpair}</textarea>
                         </div>
-                        <button className='profilebutton' style={{ 'float': 'right' }}
-                            onClick={this.closeModalCancel3.bind(this)}>Close</button>
+                        <div style={{ "textAlign": "center" }}>
+                            <button
+                                onClick={this.closeModalCancel3.bind(this)}>Close</button>
+                        </div>
+
                     </div>
                 </Modal>
 
@@ -358,7 +372,8 @@ export class ProfileSelf extends Component<PropsType, StateType> {
                     <div>
                         <p>
                             <img className='profile-info-img' src={getUserImgUrl(userDto)} alt="" />
-                            <button className='profilebutton' onClick={this.showModal.bind(this)}>Edit</button>
+                            <button className='profilebutton' style={{ "width": "80px" }}
+                                onClick={this.showModal.bind(this)}>Edit profile</button>
 
                             <button
                                 onClick={this.showModal2.bind(this)}

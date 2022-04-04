@@ -1038,10 +1038,14 @@ form {
   color: #000;
   text-transform: none;
   padding: 0px 0px;
-  border-radius: 2px;
+  border-radius: 28px;
   border: 1px solid #c0c0c0;
   margin-right: -50px;
   font-size: 13px;
+}
+
+.profilebutton:hover {
+  background-color: #e7e6e6;
 }
 
 .profilelink {
@@ -1267,16 +1271,16 @@ p {
 
 .keypairhint {
   margin-left: 10px;
-  max-width: 500px;
+  max-width: 400px;
   text-indent: -0.75em;
   line-height: normal;
 }
 
 .keypairarea {
-  min-width: 350px;
+  width: 320px;
   min-height: 250px;
   margin-left: 0px;
-  margin-right: 20px;
+  margin-right: 10px;
 }
 
 .emoji-button {

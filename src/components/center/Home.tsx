@@ -89,6 +89,7 @@ export class Home extends Component<PropsType, StateType> {
         var mobile = (window.screen.width < 1000);
         var padside = mobile ? "0" : "null";
         var border = mobile ? "none" : "null";
+        var userID = this.props.identityObj?.userID ?? "";
 
         var vb = "0,0,24,24"
         return <div className='maincourse container' id='maincourse'
@@ -128,7 +129,7 @@ export class Home extends Component<PropsType, StateType> {
                                 </MenuItem>
                             </div>
                             <div style={{ width: "100%" }}>
-                                <MenuItem onClick={() => goURL('/p/', this.props.refreshMainCourse)}>
+                                <MenuItem onClick={() => goURL(`/p/${userID}/`, this.props.refreshMainCourse)}>
                                     <PermIdentityIcon viewBox={vb} className='lineicon' />
                                     Profile
                                 </MenuItem>

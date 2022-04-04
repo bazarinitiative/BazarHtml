@@ -23,6 +23,7 @@ import AccessibilityNewOutlinedIcon from '@material-ui/icons/AccessibilityNewOut
 
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import { getIdentity } from "../../utils/identity-storage";
 
 const options = [
     { link: 'Bookmarks', icon: <BookmarkBorderOutlinedIcon /> },
@@ -71,6 +72,7 @@ export class Sidebar extends Component<PropsType, StateType> {
     render() {
 
         var vb = "0,0,24,24"
+        var userID = getIdentity()?.userID ?? "";
 
         return (
             <div className="sidebar2">
@@ -89,7 +91,7 @@ export class Sidebar extends Component<PropsType, StateType> {
                 {/* <SidebarLink refreshMainCourse={this.props.refreshMainCourse} text="Lists"
                     Icon={<ListAltIcon viewBox={vb} />} href="/list/" /> */}
                 <SidebarLink refreshMainCourse={this.props.refreshMainCourse} text="Profile"
-                    Icon={<PermIdentityIcon viewBox={vb} />} href="/p/" />
+                    Icon={<PermIdentityIcon viewBox={vb} />} href={`/p/${userID}/`} />
                 {/* <Button onClick={this.handleClick.bind(this)} id="moreLinks">
                     <NotificationsNoneIcon viewBox={vb} /> More
                 </Button> */}
