@@ -59,6 +59,10 @@
     vertical-align: top;
 }
 
+.nounderline:hover {
+    text-decoration: underline;
+}
+
 .nounderlineblue {
     text-decoration: none;
     color: cornflowerblue;
