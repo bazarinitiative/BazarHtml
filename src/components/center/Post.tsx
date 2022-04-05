@@ -273,13 +273,13 @@ export class Post extends Component<PropsType, StateType> {
 
         var replyinfo = null
         if (this.state.replyToUserObj) {
-            replyinfo = <p className='replylead'>
+            replyinfo = <span className='replylead'>
                 Replying to&nbsp;
                 <span className='linelimitlength usernameshort lightsmall' style={{ "marginBottom": "1px" }} >
                     <a href={'/p/' + this.state.replyToUserObj.userID} className='nounderlineblue'>
                         @{this.state.replyToUserObj.userInfo.userName}</a>
                 </span>
-            </p>
+            </span>
         }
 
 

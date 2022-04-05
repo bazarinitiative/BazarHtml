@@ -17,6 +17,7 @@ const api_router_config = {
     getfollowers: '/UserQuery/GetFollowers',
     getfollowees: '/UserQuery/GetFollowees',
     getnotifications: '/UserQuery/GetNotifies',
+    getnotifydtos: '/UserQuery/GetNotifyDtos',
     mightLike: '/Bubble/MightLike',
     trending: '/Bubble/Trending',
     search: '/Bubble/Search',

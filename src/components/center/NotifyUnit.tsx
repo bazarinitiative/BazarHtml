@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import { NotifyMessage } from '../../api/impl/notifications';
+import { NotifyDto } from '../../api/impl/notifydtos';
 import '../../App.css';
 import { UserDto } from '../../facade/entity';
 import { getUserDto, getUserImgUrl } from '../../facade/userfacade';
-import { formatRelativeTime, getLocalTime } from '../../utils/date-utils';
+import { goURL } from '../../utils/bazar-utils';
+import { Post } from './Post';
 
 type PropsType = {
-    noti: NotifyMessage
+    notiDto: NotifyDto,
+    refreshMainCourse: any,
 }
 
 type StateType = {
@@ -23,7 +25,7 @@ export class NotifyUnit extends Component<PropsType, StateType> {
     }
 
     async componentDidMount() {
-        var user = await getUserDto(this.props.noti.fromWho)
+        var user = await getUserDto(this.props.notiDto.noti.fromWho)
         if (user == null) {
             return
         }
@@ -32,8 +34,14 @@ export class NotifyUnit extends Component<PropsType, StateType> {
         })
     }
 
+    onClick() {
+        var url = '/t/' + this.props.notiDto.postDto.post.postID + '/'
+        goURL(url, this.props.refreshMainCourse)
+    }
+
     render() {
-        var noti = this.props.noti;
+        var noti = this.props.notiDto.noti;
+        var post = this.props.notiDto.postDto.post;
         var user = this.state.user;
         if (user == null) {
             return <div>
@@ -41,38 +49,33 @@ export class NotifyUnit extends Component<PropsType, StateType> {
             </div>
         }
 
-        var timestr = getLocalTime(noti.notifyTime)
-        var relativeTime = formatRelativeTime(noti.notifyTime)
-        var notifyMsg = `${noti.notifyType}ed you`
-        if (noti.notifyType.endsWith('e')) {
-            notifyMsg = `${noti.notifyType}d you`
+        if (noti.notifyType === "Reply" || noti.notifyType === "Mention") {
+            return <div>
+                <Post
+                    postDto={this.props.notiDto.postDto}
+                    refreshMainCourse={this.props.refreshMainCourse}
+                />
+            </div>
         }
 
-        var notifyMsgTailstr = ''
-        var notifyMsgTail
-        if (noti.notifyType === 'Mention' || noti.notifyType === 'Like') {
-            notifyMsgTailstr = 'from post'
-            var url = '/t/' + noti.fromWhere
-            notifyMsgTail = <a href={url}>{noti.fromWhere.substring(0, 4)}...</a>
-        }
-
-        return <div className='container notifyunit'>
-            <div className="row">
-                <div className="three columns">
-                    <p>
+        return <div className='notifyunit' onClick={this.onClick.bind(this)}>
+            <div className="row" style={{ "paddingLeft": "55px" }}>
+                <div className="" style={{ "marginLeft": "-55px", "display": "inline-block", "verticalAlign": "top" }}>
+                    <p style={{ "marginLeft": "-5px" }}>
                         <a className='userimg' href={'/p/' + user.userID}>
                             <img src={getUserImgUrl(this.state.user)} alt="" />
                         </a>
                     </p>
                 </div>
-                <div className="nine columns">
-                    <p className="author">
-                        <a href={'/p/' + user.userID}>{user.userInfo.userName}</a>
-                        <span title={'UserID:' + user.userID + ' - Time:' + timestr}>
-                            <b className='lightsmall'> @{user.userID.substr(0, 4)} - {relativeTime}</b>
-                        </span>
-                    </p>
-                    <p className=''>{notifyMsg} {notifyMsgTailstr} {notifyMsgTail}</p>
+                <div className="" style={{ "width": "100%", "display": "inline-block" }}>
+                    <div style={{ "marginLeft": "10px" }}>
+                        <p className="author" style={{}}>
+                            <a href={'/p/' + user.userID}><span className='linelimitlength usernameshort'>{user.userInfo.userName}</span></a>
+                            <span className='lightsmall'> liked your {post.replyTo.length > 0 ? 'reply' : 'post'}</span>
+                        </p>
+                        <p className='clickbody'>{post.content}</p>
+                    </div>
+
                 </div>
             </div>
         </div>

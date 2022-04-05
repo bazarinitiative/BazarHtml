@@ -32,6 +32,7 @@ export class MainCourse extends Component<PropsType, StateType> {
     search: Search | null | undefined;
     Home: Home | null | undefined;
     Timeline: PublicTimeline | null | undefined;
+    Notification: Notifications | null | undefined;
 
     constructor(props: PropsType) {
         super(props);
@@ -58,6 +59,10 @@ export class MainCourse extends Component<PropsType, StateType> {
 
             if (this.Timeline) {
                 await this.Timeline.refreshPage();
+            }
+
+            if (this.Notification) {
+                await this.Notification.refreshPage();
             }
 
             if (this.publicPostList) {
@@ -127,6 +132,8 @@ export class MainCourse extends Component<PropsType, StateType> {
                         <h4><p>Notifications</p></h4>
                     </div>
                     <Notifications
+                        ref={x => this.Notification = x}
+                        refreshMainCourse={this.refreshMainCourse.bind(this)}
                     />
                 </div>
             }
