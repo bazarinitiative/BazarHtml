@@ -5,7 +5,7 @@ import SidebarLink from "./SidebarLink";
 import HomeIcon from "@material-ui/icons/Home";
 import SearchIcon from "@material-ui/icons/Search";
 import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
-// import ListAltIcon from "@material-ui/icons/ListAlt";
+import ListAltIcon from "@material-ui/icons/ListAlt";
 import PublicIcon from '@material-ui/icons/Public';
 import ExploreIcon from '@material-ui/icons/Explore';
 import PermIdentityIcon from "@material-ui/icons/PermIdentity";
@@ -86,10 +86,10 @@ export class Sidebar extends Component<PropsType, StateType> {
                     Icon={<SearchIcon viewBox={vb} />} href="/search?wd=" />
                 <SidebarLink refreshMainCourse={this.props.refreshMainCourse} text="Notifications"
                     Icon={<NotificationsNoneIcon viewBox={vb} />} href="/notification/" />
-                {/* <SidebarLink refreshMainCourse={this.props.refreshMainCourse} text="Bookmarks"
-                 Icon={BookmarkBorderIcon} href="/" /> */}
-                {/* <SidebarLink refreshMainCourse={this.props.refreshMainCourse} text="Lists"
-                    Icon={<ListAltIcon viewBox={vb} />} href="/list/" /> */}
+                <SidebarLink refreshMainCourse={this.props.refreshMainCourse} text="Bookmarks"
+                    Icon={<BookmarkBorderOutlinedIcon viewBox={vb} />} href="/bookmark/" />
+                <SidebarLink refreshMainCourse={this.props.refreshMainCourse} text="Lists"
+                    Icon={<ListAltIcon viewBox={vb} />} href="/list/" />
                 <SidebarLink refreshMainCourse={this.props.refreshMainCourse} text="Profile"
                     Icon={<PermIdentityIcon viewBox={vb} />} href={`/p/${userID}/`} />
                 {/* <Button onClick={this.handleClick.bind(this)} id="moreLinks">

@@ -15,6 +15,8 @@ import { getUrlParameter } from '../../utils/bazar-utils';
 import { Search } from './Search';
 import { Home } from './Home';
 import { PublicTimeline } from './PublicTimeline';
+import { Channel } from './Channel';
+import { Bookmark } from './Bookmark';
 
 type PropsType = {
     identityObj: Identity | null,
@@ -205,6 +207,26 @@ export class MainCourse extends Component<PropsType, StateType> {
                         refreshMainCourse={this.refreshMainCourse.bind(this)}
                         wd={ss}
                         ref={node => this.search = node}
+                    />
+                </div>
+            }
+            if (ayPath[1] === 'bookmark') {
+                return <div>
+                    <div>
+                        <h4><p>Bookmarks</p></h4>
+                    </div>
+                    <Bookmark
+                        identityObj={this.props.identityObj}
+                        refreshMainCourse={this.refreshMainCourse.bind(this)}
+                    />
+                </div>
+            }
+            if (ayPath[1] === 'list') {
+                return <div>
+                    <div>
+                        <h4><p>Lists</p></h4>
+                    </div>
+                    <Channel
                     />
                 </div>
             }

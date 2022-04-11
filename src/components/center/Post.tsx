@@ -10,13 +10,14 @@ import { PostDto, UserDto, UserInfo } from '../../facade/entity';
 import { TiHeartFullOutline, TiHeartOutline, TiMessage } from "react-icons/ti";
 import '../../App.css'
 import '../tweet.css'
-import { AiOutlineClose } from "react-icons/ai";
+import { AiFillBook, AiOutlineBook, AiOutlineClose } from "react-icons/ai";
 import { goURL } from '../../utils/bazar-utils';
 import { getPostSimple } from '../../api/impl/getpostsimple';
 import { randomString } from '../../utils/encryption';
 import { logger } from '../../utils/logger';
 import { htmlDecode } from '../../utils/string-utils';
 import { PostReply } from './PostReply';
+import { sendBookmark } from '../../api/impl/cmd/bookmark';
 // import { EmojiButton } from '@joeattardi/emoji-button';
 // import twemoji from 'twemoji';
 
@@ -139,6 +140,33 @@ export class Post extends Component<PropsType, StateType> {
         await this.refreshSelf()
     }
 
+    async onBookmark() {
+        var dto = this.props.postDto;
+        var post = dto.post;
+        var bookmarked = dto.bookmarked;
+
+        var identityObj = getIdentity();
+        if (identityObj == null) {
+            return;
+        }
+        var postID = post.postID;
+
+        if (bookmarked) {
+            var ret = await sendDelete(identityObj, 'Bookmark', postID);
+            if (!ret.success) {
+                alert(ret.msg);
+            }
+        } else {
+            var ret2 = await sendBookmark(identityObj, postID);
+            if (!ret2.success) {
+                alert(ret2.msg);
+            }
+        }
+
+        // this.props.refreshMainCourse();
+        await this.refreshSelf()
+    }
+
     async refreshSelf() {
         logger('Post', 'refreshSelf')
         var identityObj = getIdentity();
@@ -147,6 +175,7 @@ export class Post extends Component<PropsType, StateType> {
         }
         var newdto = (await getPostSimple(this.props.postDto.post.postID, identityObj.userID)).data as PostDto;
         this.props.postDto.liked = newdto.liked
+        this.props.postDto.bookmarked = newdto.bookmarked
         this.props.postDto.ps = newdto.ps
         this.setState({
             key: randomString(10)
@@ -238,6 +267,7 @@ export class Post extends Component<PropsType, StateType> {
         var post = dto.post;
         var ps = dto.ps;
         var liked = dto.liked;
+        var bookmarked = dto.bookmarked;
 
         var timestr = getLocalTime(post.commandTime);
         var user = initialUser as UserInfo;
@@ -356,6 +386,15 @@ export class Post extends Component<PropsType, StateType> {
                                             )}
                                         </div>
                                         <div style={{ "display": "inline-block" }} className='tweet-num'><p>{likestr}</p></div>
+                                    </div>
+                                    <div onClick={this.onBookmark.bind(this)} title='Bookmark' className='tweet-button'>
+                                        <div style={{ "display": "inline-block" }}>
+                                            {bookmarked === true ? (
+                                                <AiFillBook color="steelblue" className='tweet-icon' style={{ "fontSize": "22px" }} />
+                                            ) : (
+                                                <AiOutlineBook className='tweet-icon' style={{ "fontSize": "22px" }} />
+                                            )}
+                                        </div>
                                     </div>
                                     {/* <button onClick={this.onShare.bind(this)} title='Share' className='tweet-button'>
                                         <TiArrowBackOutline className='tweet-icon' />

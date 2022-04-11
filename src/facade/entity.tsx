@@ -73,5 +73,6 @@ export interface PostDto {
     ps: PostStatistic;
     liked: boolean;
     replyToUser: string;
+    bookmarked: boolean;
 }
 

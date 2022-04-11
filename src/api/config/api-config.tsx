@@ -21,7 +21,10 @@ const api_router_config = {
     mightLike: '/Bubble/MightLike',
     trending: '/Bubble/Trending',
     search: '/Bubble/Search',
-    publicsearch: '/Bubble/PublicSearch'
+    publicsearch: '/Bubble/PublicSearch',
+    getbookmarks: '/UserQuery/GetUserBookmarks',
+    getchannels: '/UserQuery/GetUserChannels',
+    getchannelmembers: '/UserQuery/GetChannelMembers',
 }
 
 export const API_ROUTER_CONFIG = api_router_config
