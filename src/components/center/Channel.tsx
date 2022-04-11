@@ -97,7 +97,7 @@ export class Channel extends Component<PropsType, StateType> {
                     style={customStyles}
                 >
                     <div className='row'>
-                        <div className='two columns' style={{ "marginLeft": "0px" }}>
+                        <div className='one columns' style={{ "marginLeft": "0px" }}>
                             <button className="minibutton" onClick={this.closeModal.bind(this)}>
                                 <AiOutlineClose />
                             </button>
@@ -118,7 +118,7 @@ export class Channel extends Component<PropsType, StateType> {
                             </tr>
                         </table>
                         <div style={{ "textAlign": "center" }}>
-                            <button className='postbutton'
+                            <button className='editlistbutton'
                                 onClick={() => this.addChannel(this.nameCtl?.value ?? "", this.descrCtl?.value ?? "")} >
                                 Add
                             </button>

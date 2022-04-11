@@ -38,6 +38,7 @@ export class MainCourse extends Component<PropsType, StateType> {
     Notification: Notifications | null | undefined;
     Bookmark: Bookmark | null | undefined;
     Channel: Channel | null | undefined;
+    ChannelDetail: ChannelDetail | null | undefined;
 
     constructor(props: PropsType) {
         super(props);
@@ -87,11 +88,15 @@ export class MainCourse extends Component<PropsType, StateType> {
             }
 
             if (this.Bookmark) {
-                this.Bookmark.refreshPage();
+                await this.Bookmark.refreshPage();
             }
 
             if (this.Channel) {
-                this.Channel.refreshPage();
+                await this.Channel.refreshPage();
+            }
+
+            if (this.ChannelDetail) {
+                await this.ChannelDetail.refreshPage();
             }
 
         } catch (error) {
@@ -252,6 +257,7 @@ export class MainCourse extends Component<PropsType, StateType> {
                             identityObj={this.props.identityObj}
                             refreshMainCourse={this.refreshMainCourse.bind(this)}
                             channelID={channelID}
+                            ref={x => this.ChannelDetail = x}
                         />
                     </div>
                 </div>

@@ -1,0 +1,38 @@
+
+.channelUnit {
+    border: 1px solid #e6e7e7;
+    cursor: pointer;
+    margin: 5px;
+    padding: 2px;
+    height: 40px;
+    border-radius: 8px;
+  }
+  
+  .channelUnit:hover {
+    background-color: #e6e7e7;
+  }
+  
+  .channelImg {
+    width: 32px;
+    border-radius: 50%;
+  }
+
+.editlistbutton {
+  height: 36px;
+  width: 100px;
+  padding: 0 0px;
+  line-height: 32px;
+  font-weight: 600;
+  color: #000;
+  text-transform: none;
+  padding: 0px 0px;
+  border-radius: 28px;
+  border: 1px solid #c0c0c0;
+  margin-right: -50px;
+  font-size: 17px;
+}
+
+.editlistbutton:hover {
+    border: none;
+    background-color: #e6e7e7;
+}

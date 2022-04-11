@@ -5,6 +5,9 @@ import { ChannelDto } from '../../api/impl/getchannels';
 import '../../App.css';
 import { Identity } from '../../facade/entity';
 import { PostList } from './PostList';
+import './Channel.css';
+import Modal from 'react-modal';
+import { ChannelEdit } from './ChannelEdit';
 
 type PropsType = {
     identityObj: Identity | null
@@ -14,18 +17,35 @@ type PropsType = {
 
 type StateType = {
     channelDto: ChannelDto | null
+    openModal: boolean
 }
+
+const customStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+    },
+};
 
 export class ChannelDetail extends Component<PropsType, StateType> {
 
     constructor(props: PropsType) {
         super(props);
         this.state = {
-            channelDto: null
+            channelDto: null,
+            openModal: false,
         };
     }
 
     async componentDidMount() {
+        await this.refreshPage();
+    }
+
+    async refreshPage() {
         var ret = await getChannel(this.props.channelID);
         var dto = ret.data as ChannelDto
         this.setState({
@@ -39,6 +59,19 @@ export class ChannelDetail extends Component<PropsType, StateType> {
         return ret;
     }
 
+    clickEdit() {
+        this.setState({
+            openModal: true
+        })
+    }
+
+    closeModal() {
+        this.setState({
+            openModal: false
+        })
+        this.refreshPage();
+    }
+
     render() {
 
         if (this.state.channelDto == null) {
@@ -47,13 +80,35 @@ export class ChannelDetail extends Component<PropsType, StateType> {
         var dto = this.state.channelDto;
         var channel = dto.channel;
 
-        return <div className=''>
-            <div style={{ "textAlign": "left" }}>
-                ID: {channel.channelID}<br />
-                Name: {channel.channelName} <br />
-                Description: {channel.description}<br />
+        return <div style={{ "borderLeft": "1px solid #e6e7e7", "borderRight": "1px solid #e6e7e7" }}>
+            <div style={{ "borderBottom": "1px solid #e6e7e7", "padding": "15px 20px" }}>
+                <div style={{ "textAlign": "left" }}>
+                    ID: {channel.channelID}<br />
+                    Name: {channel.channelName} <br />
+                    Description: {channel.description}<br />
+                    <br />
+                    <div style={{ "textAlign": "center" }}>
+                        <button className='editlistbutton' onClick={this.clickEdit.bind(this)} >Edit List</button>
+                    </div>
+                </div>
             </div>
-            <div>
+
+            <Modal
+                isOpen={this.state.openModal}
+                style={customStyles}
+                shouldCloseOnEsc={true}
+                shouldCloseOnOverlayClick={true}
+                onRequestClose={this.closeModal.bind(this)}
+            >
+                <ChannelEdit
+                    identityObj={this.props.identityObj}
+                    refreshMainCourse={this.props.refreshMainCourse}
+                    closeModal={this.closeModal.bind(this)}
+                    channelDto={dto}
+                />
+            </Modal>
+
+            <div style={{ "marginTop": "10px" }}>
                 <PostList
                     identityObj={this.props.identityObj}
                     refreshMainCourse={this.props.refreshMainCourse}
@@ -61,6 +116,11 @@ export class ChannelDetail extends Component<PropsType, StateType> {
                     resourceID={this.state.channelDto.channel.channelID}
                 />
             </div>
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
 
         </div>
     }
