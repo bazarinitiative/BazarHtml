@@ -16,10 +16,10 @@ export interface ChannelDto {
     followerCount: number,
 }
 
-export async function getChannels(userID: string) {
+export async function getUserChannels(userID: string) {
     var request_data = {
         userID: userID,
     }
-    var ret = await getBazarData(API_ROUTER_CONFIG.getchannels, request_data);
+    var ret = await getBazarData(API_ROUTER_CONFIG.getuserchannels, request_data);
     return ret;
 }

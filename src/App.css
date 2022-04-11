@@ -1356,6 +1356,23 @@ p {
   padding-right: 10px;
 }
 
+.channelUnit {
+  border: 1px solid #e6e7e7;
+  cursor: pointer;
+  margin: 5px;
+  padding: 2px;
+  height: 40px;
+  border-radius: 8px;
+}
+
+.channelUnit:hover {
+  background-color: #e6e7e7;
+}
+
+.channelImg {
+  width: 32px;
+  border-radius: 50%;
+}
 
 /* Clearing
 –––––––––––––––––––––––––––––––––––––––––––––––––– */

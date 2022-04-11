@@ -10,7 +10,9 @@ import { PostDto, UserDto, UserInfo } from '../../facade/entity';
 import { TiHeartFullOutline, TiHeartOutline, TiMessage } from "react-icons/ti";
 import '../../App.css'
 import '../tweet.css'
-import { AiFillBook, AiOutlineBook, AiOutlineClose } from "react-icons/ai";
+import { AiOutlineClose } from "react-icons/ai";
+import BookmarkBorderOutlinedIcon from '@material-ui/icons/BookmarkBorderOutlined';
+import BookmarkBorderFillIcon from '@material-ui/icons/Bookmark';
 import { goURL } from '../../utils/bazar-utils';
 import { getPostSimple } from '../../api/impl/getpostsimple';
 import { randomString } from '../../utils/encryption';
@@ -390,9 +392,9 @@ export class Post extends Component<PropsType, StateType> {
                                     <div onClick={this.onBookmark.bind(this)} title='Bookmark' className='tweet-button'>
                                         <div style={{ "display": "inline-block" }}>
                                             {bookmarked === true ? (
-                                                <AiFillBook color="steelblue" className='tweet-icon' style={{ "fontSize": "22px" }} />
+                                                <BookmarkBorderFillIcon className='tweet-icon' style={{ "fontSize": "25px", "color": "steelblue" }} />
                                             ) : (
-                                                <AiOutlineBook className='tweet-icon' style={{ "fontSize": "22px" }} />
+                                                <BookmarkBorderOutlinedIcon className='tweet-icon' style={{ "fontSize": "25px" }} />
                                             )}
                                         </div>
                                     </div>

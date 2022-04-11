@@ -14,6 +14,8 @@ import { logger } from '../../utils/logger';
 import { currentTimeMillis } from '../../utils/date-utils';
 import { getHomeline } from '../../api/impl/homeline';
 import { AddPost } from './AddPost';
+import ListAltIcon from "@material-ui/icons/ListAlt";
+import BookmarkBorderOutlinedIcon from '@material-ui/icons/BookmarkBorderOutlined';
 
 type PropsType = {
     identityObj: Identity | null,
@@ -128,6 +130,20 @@ export class Home extends Component<PropsType, StateType> {
                                     Notifications
                                 </MenuItem>
                             </div>
+
+                            <div style={{ width: "100%" }}>
+                                <MenuItem onClick={() => goURL('/bookmark/', this.props.refreshMainCourse)}>
+                                    <BookmarkBorderOutlinedIcon viewBox={vb} className='lineicon' />
+                                    Bookmarks
+                                </MenuItem>
+                            </div>
+                            <div style={{ width: "100%" }}>
+                                <MenuItem onClick={() => goURL('/list/', this.props.refreshMainCourse)}>
+                                    <ListAltIcon viewBox={vb} className='lineicon' />
+                                    Lists
+                                </MenuItem>
+                            </div>
+
                             <div style={{ width: "100%" }}>
                                 <MenuItem onClick={() => goURL(`/p/${userID}/`, this.props.refreshMainCourse)}>
                                     <PermIdentityIcon viewBox={vb} className='lineicon' />
@@ -158,7 +174,7 @@ export class Home extends Component<PropsType, StateType> {
                     identityObj={this.props.identityObj}
                     refreshMainCourse={this.props.refreshMainCourse}
                     getPostData={this.getHomelineData.bind(this)}
-                    userID={this.props.identityObj?.userID ?? ""}
+                    resourceID={this.props.identityObj?.userID ?? ""}
                     ref={node => this.PostList = node}
                 />
             </div>

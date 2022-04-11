@@ -23,8 +23,10 @@ const api_router_config = {
     search: '/Bubble/Search',
     publicsearch: '/Bubble/PublicSearch',
     getbookmarks: '/UserQuery/GetUserBookmarks',
-    getchannels: '/UserQuery/GetUserChannels',
+    getuserchannels: '/UserQuery/GetUserChannels',
+    getchannel: '/UserQuery/GetChannel',
     getchannelmembers: '/UserQuery/GetChannelMembers',
+    getchannelposts: '/UserQuery/GetChannelPosts',
 }
 
 export const API_ROUTER_CONFIG = api_router_config

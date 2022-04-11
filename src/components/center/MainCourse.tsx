@@ -17,6 +17,7 @@ import { Home } from './Home';
 import { PublicTimeline } from './PublicTimeline';
 import { Channel } from './Channel';
 import { Bookmark } from './Bookmark';
+import { ChannelDetail } from './ChannelDetail';
 
 type PropsType = {
     identityObj: Identity | null,
@@ -35,6 +36,8 @@ export class MainCourse extends Component<PropsType, StateType> {
     Home: Home | null | undefined;
     Timeline: PublicTimeline | null | undefined;
     Notification: Notifications | null | undefined;
+    Bookmark: Bookmark | null | undefined;
+    Channel: Channel | null | undefined;
 
     constructor(props: PropsType) {
         super(props);
@@ -81,6 +84,14 @@ export class MainCourse extends Component<PropsType, StateType> {
 
             if (this.search) {
                 // await this.search.refreshPage();
+            }
+
+            if (this.Bookmark) {
+                this.Bookmark.refreshPage();
+            }
+
+            if (this.Channel) {
+                this.Channel.refreshPage();
             }
 
         } catch (error) {
@@ -218,16 +229,31 @@ export class MainCourse extends Component<PropsType, StateType> {
                     <Bookmark
                         identityObj={this.props.identityObj}
                         refreshMainCourse={this.refreshMainCourse.bind(this)}
+                        ref={x => this.Bookmark = x}
                     />
                 </div>
             }
             if (ayPath[1] === 'list') {
                 return <div>
-                    <div>
-                        <h4><p>Lists</p></h4>
-                    </div>
                     <Channel
+                        refreshMainCourse={this.refreshMainCourse.bind(this)}
+                        ref={x => this.Channel = x}
                     />
+                </div>
+            }
+            if (ayPath[1] === 'listdetail') {
+                var channelID = ayPath[2];
+                return <div>
+                    <div>
+                        <h4><p>List Detail</p></h4>
+                    </div>
+                    <div>
+                        <ChannelDetail
+                            identityObj={this.props.identityObj}
+                            refreshMainCourse={this.refreshMainCourse.bind(this)}
+                            channelID={channelID}
+                        />
+                    </div>
                 </div>
             }
 

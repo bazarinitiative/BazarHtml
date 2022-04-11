@@ -1,8 +1,13 @@
 import { Component } from 'react';
+import { ApiResponse } from '../../api/impl/ApiResponse';
 import { Identity, PostDto } from '../../facade/entity';
 import { randomString } from '../../utils/encryption';
 import { logger } from '../../utils/logger';
 import { Post } from './Post';
+
+interface GetPostDataFunc {
+    (resourceID: string, page: number, size: number): Promise<ApiResponse | undefined>
+}
 
 type PropsType = {
     identityObj: Identity | null,
@@ -10,8 +15,11 @@ type PropsType = {
     /**
      * getPublicTimeline or something similar
      */
-    getPostData: any,
-    userID: string,
+    getPostData: GetPostDataFunc,
+    /**
+     * userID or channelID or similar
+     */
+    resourceID: string,
 }
 
 type StateType = {
@@ -74,20 +82,20 @@ export class PostList extends Component<PropsType, StateType> {
                 var page = this.state.page;
                 var size = this.pageSize;
 
-                var userID = this.props.userID;
-                logger('postlist', userID);
+                var resourceID = this.props.resourceID;
+                logger('postlist', resourceID);
 
-                var ret = await this.props.getPostData(userID, page, size);
-                if (ret.data.length < size) {
+                var ret = await this.props.getPostData(resourceID, page, size);
+                if (ret?.data.length < size) {
                     this.setState({
                         hasMoreData: false
                     })
                 }
                 var ay = this.state.posts;
                 if (page === 0) {
-                    ay = ret.data;
+                    ay = ret?.data;
                 } else {
-                    ay = this.state.posts.concat(ret.data);
+                    ay = this.state.posts.concat(ret?.data);
                 }
                 // logger('PostList', `PostCount ${ay.length}`)
                 // logger('PostList', `curPage ${this.state.page}`)

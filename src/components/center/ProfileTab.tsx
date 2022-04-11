@@ -110,7 +110,7 @@ export class ProfileTab extends Component<PropsType, StateType> {
                     identityObj={this.props.identityObj}
                     refreshMainCourse={this.props.refreshMainCourse}
                     getPostData={this.getPostData}
-                    userID={this.props.userID}
+                    resourceID={this.props.userID}
                     ref={x => this.PostList = x}
                 />
             </div>
