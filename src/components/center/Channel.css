@@ -36,3 +36,17 @@
     border: none;
     background-color: #e6e7e7;
 }
+
+.managemember {
+  height: 30px;
+  line-height: 28px;
+  cursor: pointer;
+  margin-top: -10px;
+  margin-bottom: 20px;
+  padding-left: 10px;
+  padding-top: 2px;
+}
+
+.managemember:hover {
+  background-color: #e6e7e7;
+}

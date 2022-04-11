@@ -61,6 +61,10 @@ export class ChannelEdit extends Component<PropsType, StateType> {
         goURL(url, this.props.refreshMainCourse)
     }
 
+    editMember() {
+        alert('not impl yet')
+    }
+
     render() {
 
         var channel = this.props.channelDto.channel;
@@ -89,6 +93,9 @@ export class ChannelEdit extends Component<PropsType, StateType> {
                             defaultValue={channel.description} /></td>
                     </tr>
                 </table>
+                <div className='managemember'>
+                    <div onClick={this.editMember.bind(this)}>Manage Member {'>'}</div>
+                </div>
                 <div className='row'>
                     <div className='four columns'>
                         <button className='editlistbutton'
