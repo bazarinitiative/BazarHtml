@@ -98,27 +98,27 @@ export class ChannelEdit extends Component<PropsType, StateType> {
                         <AiOutlineClose />
                     </button>
                 </div>
-                <div className='six columns'>
+                <div className='eight columns'>
                     <p>Edit List</p>
                 </div>
             </div>
             <div>
-                <table style={{ "border": "none" }}>
-                    <tr>
-                        <td style={{ "textAlign": "right", "verticalAlign": "top" }}>Name</td>
-                        <td><input type="text" ref={x => this.nameCtl = x}
+                <table className='cetable' style={{ "border": "none" }}>
+                    <tr style={{}}>
+                        <td style={{ "textAlign": "right", "verticalAlign": "top", "width": "60px", }}>Name</td>
+                        <td style={{}}><input type="text" ref={x => this.nameCtl = x}
                             defaultValue={channel.channelName} /></td>
                     </tr>
                     <tr>
-                        <td style={{ "textAlign": "right", "verticalAlign": "top" }}>Description</td>
-                        <td><textarea placeholder='' ref={x => this.descrCtl = x}
+                        <td style={{ "textAlign": "right", "verticalAlign": "top", }}>Descr</td>
+                        <td style={{}}><textarea placeholder='' ref={x => this.descrCtl = x}
                             defaultValue={channel.description} /></td>
                     </tr>
                 </table>
                 <div className='managemember'>
                     <div onClick={this.editMember.bind(this)}>Manage members {'>'}</div>
                 </div>
-                <div className='row'>
+                <div className='row aligncenter'>
                     <div className='four columns'>
                         <button className='editlistbutton'
                             onClick={() => this.saveChannel(channel.channelID, this.nameCtl?.value ?? "", this.descrCtl?.value ?? "")} >
@@ -126,7 +126,7 @@ export class ChannelEdit extends Component<PropsType, StateType> {
                         </button>
                     </div>
                     <div className='four columns'>
-                        <button className='editlistbutton'
+                        <button className='editlistbutton marginleft10'
                             onClick={() => this.deleteChannel(channel.channelID)} >
                             Delete
                         </button>

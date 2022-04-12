@@ -1065,6 +1065,10 @@ form {
   text-align: left;
 }
 
+.aligncenter {
+  text-align: center;
+}
+
 .margintop5 {
   margin-top: 5px;
 }

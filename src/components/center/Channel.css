@@ -1,7 +1,9 @@
 
 .channeleditwnd {
   width: 320px;
+  max-width: 320px;
   min-height: 300px;
+  max-height: 500px;
 }
 
 .channelUnit {
@@ -24,7 +26,7 @@
 
 .editlistbutton {
   height: 36px;
-  width: 100px;
+  width: 90px;
   padding: 0 0px;
   line-height: 32px;
   font-weight: 600;
@@ -72,6 +74,23 @@
 }
 
 .seltab {
+  width: 100%;
   font-weight: 600;
   border-bottom: 3px solid skyblue;
+}
+
+.cetable {
+  width: 100%;
+  font-size: 15px;
+  margin-left: -10px;
+  line-height: 20px;
+}
+
+.cetable>tr {
+  width: 100%;
+}
+
+.cetable>tr>td {
+  border-style: none;
+  padding: 5px 5px;
 }
