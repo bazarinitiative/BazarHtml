@@ -8,6 +8,8 @@ import { Identity, UserDto } from "../../facade/entity"
 import { getUserDto, getUserImgUrl } from "../../facade/userfacade";
 import { ProfileCenter } from "./ProfileCenter";
 import { ProfileTab } from "./ProfileTab";
+import './Profile.css'
+import '../../App.css'
 
 type PropsType = {
     identityObj: Identity | null,

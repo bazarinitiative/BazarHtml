@@ -1022,41 +1022,6 @@ form {
   text-align: left;
 }
 
-.profile-info {
-  width: 95%;
-  margin: 10px;
-  text-align: center;
-}
-
-.profile-info-img {
-  width: 120px;
-  border-radius: 50%;
-}
-
-.profilebutton {
-  height: 20px;
-  width: 60px;
-  padding: 0 0px;
-  line-height: 18px;
-  font-weight: 200;
-  color: #000;
-  text-transform: none;
-  padding: 0px 0px;
-  border-radius: 28px;
-  border: 1px solid #c0c0c0;
-  margin-right: -50px;
-  font-size: 13px;
-}
-
-.profilebutton:hover {
-  background-color: #e7e6e6;
-}
-
-.profilelink {
-  margin: 10px 10px 15px 0px;
-  font-size: 14px;
-}
-
 .cellblock {
   display: inline-block;
 }

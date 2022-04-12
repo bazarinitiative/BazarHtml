@@ -138,7 +138,6 @@ class App extends Component<PropsType, StateType> {
 
         if (!identityObj) {
           left = <div className='seven columns'>
-            {/* <img className='profile-info-img' src={logo} alt="" /> */}
             <img className='loginimg' src='/img/scene3.jpg' alt="" />
           </div>
           right = ''

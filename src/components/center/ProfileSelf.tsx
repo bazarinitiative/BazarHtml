@@ -16,6 +16,7 @@ import { HOST_CONCIG } from '../../bazar-config';
 import '../../App.css'
 import { ProfileCenter } from './ProfileCenter';
 import { ProfileTab } from './ProfileTab';
+import './Profile.css'
 
 type PropsType = {
     identityObj: Identity,
