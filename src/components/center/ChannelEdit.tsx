@@ -8,6 +8,7 @@ import { Identity } from '../../facade/entity';
 import { goURL } from '../../utils/bazar-utils';
 import { logger } from '../../utils/logger';
 import './Channel.css';
+import { ChannelEditMember } from './ChannelEditMember';
 
 type PropsType = {
     identityObj: Identity | null
@@ -17,6 +18,7 @@ type PropsType = {
 }
 
 type StateType = {
+    isMember: boolean
 }
 
 export class ChannelEdit extends Component<PropsType, StateType> {
@@ -26,6 +28,7 @@ export class ChannelEdit extends Component<PropsType, StateType> {
     constructor(props: PropsType) {
         super(props);
         this.state = {
+            isMember: false
         };
     }
 
@@ -62,17 +65,36 @@ export class ChannelEdit extends Component<PropsType, StateType> {
     }
 
     editMember() {
-        alert('not impl yet')
+        this.setState({
+            isMember: true
+        })
+    }
+
+    closeMember() {
+        this.setState({
+            isMember: false
+        })
     }
 
     render() {
 
         var channel = this.props.channelDto.channel;
 
-        return <div className=''>
+        if (this.state.isMember) {
+            return <div>
+                <ChannelEditMember
+                    closeMember={this.closeMember.bind(this)}
+                    channelID={channel.channelID}
+                    identityObj={this.props.identityObj}
+                    refreshMainCourse={this.props.refreshMainCourse}
+                />
+            </div>
+        }
+
+        return <div className='channeleditwnd'>
             <div className='row'>
-                <div className='one columns' style={{ "marginLeft": "0px" }}>
-                    <button className="minibutton" onClick={this.props.closeModal}>
+                <div className='two columns' style={{ "marginLeft": "0px" }}>
+                    <button className="miniclosebutton" onClick={this.props.closeModal}>
                         <AiOutlineClose />
                     </button>
                 </div>
@@ -94,7 +116,7 @@ export class ChannelEdit extends Component<PropsType, StateType> {
                     </tr>
                 </table>
                 <div className='managemember'>
-                    <div onClick={this.editMember.bind(this)}>Manage Member {'>'}</div>
+                    <div onClick={this.editMember.bind(this)}>Manage members {'>'}</div>
                 </div>
                 <div className='row'>
                     <div className='four columns'>

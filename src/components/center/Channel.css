@@ -1,4 +1,9 @@
 
+.channeleditwnd {
+  width: 320px;
+  min-height: 300px;
+}
+
 .channelUnit {
     border: 1px solid #e6e7e7;
     cursor: pointer;
@@ -49,4 +54,24 @@
 
 .managemember:hover {
   background-color: #e6e7e7;
+}
+
+.channeltab {
+  text-align: center;
+  font-weight: 400;
+  cursor: pointer;
+  height: 40px;
+  line-height: 36px;
+  font-size: 19px;
+  vertical-align: middle;
+  margin-bottom: 10px;
+}
+
+.channeltab:hover {
+  background-color: #e6e7e7;
+}
+
+.seltab {
+  font-weight: 600;
+  border-bottom: 3px solid skyblue;
 }

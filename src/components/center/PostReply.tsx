@@ -105,7 +105,7 @@ export class PostReply extends Component<PropsType, StateType> {
         return <div>
             <div className="row" style={{ "paddingLeft": "55px", "width": `${rpwidth}px` }}>
                 <div style={{ "marginLeft": "-55px" }}>
-                    <button className="minibutton" onClick={this.props.closeModal}>
+                    <button className="miniclosebutton" onClick={this.props.closeModal}>
                         <AiOutlineClose />
                     </button>
                 </div>

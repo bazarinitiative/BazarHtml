@@ -102,10 +102,7 @@ export class MightLikeUnit extends Component<PropsType, StateType> {
                             <button className='followbutton' onClick={this.onClickFollow.bind(this)}>{followstr}</button>
                         </div>
                     </div>
-
                 </div>
-
-
             </div>
         </div>
     }

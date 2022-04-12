@@ -32,6 +32,7 @@ const customStyles = {
 };
 
 export class ChannelDetail extends Component<PropsType, StateType> {
+    PostList: PostList | null | undefined;
 
     constructor(props: PropsType) {
         super(props);
@@ -51,6 +52,10 @@ export class ChannelDetail extends Component<PropsType, StateType> {
         this.setState({
             channelDto: dto
         })
+
+        if (this.PostList) {
+            await this.PostList.refreshPage();
+        }
     }
 
     async fetchData(channelID: string, page: number, size: number) {
@@ -114,6 +119,7 @@ export class ChannelDetail extends Component<PropsType, StateType> {
                     refreshMainCourse={this.props.refreshMainCourse}
                     getPostData={this.fetchData.bind(this)}
                     resourceID={this.state.channelDto.channel.channelID}
+                    ref={x => this.PostList = x}
                 />
             </div>
             <br />
