@@ -43,6 +43,11 @@ export class ChannelEdit extends Component<PropsType, StateType> {
         var dd = await sendChannel(identityObj, channelID, name, descr);
         logger("channel-addChannel", dd);
 
+        if (!dd.success) {
+            alert(dd.msg)
+            return
+        }
+
         this.props.closeModal();
     }
 

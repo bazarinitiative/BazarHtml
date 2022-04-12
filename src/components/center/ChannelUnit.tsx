@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
+import { sendChannelMember } from '../../api/impl/cmd/channelMember';
 import { ChannelDto } from '../../api/impl/getchannels';
 import '../../App.css';
 import { UserDto } from '../../facade/entity';
 import { getUserDto, getUserImgUrl } from '../../facade/userfacade';
 import { goURL } from '../../utils/bazar-utils';
+import { getIdentity } from '../../utils/identity-storage';
 
 type PropsType = {
     dto: ChannelDto
     refreshMainCourse: any
+    clickAm?: boolean
+    userAm?: string
 }
 
 type StateType = {
@@ -30,9 +34,24 @@ export class ChannelUnit extends Component<PropsType, StateType> {
         })
     }
 
-    onClick() {
-        var url = `/listdetail/${this.props.dto.channel.channelID}`
-        goURL(url, this.props.refreshMainCourse)
+    async onClick() {
+        if (this.props.clickAm) {
+            var identityObj = getIdentity();
+            if (identityObj == null) {
+                return
+            }
+            var ret = await sendChannelMember(identityObj, this.props.dto.channel.channelID, this.props.userAm ?? "");
+            if (!ret.success) {
+                alert(ret.msg)
+            } else {
+                alert('succeed add user to list')
+            }
+        }
+        else {
+            var url = `/listdetail/${this.props.dto.channel.channelID}`
+            goURL(url, this.props.refreshMainCourse)
+        }
+
     }
 
     render() {

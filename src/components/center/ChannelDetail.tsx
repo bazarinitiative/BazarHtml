@@ -3,11 +3,12 @@ import { getChannel } from '../../api/impl/getchannel';
 import { getChannelPosts } from '../../api/impl/getchannelposts';
 import { ChannelDto } from '../../api/impl/getchannels';
 import '../../App.css';
-import { Identity } from '../../facade/entity';
+import { Identity, UserDto } from '../../facade/entity';
 import { PostList } from './PostList';
 import './Channel.css';
 import Modal from 'react-modal';
 import { ChannelEdit } from './ChannelEdit';
+import { getUserDto } from '../../facade/userfacade';
 
 type PropsType = {
     identityObj: Identity | null
@@ -18,6 +19,7 @@ type PropsType = {
 type StateType = {
     channelDto: ChannelDto | null
     openModal: boolean
+    userDto: UserDto | null
 }
 
 const customStyles = {
@@ -39,6 +41,7 @@ export class ChannelDetail extends Component<PropsType, StateType> {
         this.state = {
             channelDto: null,
             openModal: false,
+            userDto: null,
         };
     }
 
@@ -48,9 +51,11 @@ export class ChannelDetail extends Component<PropsType, StateType> {
 
     async refreshPage() {
         var ret = await getChannel(this.props.channelID);
-        var dto = ret.data as ChannelDto
+        var ccdto = ret.data as ChannelDto
+        var userDto = await getUserDto(ccdto.channel.userID)
         this.setState({
-            channelDto: dto
+            channelDto: ccdto,
+            userDto: userDto,
         })
 
         if (this.PostList) {
@@ -82,19 +87,27 @@ export class ChannelDetail extends Component<PropsType, StateType> {
         if (this.state.channelDto == null) {
             return <div>loading for {this.props.channelID}</div>
         }
-        var dto = this.state.channelDto;
-        var channel = dto.channel;
+        var ccdto = this.state.channelDto;
+        var channel = ccdto.channel;
+        var userDto = this.state.userDto;
+
+        var isOwn = (this.props.identityObj?.userID === userDto?.userID)
 
         return <div style={{ "borderLeft": "1px solid #e6e7e7", "borderRight": "1px solid #e6e7e7" }}>
             <div style={{ "borderBottom": "1px solid #e6e7e7", "padding": "15px 20px" }}>
                 <div style={{ "textAlign": "left" }}>
-                    ID: {channel.channelID}<br />
+                    UserName: {userDto?.userInfo.userName ?? ""}<br />
+                    ChannelID: {channel.channelID}<br />
                     Name: {channel.channelName} <br />
                     Description: {channel.description}<br />
                     <br />
-                    <div style={{ "textAlign": "center" }}>
-                        <button className='editlistbutton' onClick={this.clickEdit.bind(this)} >Edit List</button>
-                    </div>
+                    {
+                        isOwn ? <div style={{ "textAlign": "center" }}>
+                            <button className='editlistbutton' onClick={this.clickEdit.bind(this)} >Edit List</button>
+                        </div>
+                            : null
+                    }
+
                 </div>
             </div>
 
@@ -109,7 +122,7 @@ export class ChannelDetail extends Component<PropsType, StateType> {
                     identityObj={this.props.identityObj}
                     refreshMainCourse={this.props.refreshMainCourse}
                     closeModal={this.closeModal.bind(this)}
-                    channelDto={dto}
+                    channelDto={ccdto}
                 />
             </Modal>
 

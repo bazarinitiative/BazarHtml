@@ -10,6 +10,13 @@ import { ProfileCenter } from "./ProfileCenter";
 import { ProfileTab } from "./ProfileTab";
 import './Profile.css'
 import '../../App.css'
+import { Menu, MenuItem } from '@material-ui/core';
+import ListAltIcon from "@material-ui/icons/ListAlt";
+import { goURL } from "../../utils/bazar-utils";
+import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
+import Modal from 'react-modal';
+import { ChannelDto, getUserChannels } from "../../api/impl/getchannels";
+import { ChannelUnit } from "./ChannelUnit";
 
 type PropsType = {
     identityObj: Identity | null,
@@ -22,7 +29,22 @@ type StateType = {
     posts: any
     userDto: UserDto | null
     following: boolean
+    openMenu: boolean
+    anckerEl: any
+    amList: boolean
+    ownChs: ChannelDto[]
 }
+
+const customStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+    },
+};
 
 export class ProfileDetail extends Component<PropsType, StateType> {
 
@@ -34,6 +56,10 @@ export class ProfileDetail extends Component<PropsType, StateType> {
             posts: null,
             userDto: null,
             following: false,
+            openMenu: false,
+            anckerEl: null,
+            amList: false,
+            ownChs: [],
         }
     }
 
@@ -94,6 +120,31 @@ export class ProfileDetail extends Component<PropsType, StateType> {
         window.location.href = '/followers/' + this.props.userID
     }
 
+    extMenu(event: any) {
+        var oepnMenu = !this.state.openMenu;
+        this.setState({
+            openMenu: oepnMenu,
+            anckerEl: event.currentTarget,
+        })
+    }
+
+    async clickAddRemove() {
+        var ret = await getUserChannels(this.props.identityObj?.userID ?? "")
+        var ay = ret.data as ChannelDto[]
+
+        this.setState({
+            openMenu: false,
+            amList: true,
+            ownChs: ay,
+        })
+    }
+
+    closeAmList() {
+        this.setState({
+            amList: false
+        })
+    }
+
     render() {
 
         var userID = this.props.userID;
@@ -108,6 +159,8 @@ export class ProfileDetail extends Component<PropsType, StateType> {
 
         var stat = this.state.profile.userStatistic;
 
+        var vb = "0,0,24,24"
+
         return <div className='container'>
             <div>
                 <div className='row'>
@@ -119,10 +172,55 @@ export class ProfileDetail extends Component<PropsType, StateType> {
                             <p></p>
                         </div>
                         <div className="four columns">
+                            <button className="profileextbutton" onClick={this.extMenu.bind(this)}>···</button>
                             <button className="profilebutton" onClick={this.follow.bind(this)}>{followstr}</button>
                         </div>
                     </div>
                 </div>
+
+                <Menu
+                    open={this.state.openMenu}
+                    anchorEl={this.state.anckerEl}
+                    anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                    }}
+                    transformOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'right'
+                    }}
+                    onClose={this.extMenu.bind(this)}
+                >
+                    <div style={{ width: "100%" }}>
+                        <MenuItem onClick={this.clickAddRemove.bind(this)}>
+                            <PlaylistAddCheckIcon viewBox={vb} className='lineicon' />
+                            Add to Lists
+                        </MenuItem>
+                        <MenuItem onClick={() => goURL('/list/' + this.props.userID, this.props.refreshMainCourse)}>
+                            <ListAltIcon viewBox={vb} className='lineicon' />
+                            View Lists
+                        </MenuItem>
+                    </div>
+                </Menu>
+
+                <Modal
+                    /** Add/Remove user from Lists */
+                    isOpen={this.state.amList}
+                    shouldCloseOnEsc={true}
+                    shouldCloseOnOverlayClick={true}
+                    onRequestClose={this.closeAmList.bind(this)}
+                    style={customStyles}
+                >
+                    {
+                        this.state.ownChs.map(x => <ChannelUnit
+                            dto={x}
+                            refreshMainCourse={this.props.refreshMainCourse}
+                            clickAm={true}
+                            userAm={this.props.userID}
+                        />)
+                    }
+
+                </Modal>
 
                 <ProfileCenter
                     userObj={userObj}

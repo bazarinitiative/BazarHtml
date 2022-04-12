@@ -9,6 +9,8 @@ import { logger } from '../../utils/logger';
 import { ChannelUnit } from './ChannelUnit';
 import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
 import { AiOutlineClose } from 'react-icons/ai';
+import { UserDto } from '../../facade/entity';
+import { getUserDto } from '../../facade/userfacade';
 
 type PropsType = {
     refreshMainCourse: any
@@ -17,6 +19,7 @@ type PropsType = {
 type StateType = {
     chs: ChannelDto[]
     openModal: boolean
+    userDto: UserDto | null
 }
 
 const customStyles = {
@@ -38,12 +41,23 @@ export class Channel extends Component<PropsType, StateType> {
         super(props);
         this.state = {
             chs: [],
-            openModal: false
+            openModal: false,
+            userDto: null
         };
     }
 
     async componentDidMount() {
         await this.refreshPage();
+    }
+
+    getUserID() {
+        var identityObj = getIdentity();
+        var userID = identityObj?.userID ?? ""
+        var ayPath = window.location.pathname.split('/', 10);
+        if (ayPath[2].length > 0) {
+            userID = ayPath[2]
+        }
+        return userID
     }
 
     async refreshPage() {
@@ -52,10 +66,21 @@ export class Channel extends Component<PropsType, StateType> {
             return
         }
 
-        var ret = await getUserChannels(identityObj.userID);
+        var userID = this.getUserID()
+        var ayPath = window.location.pathname.split('/', 10);
+        if (ayPath[2].length > 0) {
+            userID = ayPath[2]
+        }
+        var dto = await getUserDto(userID)
+        if (dto == null) {
+            return
+        }
+
+        var ret = await getUserChannels(userID);
         var chs = ret.data as ChannelDto[]
         this.setState({
-            chs: chs
+            chs: chs,
+            userDto: dto,
         })
     }
 
@@ -86,6 +111,9 @@ export class Channel extends Component<PropsType, StateType> {
     render() {
 
         var vb = "0,0,24,24";
+        var identityObj = getIdentity();
+        var userID = this.getUserID();
+        var isOwn = (identityObj?.userID === userID)
 
         return <div className=''>
             <div>
@@ -127,11 +155,18 @@ export class Channel extends Component<PropsType, StateType> {
                 </Modal>
 
                 <div className='row'>
-                    <span className='ten columns'><h4><p>Lists</p></h4></span>
-                    <span className='two columns' style={{ "height": "40px" }} onClick={this.onClickIcon.bind(this)} >
-                        <PlaylistAddIcon viewBox={vb}
-                            style={{ "fontSize": "28px", "cursor": "pointer" }} />
+                    <span className='ten columns'>
+                        <h4><p>Lists</p></h4>
+                        <p className='lightsmall' style={{ "marginTop": "-10px" }}>{`@${this.state.userDto?.userInfo.userName}`}</p>
                     </span>
+                    {
+                        isOwn ? <span className='two columns' style={{ "height": "40px" }} onClick={this.onClickIcon.bind(this)} >
+                            <PlaylistAddIcon viewBox={vb}
+                                style={{ "fontSize": "28px", "cursor": "pointer" }} />
+                        </span>
+                            : null
+                    }
+
                 </div>
             </div>
             {
@@ -141,6 +176,12 @@ export class Channel extends Component<PropsType, StateType> {
                     refreshMainCourse={this.props.refreshMainCourse}
                 />)
             }
+            {
+                (this.state.chs.length === 0) ? <div>No data</div> : null
+            }
+            <br />
+            <br />
+            <br />
             <br />
         </div>
     }
