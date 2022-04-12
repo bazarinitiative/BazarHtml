@@ -211,14 +211,18 @@ export class ProfileDetail extends Component<PropsType, StateType> {
                     onRequestClose={this.closeAmList.bind(this)}
                     style={customStyles}
                 >
-                    {
-                        this.state.ownChs.map(x => <ChannelUnit
-                            dto={x}
-                            refreshMainCourse={this.props.refreshMainCourse}
-                            clickAm={true}
-                            userAm={this.props.userID}
-                        />)
-                    }
+                    <div style={{ "minHeight": "200px", "maxHeight": "400px", "minWidth": "200px" }}>
+                        <div style={{ "marginBottom": "10px" }}>Pick List to Add</div>
+                        {
+                            this.state.ownChs.map(x => <ChannelUnit
+                                dto={x}
+                                refreshMainCourse={this.props.refreshMainCourse}
+                                clickAm={true}
+                                userAm={this.props.userID}
+                            />)
+                        }
+
+                    </div>
 
                 </Modal>
 
