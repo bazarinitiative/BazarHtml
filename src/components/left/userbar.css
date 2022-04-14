@@ -60,6 +60,10 @@
 }
 
 .mcross {
+    color: skyblue;
+}
+
+.mcross:hover {
     color: red;
 }
 
