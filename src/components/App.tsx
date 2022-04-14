@@ -67,7 +67,7 @@ class App extends Component<PropsType, StateType> {
   onClearCache() {
     for (let index = 0; index < localStorage.length; index++) {
       var key = localStorage.key(index)
-      if (key == null || key === 'identity') {
+      if (key == null || key === 'identity' || key === 'extendidentity') {
         continue;
       }
       localStorage.removeItem(key);

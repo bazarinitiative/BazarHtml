@@ -30,14 +30,19 @@ export class UserbarMenu extends Component<PropsType, StateType> {
         let ay: UserDto[] = []
         var ids = getExtendIdentity();
         if (ids) {
-            await ids.reduce(async (prom, b) => {
-                var ay = await prom
-                var dto = await getUserDto(b.userID)
-                if (dto) {
-                    ay.push(dto)
+            let pp: Promise<UserDto | null>[] = []
+            ids.reduce((pp, b) => {
+                var p = getUserDto(b.userID)
+                pp.push(p)
+                return pp
+            }, pp)
+
+            var tt = await Promise.all(pp)
+            tt.forEach(x => {
+                if (x != null) {
+                    ay.push(x)
                 }
-                return ay
-            }, Promise.resolve(ay))
+            })
         }
 
         this.setState({
