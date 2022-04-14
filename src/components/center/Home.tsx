@@ -106,7 +106,6 @@ export class Home extends Component<PropsType, StateType> {
                             </img>
                         </p>
                         <Menu
-                            id="ss-menu"
                             open={this.state.openMenu}
                             anchorEl={this.state.anckerEl}
                             anchorOrigin={{

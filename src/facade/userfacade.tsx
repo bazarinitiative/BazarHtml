@@ -1,5 +1,6 @@
 import { getRemoteUserDto } from "../api/impl/userinfo";
 import { HOST_CONCIG } from "../bazar-config";
+import { getExtendIdentity, getIdentity, saveExtendIdentity, saveIdentity } from "../utils/identity-storage";
 import { getLocalUser, saveLocalUser } from "../utils/user-storage";
 import { UserDto } from "./entity";
 
@@ -47,4 +48,28 @@ export function getUserImgUrl(dto: UserDto | null) {
     return url
 }
 
-
+export function switchToIdentity(userID: string) {
+    var cur = getIdentity();
+    if (cur != null && cur.userID === userID) {
+        return
+    }
+    var ay = getExtendIdentity();
+    if (ay == null) {
+        return
+    }
+    var idx = ay.findIndex(x => x.userID === userID);
+    if (idx === -1) {
+        return
+    }
+    var to = ay[idx]
+    ay.splice(idx, 1)
+    saveIdentity(to)
+    if (cur != null) {
+        var curuser = cur.userID
+        var idx2 = ay.findIndex(x => x.userID === curuser);
+        if (idx2 === -1) {
+            ay.push(cur)
+            saveExtendIdentity(ay)
+        }
+    }
+}

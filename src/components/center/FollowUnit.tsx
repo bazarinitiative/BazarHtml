@@ -107,11 +107,7 @@ export class FollowUnit extends Component<PropsType, StateType> {
                         </div>
                     </div>
                 </div>
-
-
-
             </div>
-
         </div>
     }
 }

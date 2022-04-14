@@ -38,3 +38,29 @@ export function getIdentity() {
     return null;
   }
 }
+
+export function saveExtendIdentity(identity: Identity[]) {
+  const localStorage = window.localStorage
+  try {
+    localStorage.setItem('extendidentity', JSON.stringify(identity))
+    logger('localStorage-save-identity', 'identity save in localStorage succeed')
+  } catch (error) {
+    logger('localStorage-save-extidentity', error)
+  }
+}
+
+export function getExtendIdentity() {
+  const localStorage = window.localStorage
+  try {
+    const str = localStorage.getItem('extendidentity');
+    if (!str) {
+      return null;
+    }
+    var ret = JSON.parse(str) as Identity[];
+    return ret;
+
+  } catch (error) {
+    logger('localStorage-get-extidentity', error)
+    return null;
+  }
+}

@@ -35,6 +35,22 @@
     font-weight: bold;
 }
 
-#ss-menu {
-    font-weight: 120;
+.usermenup {
+    border-bottom: 1px solid #e6e7e7;
+    padding-left: 10px;
+    padding-bottom: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.mcheck {
+    color: rgb(131, 175, 155);
+    padding-top: 10px;
+}
+
+.mitem {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 13px;
+    font-weight: normal;
 }

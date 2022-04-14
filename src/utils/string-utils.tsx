@@ -1,4 +1,6 @@
 
+import emoji from 'node-emoji'
+
 export const getUrlKey = (key: any) => {
     return (
         decodeURIComponent(
@@ -40,7 +42,8 @@ export const formatNum = (num: any) => {
 }
 
 export function htmlDecode(input: string) {
-    var doc = new DOMParser().parseFromString(input, "text/html");
+    var ss = emoji.emojify(input)
+    var doc = new DOMParser().parseFromString(ss, "text/html");
     return doc.documentElement.textContent;
 }
 
