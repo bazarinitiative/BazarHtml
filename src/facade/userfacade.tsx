@@ -48,28 +48,32 @@ export function getUserImgUrl(dto: UserDto | null) {
     return url
 }
 
-export function switchToIdentity(userID: string) {
+export function switchToIdentity(userID: string): true | string {
     var cur = getIdentity();
-    if (cur != null && cur.userID === userID) {
-        return
+    if (cur == null) {
+        return 'fail getIdentity'
+    }
+    if (cur.userID === userID) {
+        return 'cannot switchh to same userID'
     }
     var ay = getExtendIdentity();
     if (ay == null) {
-        return
+        return 'fail getExtendIdentity'
     }
     var idx = ay.findIndex(x => x.userID === userID);
     if (idx === -1) {
-        return
+        return 'fail to find userID'
     }
     var to = ay[idx]
     ay.splice(idx, 1)
     saveIdentity(to)
-    if (cur != null) {
-        var curuser = cur.userID
-        var idx2 = ay.findIndex(x => x.userID === curuser);
-        if (idx2 === -1) {
-            ay.push(cur)
-            saveExtendIdentity(ay)
-        }
+
+    var curuser = cur.userID
+    var idx2 = ay.findIndex(x => x.userID === curuser);
+    if (idx2 !== -1) {
+        return 'dup user found'
     }
+    ay.push(cur)
+    saveExtendIdentity(ay)
+    return true
 }

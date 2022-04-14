@@ -1,7 +1,8 @@
-import { clearIdentity } from "./identity-storage";
+import { clearIdentity, saveExtendIdentity } from "./identity-storage";
 
 export function handleLogout() {
     clearIdentity();
+    saveExtendIdentity([])
     window.location.reload();
 }
 

@@ -35,6 +35,11 @@
     font-weight: bold;
 }
 
+.usermenutop {
+    height: auto;
+    min-width: 250px;
+}
+
 .usermenup {
     border-bottom: 1px solid #e6e7e7;
     padding-left: 10px;
@@ -48,9 +53,35 @@
     padding-top: 10px;
 }
 
+.mname {
+    min-width: 200px;
+    padding-right: 5px;
+    display: inline-block;
+}
+
+.mcross {
+    color: red;
+}
+
 .mitem {
     margin-top: 5px;
     margin-bottom: 5px;
     font-size: 13px;
     font-weight: normal;
+    width: 100%;
 }
+
+.keytxt1 {
+    font-size: 12px;
+    font-weight: 100;
+    width: 300px;
+    height: 60px;
+}
+
+.keytxt2 {
+    font-size: 12px;
+    font-weight: 100;
+    width: 300px;
+    height: 150px;
+}
+

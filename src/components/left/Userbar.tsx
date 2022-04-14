@@ -3,9 +3,11 @@ import '../../App.css';
 import './userbar.css'
 import { Identity, UserDto } from '../../facade/entity';
 import { getUserDto, getUserImgUrl } from '../../facade/userfacade';
-import { Menu, MenuItem } from '@material-ui/core';
+import { Menu } from '@material-ui/core';
 import { handleLogout } from '../../utils/bazar-utils';
-import { AiOutlineCheck } from 'react-icons/ai';
+import Modal from 'react-modal'
+import { UserbarAddAccount } from './UserbarAddAccount';
+import { UserbarMenu } from './UserbarMenu';
 import { getExtendIdentity } from '../../utils/identity-storage';
 
 type PropsType = {
@@ -18,8 +20,18 @@ type StateType = {
     openMenu: boolean
     anckerEl: any
     openModal: boolean
-    extUsers: UserDto[]
 }
+
+const customStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+    },
+};
 
 export class Userbar extends Component<PropsType, StateType> {
 
@@ -30,7 +42,6 @@ export class Userbar extends Component<PropsType, StateType> {
             openMenu: false,
             anckerEl: null,
             openModal: false,
-            extUsers: []
         };
     }
 
@@ -41,19 +52,6 @@ export class Userbar extends Component<PropsType, StateType> {
         var user = await getUserDto(this.props.identityObj.userID);
         if (user == null) {
             return;
-        }
-
-        let ay: UserDto[] = []
-        var ids = getExtendIdentity();
-        if (ids) {
-            await ids.reduce(async (prom, b) => {
-                var ay = await prom
-                var dto = await getUserDto(b.userID)
-                if (dto) {
-                    ay.push(dto)
-                }
-                return ay
-            }, Promise.resolve(ay))
         }
 
         this.setState({
@@ -69,6 +67,12 @@ export class Userbar extends Component<PropsType, StateType> {
         })
     }
 
+    closeMenu() {
+        this.setState({
+            openMenu: false
+        })
+    }
+
     logout() {
         var out = window.confirm("Sure to logout?")
         if (out) {
@@ -76,21 +80,37 @@ export class Userbar extends Component<PropsType, StateType> {
         }
     }
 
-    addAccount() {
+    openAddAccountModal() {
+        var extids = getExtendIdentity();
+        var extlen = extids?.length ?? 0;
+        if (extlen >= 4) {
+            alert(`Number of account (${extlen + 1}) exceed limit`)
+            return
+        }
         this.setState({
             openMenu: false,
             openModal: true,
         })
     }
 
+    closeModal() {
+        this.setState({
+            openModal: false
+        })
+    }
+
     render() {
-        var userDto = this.state.userDto;
-        if (userDto == null) {
+        if (this.state.userDto == null) {
             return <div></div>
         }
+        var userDto = this.state.userDto;
         var userInfo = userDto.userInfo
 
-        return <div id='userbar' onClick={this.onMenu.bind(this)}>
+        var ay = getExtendIdentity();
+        var len = ay?.length ?? 0
+        var menuv = 120 + len * 35;
+
+        return <div id='userbar'>
 
             <Menu
                 open={this.state.openMenu}
@@ -100,57 +120,32 @@ export class Userbar extends Component<PropsType, StateType> {
                     horizontal: 'right',
                 }}
                 transformOrigin={{
-                    vertical: 'bottom',
+                    vertical: menuv,
                     horizontal: 'right'
                 }}
+                onClose={this.closeMenu.bind(this)}
             >
-                <div style={{ width: "100%" }}>
-                    {/* <div className='usermenup'>
-                        <div style={{ "maxWidth": "220px", marginBottom: '-3px', marginTop: '5px', "paddingLeft": "55px" }}>
-                            <div style={{ "width": "55px", "marginLeft": "-55px", "display": "inline-block" }} >
-                                <p><img src={getUserImgUrl(userDto)} alt="" /></p>
-                            </div>
-                            <div style={{ "width": "100%", "display": "inline-block", "paddingTop": "-50px" }}>
-                                <div className='row'>
-                                    <div className='ten columns'>
-                                        <p className="author">
-                                            <span className='linelimitlength usernameshort2'>{userInfo.userName}</span>
-                                        </p>
-                                        <p className="lightsmall" title={'UserID:' + userInfo.userID}>
-                                            @{userInfo.userID.substring(0, 4)}...
-                                        </p>
-                                    </div>
-                                    <div className='two columns mcheck'>
-                                        <AiOutlineCheck />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <MenuItem onClick={this.addAccount.bind(this)}>
-                        <div className='mitem'>
-                            Add an existing account
-                        </div>
-                    </MenuItem> */}
-                    {
-                        this.state.extUsers.map(x => <div>
-                            <MenuItem>
-                                <div className='mitem'>
-                                    {x.userInfo.userName}
-                                </div>
-                            </MenuItem>
-                        </div>)
-                    }
-                    <MenuItem onClick={this.logout.bind(this)}>
-                        <div className='mitem'>
-                            Log out @{userDto.userID.substring(0, 4)}...
-                        </div>
-                    </MenuItem>
-                </div>
-
+                <UserbarMenu
+                    identityObj={this.props.identityObj}
+                    userDto={this.state.userDto}
+                    openAddAccountModal={this.openAddAccountModal.bind(this)}
+                    logout={this.logout.bind(this)}
+                />
             </Menu>
 
-            <div className='row'>
+            <Modal
+                isOpen={this.state.openModal}
+                shouldCloseOnEsc={true}
+                shouldCloseOnOverlayClick={true}
+                onRequestClose={this.closeModal.bind(this)}
+                style={customStyles}
+            >
+                <UserbarAddAccount
+                    closeModal={this.closeModal.bind(this)}
+                />
+            </Modal>
+
+            <div className='row' onClick={this.onMenu.bind(this)}>
                 <div className="three columns">
                     <p className='pmargin'>
                         <img src={getUserImgUrl(userDto)} alt="" />
