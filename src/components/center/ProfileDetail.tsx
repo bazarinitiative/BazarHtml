@@ -47,6 +47,7 @@ const customStyles = {
 };
 
 export class ProfileDetail extends Component<PropsType, StateType> {
+    ProfileTab: ProfileTab | null | undefined;
 
     constructor(props: PropsType) {
         super(props)
@@ -90,6 +91,10 @@ export class ProfileDetail extends Component<PropsType, StateType> {
             userDto: userObj,
             following: following
         })
+
+        if (this.ProfileTab) {
+            await this.ProfileTab.refreshPage();
+        }
     }
 
     async follow() {
@@ -237,6 +242,7 @@ export class ProfileDetail extends Component<PropsType, StateType> {
                     identityObj={this.props.identityObj}
                     refreshMainCourse={this.props.refreshMainCourse}
                     userID={this.props.userID}
+                    ref={x => this.ProfileTab = x}
                 />
             </div>
             <br />

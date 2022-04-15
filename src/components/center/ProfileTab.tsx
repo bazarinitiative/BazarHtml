@@ -14,6 +14,7 @@ type PropsType = {
 }
 
 type StateType = {
+    userID: string
     tabPath: string
 }
 
@@ -24,7 +25,8 @@ export class ProfileTab extends Component<PropsType, StateType> {
     constructor(props: PropsType) {
         super(props);
         this.state = {
-            tabPath: ""
+            userID: "",
+            tabPath: "",
         };
 
         this.componentDidUpdate();
@@ -34,9 +36,13 @@ export class ProfileTab extends Component<PropsType, StateType> {
     }
 
     async componentDidUpdate() {
+        await this.refreshPage();
+    }
+
+    async refreshPage() {
         var ayPath = window.location.pathname.split('/', 10);
         var tabPath = ayPath[3];
-        if (!this.getPostData || tabPath !== this.state.tabPath) {
+        if (!this.getPostData || tabPath !== this.state.tabPath || this.props.userID !== this.state.userID) {
             this.getPostData = this.getPostMain.bind(this);
             if (ayPath[3] === 'with_replies') {
                 this.getPostData = this.getPostWithReplies.bind(this);
@@ -45,7 +51,8 @@ export class ProfileTab extends Component<PropsType, StateType> {
                 this.getPostData = this.getPostLikes.bind(this);
             }
             this.setState({
-                tabPath: tabPath
+                userID: this.props.userID,
+                tabPath: tabPath,
             })
 
             setTimeout(() => {
