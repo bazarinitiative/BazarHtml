@@ -31,12 +31,18 @@ class App extends Component<PropsType, StateType> {
   }
 
   async componentDidMount() {
-    logger('App', window.location.host)
+    logger('App', 'host=' + window.location.host)
     if (window.location.host.startsWith('www.')) {
       var newhost = window.location.host.substring(4);
       var url = window.location.href.replace(window.location.host, newhost);
       window.location.href = url
       return
+    }
+
+    logger('App', "protocol=[" + window.location.protocol + "]");
+    if (window.location.protocol === "http:" && !window.location.host.startsWith('localhost')) {
+      var url2 = window.location.href.replace('http://', 'https://');
+      window.location.href = url2
     }
 
     window.onpopstate = () => {
