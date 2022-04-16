@@ -95,7 +95,14 @@ export class PostList extends Component<PropsType, StateType> {
                 if (page === 0) {
                     ay = ret?.data;
                 } else {
-                    ay = this.state.posts.concat(ret?.data);
+                    let ii: PostDto[] = []
+                    var tt = this.state.posts.concat(ret?.data);
+                    ay = tt.reduce((pp, cur) => {
+                        if (pp.findIndex(x => x.post.postID === cur.post.postID) === -1) {
+                            pp.push(cur);
+                        }
+                        return pp;
+                    }, ii)
                 }
                 // logger('PostList', `PostCount ${ay.length}`)
                 // logger('PostList', `curPage ${this.state.page}`)
