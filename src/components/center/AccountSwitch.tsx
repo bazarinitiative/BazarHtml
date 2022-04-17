@@ -148,7 +148,7 @@ export class AccountSwitch extends Component<PropsType, StateType> {
                 </p>
             </div>
             <div className='usermenup'>
-                <div style={{ "maxWidth": "220px", marginBottom: '-3px', marginTop: '5px', "paddingLeft": "55px" }}>
+                <div style={{ "maxWidth": "220px", marginBottom: '2px', marginTop: '15px', "paddingLeft": "55px" }}>
                     <div style={{ "width": "55px", "marginLeft": "-55px", "display": "inline-block" }} >
                         <p><img src={getUserImgUrl(userDto)} alt="" /></p>
                     </div>
@@ -169,7 +169,7 @@ export class AccountSwitch extends Component<PropsType, StateType> {
                     </div>
                 </div>
             </div>
-            <div style={{ "textAlign": "left", "marginTop": "15px" }}>
+            <div style={{ "textAlign": "left", "marginTop": "15px", "borderBottom": "1px solid #e6e7e7" }}>
                 <div className='aitem' style={{ "color": "skyblue" }} onClick={this.openAddAccountModal.bind(this)}>
                     Add an existing account
                 </div>
@@ -184,7 +184,7 @@ export class AccountSwitch extends Component<PropsType, StateType> {
                     }
                 </div>
             </div>
-            <div style={{ "textAlign": "left", "color": "red" }}>
+            <div style={{ "textAlign": "left", "color": "red", "marginTop": "15px" }}>
                 <div className='aitem' onClick={this.logout.bind(this)}>
                     {outstr}
                 </div>

@@ -73,7 +73,7 @@ export class HomeMenu extends Component<PropsType, StateType> {
                     <p style={{ "fontSize": "13px", "fontWeight": "200" }}>@{dto.userID.substring(0, 4)}...</p>
                 </div>
                 <div style={{ "marginTop": "20px" }}>
-                    <p className='lightsmall'>
+                    <p style={{ "fontSize": "10px", "fontWeight": "400" }}>
                         <span onClick={() => { goURL('/followees/' + userID, this.props.refreshMainCourse) }} >
                             {stat.followingCount} Following</span>
                         <span onClick={() => { goURL('/followers/' + userID, this.props.refreshMainCourse) }}
