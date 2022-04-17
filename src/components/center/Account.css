@@ -1,0 +1,22 @@
+.aitem {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 13px;
+    font-weight: normal;
+    width: 100%;
+    height: 30px;
+}
+
+.akeytxt1 {
+    font-size: 12px;
+    font-weight: 100;
+    width: 200px;
+    height: 60px;
+}
+
+.akeytxt2 {
+    font-size: 12px;
+    font-weight: 100;
+    width: 200px;
+    height: 150px;
+}

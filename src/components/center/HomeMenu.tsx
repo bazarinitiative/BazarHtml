@@ -64,8 +64,8 @@ export class HomeMenu extends Component<PropsType, StateType> {
                             </a>
                         </p>
                     </div>
-                    <div style={{ "display": "inline-block", "verticalAlign": "middle", "lineHeight": "35px" }}>
-                        <span><AiOutlineSwap /></span>
+                    <div style={{ "display": "inline-block", "verticalAlign": "middle", "marginTop": "15px", "fontSize": "17px" }}>
+                        <span onClick={() => { goURL('/account/switch', this.props.refreshMainCourse) }}><AiOutlineSwap /></span>
                     </div>
                 </div>
                 <div>

@@ -18,6 +18,7 @@ import { PublicTimeline } from './PublicTimeline';
 import { Channel } from './Channel';
 import { Bookmark } from './Bookmark';
 import { ChannelDetail } from './ChannelDetail';
+import { AccountSwitch } from './AccountSwitch';
 
 type PropsType = {
     identityObj: Identity | null,
@@ -260,6 +261,14 @@ export class MainCourse extends Component<PropsType, StateType> {
                             ref={x => this.ChannelDetail = x}
                         />
                     </div>
+                </div>
+            }
+            if (ayPath[1] === 'account' && ayPath[2] === 'switch') {
+                return <div>
+                    <AccountSwitch
+                        ownerDto={this.props.ownerDto}
+                        refreshMainCourse={this.refreshMainCourse.bind(this)}
+                    />
                 </div>
             }
 
