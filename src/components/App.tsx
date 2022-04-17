@@ -65,7 +65,9 @@ class App extends Component<PropsType, StateType> {
       })
     }
 
-    window.addEventListener("resize", this.resize.bind(this));
+    window.onresize = () => {
+      this.resize();
+    }
   }
 
   resize() {

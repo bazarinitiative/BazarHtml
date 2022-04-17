@@ -75,3 +75,14 @@ export function getLocalUser(userID: string) {
     return null;
   }
 }
+
+export function getFilterLang() {
+  var key = "filterlang";
+  const itemstr = localStorage.getItem(key);
+  return itemstr ?? "";
+}
+
+export function saveFilterLang(lang: string) {
+  var key = "filterlang";
+  localStorage.setItem(key, lang);
+}
