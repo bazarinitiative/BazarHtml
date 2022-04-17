@@ -10,12 +10,14 @@ import { UserDto } from '../facade/entity';
 import { handleLogout } from '../utils/bazar-utils';
 import { HOST_CONCIG } from '../bazar-config';
 import { BottomLine } from './BottomLine';
+import { randomString } from '../utils/encryption';
 
 type PropsType = {
 }
 
 type StateType = {
   owner: UserDto | null
+  res: string
 }
 
 class App extends Component<PropsType, StateType> {
@@ -27,6 +29,7 @@ class App extends Component<PropsType, StateType> {
     super(props);
     this.state = {
       owner: null,
+      res: ""
     }
   }
 
@@ -61,6 +64,14 @@ class App extends Component<PropsType, StateType> {
         owner: user,
       })
     }
+
+    window.addEventListener("resize", this.resize.bind(this));
+  }
+
+  resize() {
+    this.setState({
+      res: randomString(10)
+    })
   }
 
   logout() {
