@@ -1,21 +1,16 @@
-import { Menu, MenuItem } from '@material-ui/core';
+import { Menu } from '@material-ui/core';
 import React, { Component } from 'react';
 import '../../App.css';
 import { Identity, UserDto } from '../../facade/entity';
 import { getUserImgUrl } from '../../facade/userfacade';
-import { goURL, handleLogout } from '../../utils/bazar-utils';
+import { goURL } from '../../utils/bazar-utils';
 import { PostList } from './PostList';
-import PermIdentityIcon from "@material-ui/icons/PermIdentity";
-import OfflineBoltOutlinedIcon from '@material-ui/icons/OfflineBoltOutlined';
-import PublicIcon from '@material-ui/icons/Public';
-import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
 import { getPrivateKey, signMessage } from '../../utils/encryption';
 import { logger } from '../../utils/logger';
 import { currentTimeMillis } from '../../utils/date-utils';
 import { getHomeline } from '../../api/impl/homeline';
 import { AddPost } from './AddPost';
-import ListAltIcon from "@material-ui/icons/ListAlt";
-import BookmarkBorderOutlinedIcon from '@material-ui/icons/BookmarkBorderOutlined';
+import { HomeMenu } from './HomeMenu';
 
 type PropsType = {
     identityObj: Identity | null,
@@ -79,21 +74,12 @@ export class Home extends Component<PropsType, StateType> {
         return ret;
     }
 
-    logout() {
-        var out = window.confirm("Sure to logout?")
-        if (out) {
-            handleLogout();
-        }
-    }
-
     render() {
 
         var mobile = (window.screen.width < 1000);
         var padside = mobile ? "0" : "null";
         var border = mobile ? "none" : "null";
-        var userID = this.props.identityObj?.userID ?? "";
 
-        var vb = "0,0,24,24"
         return <div className='maincourse container' id='maincourse'
             style={{ paddingLeft: padside, paddingRight: padside, border: border, marginTop: "-10px", paddingTop: "15px" }}>
 
@@ -117,44 +103,11 @@ export class Home extends Component<PropsType, StateType> {
                                 horizontal: 'left'
                             }}
                         >
-                            <div style={{ width: "100%" }}>
-                                <MenuItem onClick={() => goURL('/timeline', this.props.refreshMainCourse)}>
-                                    <PublicIcon viewBox={vb} />
-                                    Timeline
-                                </MenuItem>
-                            </div>
-                            <div style={{ width: "100%" }}>
-                                <MenuItem onClick={() => goURL('/notification/', this.props.refreshMainCourse)}>
-                                    <NotificationsNoneIcon viewBox={vb} className='lineicon' />
-                                    Notifications
-                                </MenuItem>
-                            </div>
-
-                            <div style={{ width: "100%" }}>
-                                <MenuItem onClick={() => goURL('/bookmark/', this.props.refreshMainCourse)}>
-                                    <BookmarkBorderOutlinedIcon viewBox={vb} className='lineicon' />
-                                    Bookmarks
-                                </MenuItem>
-                            </div>
-                            <div style={{ width: "100%" }}>
-                                <MenuItem onClick={() => goURL('/list/', this.props.refreshMainCourse)}>
-                                    <ListAltIcon viewBox={vb} className='lineicon' />
-                                    Lists
-                                </MenuItem>
-                            </div>
-
-                            <div style={{ width: "100%" }}>
-                                <MenuItem onClick={() => goURL(`/p/${userID}/`, this.props.refreshMainCourse)}>
-                                    <PermIdentityIcon viewBox={vb} className='lineicon' />
-                                    Profile
-                                </MenuItem>
-                            </div>
-                            <div style={{ width: "100%" }}>
-                                <MenuItem onClick={() => this.logout()}>
-                                    <OfflineBoltOutlinedIcon viewBox={vb} className='lineicon' />
-                                    Logout
-                                </MenuItem>
-                            </div>
+                            <HomeMenu
+                                identityObj={this.props.identityObj}
+                                ownerDto={this.props.ownerDto}
+                                refreshMainCourse={this.props.refreshMainCourse}
+                            />
                         </Menu>
 
                     </div>
