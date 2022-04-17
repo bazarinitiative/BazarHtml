@@ -7,7 +7,7 @@ import { MainCourse } from './center/MainCourse';
 import { Recommend } from './right/Recommend';
 import { getUserDto } from '../facade/userfacade';
 import { UserDto } from '../facade/entity';
-import { handleLogout } from '../utils/bazar-utils';
+import { handleLogout, isMobile } from '../utils/bazar-utils';
 import { HOST_CONCIG } from '../bazar-config';
 import { BottomLine } from './BottomLine';
 import { randomString } from '../utils/encryption';
@@ -109,7 +109,7 @@ class App extends Component<PropsType, StateType> {
         localdev = <button onClick={this.onClearCache.bind(this)}>clear cache</button>;
       }
 
-      var mobile = (window.screen.width < 1000);
+      var mobile = isMobile();
       var top, left, right, bottom;
 
       if (mobile) {

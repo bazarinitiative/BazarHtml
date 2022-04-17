@@ -31,3 +31,13 @@ export function goURL(url: string, refreshMainCourse: any) {
         refreshMainCourse();
     }, 50);
 }
+
+export function getWindowWidth() {
+    var windowWidth = document.documentElement.clientWidth || document.body.clientWidth;
+    return windowWidth
+}
+
+export function isMobile() {
+    return getWindowWidth() < 1000;
+}
+

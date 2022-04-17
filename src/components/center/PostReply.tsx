@@ -4,6 +4,7 @@ import { sendPost } from '../../api/impl/cmd/post';
 import '../../App.css';
 import { Post, PostDto, UserDto, UserInfo } from '../../facade/entity';
 import { getUserImgUrl } from '../../facade/userfacade';
+import { isMobile } from '../../utils/bazar-utils';
 import { formatRelativeTime, getLocalTime } from '../../utils/date-utils';
 import { getIdentity } from '../../utils/identity-storage';
 import { htmlDecode } from '../../utils/string-utils';
@@ -34,7 +35,7 @@ export class PostReply extends Component<PropsType, StateType> {
 
     /** in mobile, userName should be short to keep window width normal */
     getCopUserName(userName: string) {
-        var mobile = (window.screen.width < 1000);
+        var mobile = isMobile();
         var modUserName = userName;
         if (mobile) {
             modUserName = userName.substring(0, 20);
@@ -44,7 +45,7 @@ export class PostReply extends Component<PropsType, StateType> {
 
     /** in mobile width is special */
     getCopWidth() {
-        var mobile = (window.screen.width < 1000);
+        var mobile = isMobile();
         var modWidth = 400;
         if (mobile) {
             modWidth = window.screen.availWidth - 120;

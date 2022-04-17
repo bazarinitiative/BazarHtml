@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import '../../App.css';
 import { Identity, UserDto } from '../../facade/entity';
 import { getUserImgUrl } from '../../facade/userfacade';
-import { goURL } from '../../utils/bazar-utils';
+import { goURL, isMobile } from '../../utils/bazar-utils';
 import { PostList } from './PostList';
 import { getPrivateKey, signMessage } from '../../utils/encryption';
 import { logger } from '../../utils/logger';
@@ -45,7 +45,7 @@ export class Home extends Component<PropsType, StateType> {
     }
 
     onHeadImg(event: any) {
-        var mobile = (window.screen.width < 1000);
+        var mobile = isMobile();
         if (mobile) {
             this.onMenu(event);
         } else {
@@ -76,7 +76,7 @@ export class Home extends Component<PropsType, StateType> {
 
     render() {
 
-        var mobile = (window.screen.width < 1000);
+        var mobile = isMobile();
         var padside = mobile ? "0" : "null";
         var border = mobile ? "none" : "null";
 
