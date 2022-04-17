@@ -25,7 +25,7 @@ export async function sendPost(identity: Identity, content: string, replyTo: str
         replyTo: replyTo,
         threadID: threadID,
         isRepost: isRepost,
-        contentLang: "en-US",
+        contentLang: "",
         commandTime: currentTimeMillis(),
         commandID: "",
     };
