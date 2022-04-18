@@ -109,7 +109,10 @@ export class PostDetail extends Component<PropsType, StateType> {
                         </div>
                     </div>
                 </div>
-
+                <br />
+                <br />
+                <br />
+                <br />
             </div>
         );
     }
