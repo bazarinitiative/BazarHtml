@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import '../../App.css';
+import './home.css'
 import PermIdentityIcon from "@material-ui/icons/PermIdentity";
 import OfflineBoltOutlinedIcon from '@material-ui/icons/OfflineBoltOutlined';
 import PublicIcon from '@material-ui/icons/Public';
@@ -111,6 +112,14 @@ export class HomeMenu extends Component<PropsType, StateType> {
                 <MenuItem onClick={() => goURL(`/p/${userID}/`, this.props.refreshMainCourse)}>
                     <PermIdentityIcon viewBox={vb} className='lineicon' />
                     Profile
+                </MenuItem>
+            </div>
+            <div style={{ width: "100%" }}>
+                <MenuItem>
+                    <a href='https://bazarinitiative.org/' style={{ "textDecorationLine": "none" }}>
+                        <img className='menuimg' src="/favicon.ico" alt="" />
+                        About Bazar
+                    </a>
                 </MenuItem>
             </div>
             <div style={{ width: "100%" }}>
