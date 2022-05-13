@@ -171,10 +171,21 @@ export class ProfileSelf extends Component<PropsType, StateType> {
         this.refreshUser();
     }
 
+    isSafari() {
+        var userAgent = navigator.userAgent.toLowerCase();
+        if (userAgent.indexOf("safari") > -1 && userAgent.indexOf("chrome") === -1) {
+            return true;
+        }
+    }
+
     onSelectPic(e: any) {
         const img = new Image();
         const reader = new FileReader();
         var file = e.target.files[0] as File
+        if (file.type.indexOf("tiff") >= 0 && !this.isSafari()) {
+            alert('Tiff image is not supported. Please try another image.')
+            return
+        }
         reader.readAsDataURL(file);
         reader.onload = (e) => {
             if (e.target?.result == null) {
