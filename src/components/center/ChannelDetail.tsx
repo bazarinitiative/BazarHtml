@@ -96,8 +96,10 @@ export class ChannelDetail extends Component<PropsType, StateType> {
         return <div style={{ "borderLeft": "1px solid #e6e7e7", "borderRight": "1px solid #e6e7e7" }}>
             <div style={{ "borderBottom": "1px solid #e6e7e7", "padding": "15px 20px" }}>
                 <div style={{ "textAlign": "left" }}>
-                    UserName: {userDto?.userInfo.userName ?? ""}<br />
-                    ChannelID: {channel.channelID}<br />
+                    Owner: <a href={'/p/' + userDto?.userID} className='linelimitlength usernameshort urlhigh'>
+                        {userDto?.userInfo.userName ?? ""}
+                    </a><br />
+                    {/* List ID: {channel.channelID}<br /> */}
                     Name: {channel.channelName} <br />
                     Description: {channel.description}<br />
                     <br />

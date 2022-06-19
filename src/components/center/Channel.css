@@ -94,3 +94,8 @@
   border-style: none;
   padding: 5px 5px;
 }
+
+.urlhigh {
+  line-height: 18px;
+  padding-bottom: 4px;
+}
