@@ -45,7 +45,8 @@ export class AddPost extends Component<PropsType, StateType> {
                     this.blogPost.value += selection.emoji;
                     this.blogPost.focus();
 
-                    twemoji.parse(this.blogPost, { size: '20px' })
+                    twemoji.parse(this.blogPost, { size: '20px' });
+                    this.onTxtChange();
                 }
             });
             trigger.addEventListener('click', () => picker.togglePicker(trigger));
