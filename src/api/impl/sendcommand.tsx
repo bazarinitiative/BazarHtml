@@ -15,6 +15,8 @@ import { postBazarData } from './BazarHttp';
 export async function sendCommand(identityObj: Identity, commandType: string, model: any) {
     model.commandID = randomString(30);
     model.commandTime = currentTimeMillis();
+    model.commandType = commandType;
+    model.userID = identityObj.userID;
     logger('sendComand_model_' + commandType, model);
 
     var privateKeyObj = await getPrivateKey(identityObj.privateKey);
@@ -24,6 +26,7 @@ export async function sendCommand(identityObj: Identity, commandType: string, mo
         commandTime: '',
         userID: '',
         commandType: '',
+        version: '',
         commandContent: '',
         signature: ''
     };
@@ -31,6 +34,7 @@ export async function sendCommand(identityObj: Identity, commandType: string, mo
     cmd.commandTime = model.commandTime;
     cmd.userID = identityObj.userID;
     cmd.commandType = commandType;
+    cmd.version = 'v0.2';
     cmd.commandContent = JSON.stringify(model);
     var signature = await signMessage(privateKeyObj, cmd.commandContent);
     cmd.signature = signature;
