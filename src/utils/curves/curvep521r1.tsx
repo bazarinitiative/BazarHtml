@@ -9,7 +9,7 @@ const param521 = { name: "ECDSA", namedCurve: "P-521" };
  * @param key 
  * @returns 
  */
-async function exportKey(key: CryptoKey) {
+async function exportKey(key: CryptoKey | any) {
     if (key.type == 'private') {
         var buf = await crypto.subtle.exportKey(
             'pkcs8',
