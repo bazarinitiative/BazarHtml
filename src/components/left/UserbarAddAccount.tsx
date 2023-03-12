@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../../App.css';
 import { Identity } from '../../facade/entity';
-import { calculateUserID, verifyKeyPair } from '../../utils/encryption';
+import { calculateUserID, restorePublicFromPrivate, verifyKeyPair } from '../../utils/encryption';
 import { getExtendIdentity, saveExtendIdentity } from '../../utils/identity-storage';
 
 type PropsType = {
@@ -23,8 +23,9 @@ export class UserbarAddAccount extends Component<PropsType, StateType> {
     }
 
     async saveAccount() {
-        var publicKey = ((document.querySelector('#publicKey') as any).value as string).trim();
+        // var publicKey = ((document.querySelector('#publicKey') as any).value as string).trim();
         var privateKey = ((document.querySelector('#privateKey') as any).value as string).trim();
+		var publicKey = await restorePublicFromPrivate(privateKey);
         var userID = calculateUserID(publicKey);
 
         var ret = await verifyKeyPair(publicKey, privateKey);
@@ -59,10 +60,6 @@ export class UserbarAddAccount extends Component<PropsType, StateType> {
         return <div>
             <h4><p>Add an existing account</p></h4>
             <div>
-                <div>
-                    <textarea id='publicKey' placeholder='PublicKey' className='keytxt1'
-                    ></textarea>
-                </div>
                 <div>
                     <textarea id='privateKey' placeholder='PrivateKey' className='keytxt2'
                     ></textarea>

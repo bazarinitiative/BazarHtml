@@ -340,21 +340,21 @@ export class ProfileSelf extends Component<PropsType, StateType> {
                             <br />
                             <br />
                             <p className='lightsmall keypairhint'>
-                                * Bazar blog system is built on public/private key algorithm, the key-pair is your sole passport to this distributed system.
+                                * Bazar blog system is built on public/private key algorithm, your private-key is your sole passport to this distributed system.
                             </p>
                             <p className='lightsmall keypairhint'>
-                                * Our server will not keep your key-pair for security reason, so you will NOT be able to modify or retrieve them from us.
+                                * Our server will not keep your private-key for security reason, so you will NOT be able to modify or retrieve them from us.
                             </p>
                             <p className='lightsmall keypairhint'>
-                                * Backup account will send your key-pair to your email. Please keep it safe.
+                                * Backup account will send your private-key to your email. Please keep it safe.
                             </p>
                             <p className='lightsmall keypairhint'>
-                                * You can backup your key-pair manually all by yourself, if you have specific security concern.
+                                * You can backup your private-key manually all by yourself, if you have specific security concern.
                                 <button className='showpairbutton' onClick={this.showkeypair.bind(this)}>show</button>
                                 {/* <button className='showpairbutton' onClick={this.copykeypair.bind(this)}>copy</button> */}
                             </p>
                             <p className='lightsmall keypairhint'>
-                                * In case of you still lost your key-pair, you will need to create a new account with another key-pair. If you had made a <a href={realnameurl} target="_blank" rel="noreferrer"><b>Real Name Authentication</b></a> in advance, we will be able to help your followers to find your new account again.
+                                * In case of you still lost your private-key, you will need to create a new account with another private-key. If you had made a <a href={realnameurl} target="_blank" rel="noreferrer"><b>Real Name Authentication</b></a> in advance, we will be able to help your followers to find your new account again.
                             </p>
                             <br />
                             <button onClick={this.onBackupAccount.bind(this)}>Backup Account</button>
