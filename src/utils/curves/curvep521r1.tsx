@@ -1,11 +1,11 @@
 
-import { bufferToBase64, base64ToBuffer, bufferToBase64a } from "../encryption";
+import { bufferToBase64, base64ToBuffer, bufferToBase64a, bufferToBase62 } from "../encryption";
 import { AlgoType, BzKeyPair, ICurve, getKeyBuf, prefixBzPriv, prefixBzPub } from "./ICurve";
 
 const param521 = { name: "ECDSA", namedCurve: "P-521" };
 
 /**
- * export to base64 string
+ * export to base62 string
  * @param key 
  * @returns 
  */
@@ -15,13 +15,13 @@ async function exportKey(key: CryptoKey | any) {
             'pkcs8',
             key
         );
-        return bufferToBase64a(buf);
+        return bufferToBase62(buf as any);
     } else if (key.type == 'public') {
         var buf = await crypto.subtle.exportKey(
             'spki',
             key
         );
-        return bufferToBase64a(buf);
+        return bufferToBase62(buf as any);
     }
 }
 

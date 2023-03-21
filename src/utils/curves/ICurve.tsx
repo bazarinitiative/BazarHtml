@@ -1,4 +1,4 @@
-import { base64ToBuffer } from "../encryption";
+import { base62ToBuffer, base64ToBuffer, bufferToBase62 } from "../encryption";
 
 export const prefixBzPub = 'bzpub';
 export const prefixBzPriv = 'bzpriv';
@@ -7,17 +7,17 @@ export enum AlgoType {
     secp521r1 = '1',      //aka nistp521
     secp256k1 = '2',
     ed25519 = '3',
-    // ed448 = '4',     //no trustworthy ed448 impl yet
+    ed448 = '4',     //no trustworthy ed448 impl yet
     secpmax = '9'
 }
 
 export class BzKeyPair {
     /**
-     * prefixBzPub + AlgoType + base64_publicKey
+     * prefixBzPub + AlgoType + base62_publicKey
      */
     publicKeyStr: string = '';
     /**
-     * prefixBzPriv + AlgoType + base64_privateKey
+     * prefixBzPriv + AlgoType + base62_privateKey
      * As forward compatbility, those old privateKeyStr start with 'MIH' will be treated as secp521r1 privateKey without prefix.
      */
     privateKeyStr: string = '';
@@ -31,10 +31,12 @@ export function regulateKeyStr(keyStr: string): string {
     var ret = '';
     if (keyStr.startsWith('MIH')) {
         //old private keyStr
-        ret = prefixBzPriv + AlgoType.secp521r1 + keyStr;
+		var ns = bufferToBase62(base64ToBuffer(keyStr));
+        ret = prefixBzPriv + AlgoType.secp521r1 + ns;
     } else if (keyStr.startsWith('MIG')) {
         //old public keyStr
-        ret = prefixBzPub + AlgoType.secp521r1 + keyStr;
+		var ns = bufferToBase62(base64ToBuffer(keyStr));
+        ret = prefixBzPub + AlgoType.secp521r1 + ns;
     } else if (keyStr.startsWith(prefixBzPriv) || keyStr.startsWith(prefixBzPub)) {
         ret = keyStr;
     } else {
@@ -51,10 +53,10 @@ export function regulateKeyStr(keyStr: string): string {
 export function getKeyBuf(keyStr: string): Uint8Array {
     if (keyStr.startsWith(prefixBzPriv)) {
         var sub = keyStr.substring(prefixBzPriv.length + 1);
-        return base64ToBuffer(sub);
+        return base62ToBuffer(sub);
     } else if (keyStr.startsWith(prefixBzPub)) {
         var sub = keyStr.substring(prefixBzPub.length + 1);
-        return base64ToBuffer(sub);
+        return base62ToBuffer(sub);
     } else {
         throw new Error('unsupported keyStr: ' + keyStr);
     }

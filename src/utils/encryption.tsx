@@ -6,6 +6,9 @@
 */
 
 import { logger } from "./logger";
+import  base from 'base-x'
+var BASE62 = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+var bs62 = base(BASE62)
 
 function ab2str(buf: any) {
 	return String.fromCharCode.apply(null, new Uint8Array(buf) as any);
@@ -229,6 +232,17 @@ export function base64ToBuffer(str: string) {
     return bytes;
 }
 
+export function bufferToBase62(buffer: Uint8Array) {
+    var ret = bs62.encode(buffer);
+	return ret;
+}
+
+export function base62ToBuffer(str: string) {
+    var ret = bs62.decode(str);
+	return ret;
+}
+
+
 // Convert a hex string to a byte array
 export function hexToBytes(hexString: string) {
     if (hexString.length % 2 !== 0) {
@@ -260,6 +274,11 @@ export function bytesToHex(bytes: Uint8Array) {
 export function hexToBase64(hex: string) {
     var buf = hexToBytes(hex);
     return bufferToBase64(buf);
+}
+
+export function hexToBase62(hex: string) {
+    var buf = hexToBytes(hex);
+    return bufferToBase62(buf);
 }
 
 export const testEnc = () => {

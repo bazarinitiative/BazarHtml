@@ -1,16 +1,44 @@
-import { BzKeyPair, ICurve } from "./ICurve";
+import { base62ToBuffer, hexToBase62 } from "../encryption";
+import { AlgoType, BzKeyPair, ICurve, getKeyBuf, prefixBzPriv, prefixBzPub } from "./ICurve";
 
-export class curveed25519 implements ICurve {
-    generateKeyPair(): Promise<BzKeyPair> {
-        throw new Error("Method not implemented.");
+import * as eee from 'elliptic';
+
+export class curvep256k1 implements ICurve {
+    async generateKeyPair(): Promise<BzKeyPair> {
+        var ec = new eee.ec('ed25519');
+        var keys = ec.genKeyPair();
+        var priv = keys.getPrivate('hex');
+        var pub = keys.getPublic(true, 'hex');
+
+        var ret = new BzKeyPair();
+        ret.privateKeyStr = prefixBzPriv + AlgoType.ed25519 + hexToBase62(priv);
+        ret.publicKeyStr = prefixBzPub + AlgoType.ed25519 + hexToBase62(pub);
+        return ret;
     }
-    derivePublicKey(privateKeyStr: string): Promise<string> {
-        throw new Error("Method not implemented.");
+
+    async derivePublicKey(privateKeyStr: string): Promise<string> {
+        var buf = getKeyBuf(privateKeyStr);
+        var ec = new eee.ec('ed25519');
+        var key = ec.keyFromPrivate(buf);
+        var pub = key.getPublic(true, 'hex');
+        return prefixBzPub + AlgoType.ed25519 + hexToBase62(pub);
     }
-    sign(privateKeyStr: string, message: string): Promise<string> {
-        throw new Error("Method not implemented.");
+
+    async sign(privateKeyStr: string, message: string): Promise<string> {
+        var buf = getKeyBuf(privateKeyStr);
+        var ec = new eee.ec('ed25519');
+        var key = ec.keyFromPrivate(buf);
+        var sig = key.sign(message).toDER('hex');
+        return hexToBase62(sig);
     }
-    verify(publicKeyStr: string, message: string, signature: string): Promise<boolean> {
-        throw new Error("Method not implemented.");
+
+    async verify(publicKeyStr: string, message: string, signature: string): Promise<boolean> {
+        var buf = getKeyBuf(publicKeyStr);
+        var ec = new eee.ec('ed25519');
+        var key = ec.keyFromPublic(buf);
+        var sig = base62ToBuffer(signature);
+        var ret = key.verify(message, sig);
+        return ret;
     }
+
 }

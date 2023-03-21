@@ -284,10 +284,11 @@ export class ProfileSelf extends Component<PropsType, StateType> {
 
         var realnameurl = HOST_CONCIG.realname
 
-        var s1 = 'UserID: ' + identityObj.userID + '\n';
-        var s2 = 'PublicKey: ' + identityObj.publicKey + '\n';
-        var s3 = 'PrivateKey: ' + identityObj.privateKey + '\n';
-        var strpair = s1 + s2 + s3;
+        // var s1 = 'UserID: ' + identityObj.userID + '\n';
+        // var s2 = 'PublicKey: ' + identityObj.publicKey + '\n';
+        // var s3 = 'PrivateKey: ' + identityObj.privateKey + '\n';
+        // var strpair = s1 + s2 + s3;
+		var strpriv = identityObj.privateKey;
 
         return (
             <div className="profile-info">
@@ -368,9 +369,9 @@ export class ProfileSelf extends Component<PropsType, StateType> {
                     style={customStyles3}
                 >
                     <div className='container'>
-                        <h4><p>You Key-pair information</p></h4>
+                        <h4><p>You private-key</p></h4>
                         <div>
-                            <textarea className='lightsmall keypairarea'>{strpair}</textarea>
+                            <textarea className='lightsmall keypairarea'>{strpriv}</textarea>
                         </div>
                         <div style={{ "textAlign": "center" }}>
                             <button
