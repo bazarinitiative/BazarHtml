@@ -7,7 +7,7 @@
 
 import { logger } from "./logger";
 import  base from 'base-x'
-var BASE62 = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+var BASE62 = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
 var bs62 = base(BASE62)
 
 function ab2str(buf: any) {
