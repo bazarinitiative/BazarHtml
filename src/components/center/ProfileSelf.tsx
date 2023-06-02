@@ -8,7 +8,6 @@ import { sendUserInfo } from '../../api/impl/cmd/userinfo';
 import { sendUserPic } from '../../api/impl/cmd/userpic';
 import { logger } from '../../utils/logger';
 import { compressImg } from '../../utils/image';
-import { backupAccount } from '../../api/impl/backupaccount';
 import { Identity, UserDto } from '../../facade/entity';
 import { randomInt } from '../../utils/encryption'
 import { getUserProfile } from '../../api/impl/userprofile';
@@ -27,7 +26,6 @@ type StateType = {
     userObj: UserDto | null,
     isShowModal: boolean,
     isShowModal2: boolean,
-    isShowModal3: boolean,
     picstrModal: string | null,
     profile: any,
 }
@@ -70,7 +68,6 @@ export class ProfileSelf extends Component<PropsType, StateType> {
             userObj: null,
             isShowModal: false,
             isShowModal2: false,
-            isShowModal3: false,
             picstrModal: null,
             profile: null,
         }
@@ -213,25 +210,6 @@ export class ProfileSelf extends Component<PropsType, StateType> {
         }
     }
 
-    async onBackupAccount() {
-        var identityObj = getIdentity();
-        if (identityObj == null) {
-            return;
-        }
-
-        if (this.backupEmailCtl?.value) {
-            var ret = await backupAccount(this.backupEmailCtl?.value, identityObj.publicKey, identityObj.privateKey);
-            logger('Profile_backupAccount', ret);
-            if (ret.success) {
-                this.closeModalCancel2();
-            } else {
-                alert(ret.msg);
-            }
-        } else {
-            alert('Please input your Email address');
-        }
-    }
-
     clickFollowees() {
         window.location.href = '/followees/' + this.props.identityObj.userID
     }
@@ -239,28 +217,6 @@ export class ProfileSelf extends Component<PropsType, StateType> {
     clickFollowers() {
         window.location.href = '/followers/' + this.props.identityObj.userID
     }
-
-    showkeypair() {
-        this.setState({
-            isShowModal3: true
-        })
-    }
-
-    closeModalCancel3() {
-        this.setState({
-            isShowModal3: false
-        })
-    }
-
-    // async copykeypair() {
-    //     var s1 = 'UserID: ' + this.props.identityObj.userID + '\n';
-    //     var s2 = 'PublicKey: ' + this.props.identityObj.publicKey + '\n';
-    //     var s3 = 'PrivateKey: ' + this.props.identityObj.privateKey + '\n';
-    //     var msg = s1 + s2 + s3;
-
-    //     await navigator.clipboard.writeText(msg).catch(x => { alert(x) });
-    //     alert('copied')
-    // }
 
     getPosts() {
 
@@ -336,48 +292,16 @@ export class ProfileSelf extends Component<PropsType, StateType> {
                 >
                     <div className='container'>
                         <div>
-                            <div>Email<div className='closebutton' onClick={this.closeModalCancel2.bind(this)}>x</div></div>
-                            <input type='email' ref={x => this.backupEmailCtl = x} style={{ "height": "30px" }}></input>
-                            <br />
                             <br />
                             <p className='lightsmall keypairhint'>
                                 * Bazar blog system is built on public/private key algorithm, your private-key is your sole passport to this distributed system.
                             </p>
-                            <p className='lightsmall keypairhint'>
-                                * Our server will not keep your private-key for security reason, so you will NOT be able to modify or retrieve them from us.
-                            </p>
-                            <p className='lightsmall keypairhint'>
-                                * Backup account will send your private-key to your email. Please keep it safe.
-                            </p>
-                            <p className='lightsmall keypairhint'>
-                                * You can backup your private-key manually all by yourself, if you have specific security concern.
-                                <button className='showpairbutton' onClick={this.showkeypair.bind(this)}>show</button>
-                                {/* <button className='showpairbutton' onClick={this.copykeypair.bind(this)}>copy</button> */}
-                            </p>
-                            <p className='lightsmall keypairhint'>
-                                * In case of you still lost your private-key, you will need to create a new account with another private-key. If you had made a <a href={realnameurl} target="_blank" rel="noreferrer"><b>Real Name Authentication</b></a> in advance, we will be able to help your followers to find your new account again.
-                            </p>
                             <br />
-                            <button onClick={this.onBackupAccount.bind(this)}>Backup Account</button>
+							<textarea style={{fontSize:"11px", width:"100%", height:"120px"}}>{strpriv}</textarea>
+                            <br />
                         </div>
-                    </div>
-                </Modal>
-
-                <Modal
-                    /** show keypair modal */
-                    isOpen={this.state.isShowModal3}
-                    style={customStyles3}
-                >
-                    <div className='container'>
-                        <h4><p>You private-key</p></h4>
-                        <div>
-                            <textarea className='lightsmall keypairarea'>{strpriv}</textarea>
-                        </div>
-                        <div style={{ "textAlign": "center" }}>
-                            <button
-                                onClick={this.closeModalCancel3.bind(this)}>Close</button>
-                        </div>
-
+						<br/>
+						<button onClick={this.closeModalCancel2.bind(this)}>Close</button>
                     </div>
                 </Modal>
 
@@ -393,7 +317,7 @@ export class ProfileSelf extends Component<PropsType, StateType> {
                                 className='profilebutton'
                                 style={{ "marginLeft": "60px", "width": "110px" }}
                             >
-                                Backup Account
+                                Private Key
                             </button>
                         </p>
                     </div>

@@ -1,8 +1,6 @@
 import { Component } from "react";
-import { backupAccount } from "../../api/impl/backupaccount";
 import { sendUserInfo } from "../../api/impl/cmd/userinfo";
 import { sendUserPic } from "../../api/impl/cmd/userpic";
-// import { sendCode } from "../../api/impl/sendcode";
 import { Identity } from "../../facade/entity";
 import { initialUser, initialUserPic } from "../../initdata/users";
 import Divider from "../../utils/divider";
@@ -47,10 +45,6 @@ export class NotLoginYet extends Component<PropsType, StateType> {
 	async onNewAccount() {
 
 		var pair = await genKeyPair();
-
-		var email = (document.querySelector('#email') as any).value;
-		var ret = await backupAccount(email, pair.publicKey, pair.privateKey)
-		logger('Login1', ret);
 
 		var userID = calculateUserID(pair.publicKey);
 		let identityObj = {
