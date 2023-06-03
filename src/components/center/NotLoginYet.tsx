@@ -139,77 +139,12 @@ export class NotLoginYet extends Component<PropsType, StateType> {
 	}
 
 	render() {
-
-		// let timeChange: any;
-		// let ti = this.state.time;
-		// const clock = () => {
-		// 	if (ti > 0) {
-		// 		//update
-		// 		ti = ti - 1;
-		// 		this.setState({
-		// 			time: ti,
-		// 			btnContent: ti + "s to send again",
-		// 		});
-		// 	} else {
-		// 		//stop
-		// 		clearInterval(timeChange);
-		// 		this.setState({
-		// 			btnDisable: false,
-		// 			time: 60,
-		// 			btnContent: "Send Code",
-		// 		});
-		// 	}
-		// };
-
-		// const sendCodex = () => {
-		// 	var email = (document.querySelector('#email') as any).value;
-		// 	var code = randomInt(1000, 9999).toString();
-		// 	this.setState({ curcode: code });
-		// 	this.setState({
-		// 		btnDisable: true,
-		// 		btnContent: "60s to send again",
-		// 	});
-		// 	timeChange = setInterval(clock, 1000);
-		// 	sendCode(email, code);
-		// };
-
 		return (
 			<div className="">
-				{/* <br />
-                <Divider text='Register with Email' />
-                <br />
-                <div id='login1' className="content boldlarge">
-                    <div className="row">
-                        <span className="two columns labelright">Email </span>
-                        <div className="six columns">
-                            <input type='email' id="email" className='lightsmall' />
-                        </div>
-                        <div className="four columns">
-                            <button className="loginbtn lightsmall" disabled={this.state.btnDisable}
-                                onClick={sendCodex}>{this.state.btnContent}</button>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <span className="two columns labelright">Code </span>
-                        <div className="six columns">
-                            <input type='text' id="code" className='lightsmall' />
-                        </div>
-                        <div className="four columns">
-                            <button className="loginbtn lightsmall"
-                                onClick={this.onCode.bind(this)}>Verify Code</button>
-                        </div>
-                    </div>
-                </div>
-                <br /> */}
-
 				<br />
 				<Divider text='Login' />
 				<br />
 				<div id='restore'>
-					{/* <div>
-                        Public Key:
-                        <textarea id='publicKey' className='lightsmall' />
-                    </div> */}
 					<div>
 						<label style={{ textAlign: 'left', paddingLeft: '20px' }}>Your Private Key:</label>
 						<textarea id='privateKey' className='lightsmall' style={{ marginBottom: '10px' }} />

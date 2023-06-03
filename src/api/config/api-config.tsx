@@ -3,8 +3,6 @@ const api_router_config = {
     command: '/UserCommand/Command',
     publictimeline: '/UserQuery/PublicTimeline',
     homeline: '/UserQuery/HomeLine',
-    backupaccount: '/Email/BackupAccount',
-    sendCode: '/Email/SendCode',
     userinfo: '/UserQuery/GetUserInfo',
     userdto: '/UserQuery/GetUserDto',
     userpic: '/UserQuery/GetUserPic',
